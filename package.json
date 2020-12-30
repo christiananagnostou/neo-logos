@@ -1,0 +1,15 @@
+{
+  "name": "phantomnation",
+  "version": "1.0.0",
+  "description": "A place to make up new words and their definitions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""
+  },
+  "author": "Christian Anagnostou",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
