@@ -1,0 +1,18 @@
+@import "../components/wordlist/wordlist";
+@import "../components/wordEntryForm/wordEntryForm";
+@import "../components/accountTab/accountTab";
+@import "../components/userLogin/userLogin";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html {
+  background: rgb(255, 233, 215);
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}

@@ -20,5 +20,7 @@ app.use(logger("dev"));
 
 const wordsRouter = require("./api/words");
 app.use("/api/words", wordsRouter);
+const usersRouter = require("./api/users");
+app.use("/api/users", usersRouter);
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

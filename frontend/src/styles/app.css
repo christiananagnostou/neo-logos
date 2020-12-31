@@ -1,0 +1,139 @@
+.words {
+  border: 1px solid black;
+  border-radius: 20px;
+  margin: 2rem 5rem;
+  padding: 1rem;
+  background: #c3ddf5;
+}
+
+.words .word-item {
+  list-style: none;
+  padding: 0.5rem 0.25rem;
+  margin: 0.5rem 0;
+  border: 1px solid grey;
+  background: white;
+}
+
+.words .word-item:hover {
+  background: #d8e6f3;
+}
+
+.word-entry-form {
+  margin: 2rem 5rem;
+}
+
+.word-entry-form h1 {
+  margin: 1rem auto;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.word-entry-form label {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0 1rem;
+}
+
+.word-entry-form button {
+  margin: 0 1rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 5px #7d96cc;
+          box-shadow: 0 0 5px #7d96cc;
+  background-color: #e2eefa;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.word-entry-form button:hover {
+  background-color: #c3ddf5;
+}
+
+.account-tab {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  position: absolute;
+  top: 0;
+  right: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.account-tab .account-btn {
+  margin-top: 1rem;
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 1rem;
+  text-align: center;
+  background: white;
+  cursor: pointer;
+}
+
+.account-tab .account-btn:hover {
+  background: #d8e6f3;
+}
+
+.user-login-form {
+  margin: 2rem 5rem;
+  height: 50vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: white;
+  -webkit-box-shadow: 0px 5px 10px grey;
+          box-shadow: 0px 5px 10px grey;
+  border-radius: 5px;
+}
+
+.user-login-form label {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 1rem;
+}
+
+.user-login-form button {
+  margin: 1rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 5px #7d96cc;
+          box-shadow: 0 0 5px #7d96cc;
+  background-color: #e2eefa;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.user-login-form button:hover {
+  background-color: #c3ddf5;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html {
+  background: #ffe9d7;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+/*# sourceMappingURL=app.css.map */

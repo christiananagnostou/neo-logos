@@ -1,15 +1,31 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+// React Router
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+// Styles
+import "./styles/app.css";
+// Components
+import Wordlist from "./components/wordlist/Wordlist";
+import WordEntryForm from "./components/wordEntryForm/WordEntryForm";
+import AccountTab from "./components/accountTab/AccountTab";
+import UserLogin from "./components/userLogin/UserLogin";
 
 function App() {
-  const [idCounter, setIdCounter] = useState(5);
+  const [words, setWords] = useState([]);
+  const [idCounter, setIdCounter] = useState(4);
+  const [currentUser, setCurrentUser] = useState({});
+  const [loggedIn, setLoggedIn] = useState(false);
+
   const initialWordData = {
     word: "",
     wordId: idCounter,
     def: "",
+    dateCreated: "",
+    creator: "",
   };
-  const [words, setWords] = useState([]);
+
   const [newWordData, setNewWordData] = useState(initialWordData);
+  const [invalidWord, setInvalidWord] = useState(false);
 
   const fetchWordData = async () => {
     console.log("fetching new data");
@@ -17,50 +33,86 @@ function App() {
       setWords(res.data);
     });
   };
+
   const postWordData = async () => {
     console.log("posting new data");
-    await axios.post("http://localhost:4001/api/words", {
-      newWordData,
-    });
+    await axios
+      .post("http://localhost:4001/api/words", { newWordData })
+      .then(() => {
+        setInvalidWord(false);
+        setIdCounter((prevCounter) => (prevCounter += 1));
+      })
+      .catch((e) => {
+        if (e.response.status === 400) {
+          return setInvalidWord(true);
+        }
+      });
+  };
+
+  const resetWordData = () => {
+    setNewWordData(initialWordData);
+  };
+
+  const fetchUserLogin = (userCreds) => {
+    axios
+      .get(`http://localhost:4001/api/users/${userCreds.email}`)
+      .then((res) => {
+        if (res.data.password !== userCreds.password) {
+          throw new Error("Invalid User Credentials");
+        } else {
+          setCurrentUser(res.data);
+          setLoggedIn(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   useEffect(() => {
+    resetWordData();
     fetchWordData();
-  }, []);
+    // eslint-disable-next-line
+  }, [idCounter]);
 
-  const handleForm = (e) => {
-    e.preventDefault();
-    postWordData();
-    setIdCounter((prevCounter) => (prevCounter += 1));
-    setNewWordData(initialWordData, fetchWordData());
-  };
-
-  const handleWordChange = ({ target }) => {
-    setNewWordData({ ...newWordData, word: target.value });
-  };
-  const handleDefChange = ({ target }) => {
-    setNewWordData({ ...newWordData, def: target.value });
-  };
-
+  useEffect(() => {
+    if (loggedIn) {
+      console.log("user logged in. Now reroute page back to home");
+      // window.location.pathname = "/";
+    }
+  }, [loggedIn]);
   return (
     <div className="App">
-      <form action="POST" onSubmit={handleForm}>
-        <h1>Create a new Word!</h1>
-        <label htmlFor="word">New Word:</label>
-        <input type="text" name="word" onChange={handleWordChange} value={newWordData.word} />
-        <label htmlFor="def">Definition:</label>
-        <input type="text" name="def" onChange={handleDefChange} value={newWordData.def} />
-        <button type="submit">Submit</button>
-      </form>
-      <ul className="words">
-        {words.map((word) => {
-          return (
-            <li key={word.wordId}>
-              {word.word} - {word.def}
-            </li>
-          );
-        })}
-      </ul>
+      <Router>
+        <Switch>
+          <Route path="/" exact>
+            <AccountTab currentUser={currentUser} loggedIn={loggedIn} />
+            <WordEntryForm
+              setNewWordData={setNewWordData}
+              newWordData={newWordData}
+              postWordData={postWordData}
+            />
+            {invalidWord && (
+              <h4 style={{ color: "red" }}>
+                Please choose a new word. That word is already defined
+              </h4>
+            )}
+
+            <Wordlist words={words} />
+          </Route>
+          {words.map((word) => {
+            return (
+              <Route path={`/${word.wordId}`} key={word.wordId}>
+                <p>{word.word}</p>
+                <p>{word.def}</p>
+              </Route>
+            );
+          })}
+          <Route path="/user-login">
+            <UserLogin fetchUserLogin={fetchUserLogin} />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
