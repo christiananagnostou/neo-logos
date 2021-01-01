@@ -3,12 +3,26 @@ const wordsRouter = require("express").Router();
 module.exports = wordsRouter;
 
 const words = [
-  { word: "lamerty", wordId: 1, def: "Keyboard configuration for lame people" },
-  { word: "okery", wordId: 2, def: "Idiots trying to use the word okay" },
+  {
+    word: "lamerty",
+    wordId: 1,
+    def: "Keyboard configuration for lame people",
+    dateCreated: "",
+    creator: "Bob",
+  },
+  {
+    word: "okery",
+    wordId: 2,
+    def: "Idiots trying to use the word okay",
+    dateCreated: "",
+    creator: "Christian",
+  },
   {
     word: "planterp",
     wordId: 3,
     def: 'Shorthand for the compound word "plant-terpines" (aka: marijuana)',
+    dateCreated: "",
+    creator: "Christian",
   },
 ];
 

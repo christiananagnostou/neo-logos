@@ -1,9 +1,10 @@
 .words {
   border: 1px solid black;
-  border-radius: 20px;
-  margin: 2rem 5rem;
+  margin: 2rem 0;
   padding: 1rem;
   background: #c3ddf5;
+  -webkit-box-shadow: 0 5px 10px grey;
+          box-shadow: 0 5px 10px grey;
 }
 
 .words .word-item {
@@ -12,14 +13,26 @@
   margin: 0.5rem 0;
   border: 1px solid grey;
   background: white;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 3fr 1fr;
+      grid-template-columns: 1fr 3fr 1fr;
 }
 
 .words .word-item:hover {
   background: #d8e6f3;
 }
 
+.words .word-item .word-creator {
+  text-align: right;
+}
+
 .word-entry-form {
   margin: 2rem 5rem;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: auto;
 }
 
 .word-entry-form h1 {
@@ -29,52 +42,94 @@
   width: fit-content;
 }
 
+.word-entry-form h4 {
+  margin: 1rem auto;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  color: red;
+}
+
 .word-entry-form label {
   font-weight: bold;
   font-size: 1.2rem;
   margin: 0 1rem;
 }
 
-.word-entry-form button {
-  margin: 0 1rem;
+.word-entry-form input {
   padding: 0.5rem;
+  font-size: 1.1rem;
   border: none;
   border-radius: 5px;
-  -webkit-box-shadow: 0 0 5px #7d96cc;
-          box-shadow: 0 0 5px #7d96cc;
-  background-color: #e2eefa;
+  -webkit-box-shadow: 0 5px 10px #9c9c9c;
+          box-shadow: 0 5px 10px #9c9c9c;
+}
+
+.word-entry-form input:focus {
+  outline: 1px solid #73a4ff;
+}
+
+.word-entry-form button {
+  margin: 0 1rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 5px 10px #9c9c9c;
+          box-shadow: 0 5px 10px #9c9c9c;
+  background: #e2f3ff;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
 
 .word-entry-form button:hover {
-  background-color: #c3ddf5;
+  background: #c4e3ff;
 }
 
 .account-tab {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  position: absolute;
-  top: 0;
-  right: 20px;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: white;
+  padding: 1rem;
+}
+
+.account-tab .logo {
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+  color: #8ec8ff;
+  text-shadow: 0 2px 1px grey;
+}
+
+.account-tab .tabs {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
-.account-tab .account-btn {
-  margin-top: 1rem;
-  border: 1px solid grey;
+.account-tab .tabs .account-btn {
+  -webkit-box-shadow: 0 5px 10px #9c9c9c;
+          box-shadow: 0 5px 10px #9c9c9c;
   border-radius: 5px;
+  border: none;
   padding: 1rem;
+  margin: 0 0.25rem;
   text-align: center;
-  background: white;
+  background: #e2f3ff;
   cursor: pointer;
 }
 
-.account-tab .account-btn:hover {
-  background: #d8e6f3;
+.account-tab .tabs .account-btn:hover {
+  background: #c4e3ff;
+}
+
+.account-tab .tabs .account-btn:focus {
+  outline: 1px solid #73a4ff;
 }
 
 .user-login-form {
@@ -118,6 +173,50 @@
 }
 
 .user-login-form button:hover {
+  background-color: #c3ddf5;
+}
+
+.create-account-form {
+  margin: 2rem 5rem;
+  height: 50vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: white;
+  -webkit-box-shadow: 0px 5px 10px grey;
+          box-shadow: 0px 5px 10px grey;
+  border-radius: 5px;
+}
+
+.create-account-form label {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 1rem;
+}
+
+.create-account-form button {
+  margin: 1rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 5px #7d96cc;
+          box-shadow: 0 0 5px #7d96cc;
+  background-color: #e2eefa;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.create-account-form button:hover {
   background-color: #c3ddf5;
 }
 

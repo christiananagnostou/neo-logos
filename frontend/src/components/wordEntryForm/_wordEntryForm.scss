@@ -1,24 +1,41 @@
 .word-entry-form {
   margin: 2rem 5rem;
+  width: fit-content;
+  margin: auto;
   h1 {
     margin: 1rem auto;
     width: fit-content;
+  }
+  h4 {
+    margin: 1rem auto;
+    width: fit-content;
+    color: red;
   }
   label {
     font-weight: bold;
     font-size: 1.2rem;
     margin: 0 1rem;
   }
-  button {
-    margin: 0 1rem;
+  input {
     padding: 0.5rem;
+    font-size: 1.1rem;
     border: none;
     border-radius: 5px;
-    box-shadow: 0 0 5px rgb(125, 150, 204);
-    background-color: rgb(226, 238, 250);
+    box-shadow: 0 5px 10px rgb(156, 156, 156);
+    &:focus {
+      outline: 1px solid rgb(115, 164, 255);
+    }
+  }
+  button {
+    margin: 0 1rem;
+    padding: 1rem;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgb(156, 156, 156);
+    background: rgb(226, 243, 255);
     transition: all 0.2s ease-in-out;
     &:hover {
-      background-color: rgb(195, 221, 245);
+      background: rgb(196, 227, 255);
     }
   }
 }

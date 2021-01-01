@@ -1,17 +1,22 @@
 .words {
   border: 1px solid black;
-  border-radius: 20px;
-  margin: 2rem 5rem;
+  margin: 2rem 0;
   padding: 1rem;
   background: rgb(195, 221, 245);
+  box-shadow: 0 5px 10px grey;
   .word-item {
     list-style: none;
     padding: 0.5rem 0.25rem;
     margin: 0.5rem 0;
     border: 1px solid grey;
     background: white;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
     &:hover {
       background: rgb(216, 230, 243);
+    }
+    .word-creator {
+      text-align: right;
     }
   }
 }

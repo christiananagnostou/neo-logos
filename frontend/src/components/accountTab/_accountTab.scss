@@ -1,19 +1,32 @@
 .account-tab {
-  width: fit-content;
-  position: absolute;
-  top: 0;
-  right: 20px;
+  width: 100%;
   display: flex;
-  .account-btn {
-    margin-top: 1rem;
-    border: 1px solid grey;
-    border-radius: 5px;
-    padding: 1rem;
-    text-align: center;
-    background: white;
-    cursor: pointer;
-    &:hover {
-      background: rgb(216, 230, 243);
+  justify-content: space-around;
+  align-items: center;
+  background: white;
+  padding: 1rem;
+  .logo {
+    align-self: flex-start;
+    color: rgb(142, 200, 255);
+    text-shadow: 0 2px 1px grey;
+  }
+  .tabs {
+    display: flex;
+    .account-btn {
+      box-shadow: 0 5px 10px rgb(156, 156, 156);
+      border-radius: 5px;
+      border: none;
+      padding: 1rem;
+      margin: 0 0.25rem;
+      text-align: center;
+      background: rgb(226, 243, 255);
+      cursor: pointer;
+      &:hover {
+        background: rgb(196, 227, 255);
+      }
+      &:focus {
+        outline: 1px solid rgb(115, 164, 255);
+      }
     }
   }
 }

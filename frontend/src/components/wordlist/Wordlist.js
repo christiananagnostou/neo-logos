@@ -8,8 +8,9 @@ function Wordlist({ words }) {
         return (
           <Link to={`/${word.wordId}`} key={word.wordId}>
             <li className="word-item">
-              <span className="word-text">{word.word.toUpperCase()}</span> -{" "}
-              <span className="word-def">{word.def}</span>
+              <span className="word-text">{word.word.toUpperCase()}</span>
+              <span className="word-def">Definition: {word.def}</span>
+              <span className="word-creator">Creator: {word.creator}</span>
             </li>
           </Link>
         );

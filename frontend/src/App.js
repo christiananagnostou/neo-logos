@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 // React Router
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
 // Styles
 import "./styles/app.css";
 // Components
@@ -9,78 +10,85 @@ import Wordlist from "./components/wordlist/Wordlist";
 import WordEntryForm from "./components/wordEntryForm/WordEntryForm";
 import AccountTab from "./components/accountTab/AccountTab";
 import UserLogin from "./components/userLogin/UserLogin";
+import CreateAccount from "./components/createAccount/CreateAccount";
+import WordDetails from "./components/wordDetails/WordDetails";
 
 function App() {
   const [words, setWords] = useState([]);
-  const [idCounter, setIdCounter] = useState(4);
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const initialWordData = {
-    word: "",
-    wordId: idCounter,
-    def: "",
-    dateCreated: "",
-    creator: "",
-  };
-
-  const [newWordData, setNewWordData] = useState(initialWordData);
-  const [invalidWord, setInvalidWord] = useState(false);
-
-  const fetchWordData = async () => {
+  // Get all words from words api
+  const fetchWordData = () => {
     console.log("fetching new data");
-    await axios.get("http://localhost:4001/api/words").then((res) => {
-      setWords(res.data);
-    });
+    const response = axios.get("http://localhost:4001/api/words");
+    return response
+      .then((res) => {
+        setWords(res.data);
+        return true;
+      })
+      .catch((e) => {
+        console.log(e);
+        return false;
+      });
   };
 
-  const postWordData = async () => {
+  // Create a new word
+  const postWordData = (newWordData) => {
     console.log("posting new data");
-    await axios
-      .post("http://localhost:4001/api/words", { newWordData })
+    const response = axios.post("http://localhost:4001/api/words", { newWordData });
+    return response
       .then(() => {
-        setInvalidWord(false);
-        setIdCounter((prevCounter) => (prevCounter += 1));
+        fetchWordData();
+        return true;
       })
       .catch((e) => {
         if (e.response.status === 400) {
-          return setInvalidWord(true);
+          return false;
+        } else {
+          console.log(e);
         }
       });
   };
 
-  const resetWordData = () => {
-    setNewWordData(initialWordData);
-  };
-
-  const fetchUserLogin = (userCreds) => {
-    axios
-      .get(`http://localhost:4001/api/users/${userCreds.email}`)
+  // Request to login with user email then validate password
+  const handleUserLogin = (userCreds) => {
+    const response = axios.get(`http://localhost:4001/api/users/${userCreds.email}`);
+    return response
       .then((res) => {
         if (res.data.password !== userCreds.password) {
           throw new Error("Invalid User Credentials");
         } else {
           setCurrentUser(res.data);
           setLoggedIn(true);
+          return true;
         }
       })
       .catch((e) => {
         console.log(e);
+        return false;
+      });
+  };
+
+  // Create a new account
+  const handleCreateAccount = (userCreds) => {
+    const response = axios.post("http://localhost:4001/api/users", { newUser: userCreds });
+    return response
+      .then((res) => {
+        setCurrentUser(res.data);
+        setLoggedIn(true);
+        return true;
+      })
+      .catch((e) => {
+        console.log(e);
+        return false;
       });
   };
 
   useEffect(() => {
-    resetWordData();
     fetchWordData();
-    // eslint-disable-next-line
-  }, [idCounter]);
+  }, []);
 
-  useEffect(() => {
-    if (loggedIn) {
-      console.log("user logged in. Now reroute page back to home");
-      // window.location.pathname = "/";
-    }
-  }, [loggedIn]);
   return (
     <div className="App">
       <Router>
@@ -88,29 +96,19 @@ function App() {
           <Route path="/" exact>
             <AccountTab currentUser={currentUser} loggedIn={loggedIn} />
             <WordEntryForm
-              setNewWordData={setNewWordData}
-              newWordData={newWordData}
               postWordData={postWordData}
+              currentUser={currentUser}
+              loggedIn={loggedIn}
             />
-            {invalidWord && (
-              <h4 style={{ color: "red" }}>
-                Please choose a new word. That word is already defined
-              </h4>
-            )}
-
             <Wordlist words={words} />
           </Route>
-          {words.map((word) => {
-            return (
-              <Route path={`/${word.wordId}`} key={word.wordId}>
-                <p>{word.word}</p>
-                <p>{word.def}</p>
-              </Route>
-            );
-          })}
           <Route path="/user-login">
-            <UserLogin fetchUserLogin={fetchUserLogin} />
+            <UserLogin handleUserLogin={handleUserLogin} />
           </Route>
+          <Route path="/create-account">
+            <CreateAccount handleCreateAccount={handleCreateAccount} />
+          </Route>
+          <WordDetails words={words} />
         </Switch>
       </Router>
     </div>
