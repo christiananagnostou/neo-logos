@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 // React Router
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
 // Styles
 import "./styles/app.css";
 // Components

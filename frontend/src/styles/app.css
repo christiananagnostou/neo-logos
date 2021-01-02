@@ -8,22 +8,93 @@
 }
 
 .words .word-item {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
   list-style: none;
-  padding: 0.5rem 0.25rem;
   margin: 0.5rem 0;
-  border: 1px solid grey;
+  border: 1px solid #cacaca;
   background: white;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 70px 1fr;
+      grid-template-columns: 70px 1fr;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.words .word-item:hover {
+  border: 1px solid #a7a7a7;
+  background: #f0f0f0;
+}
+
+.words .word-item .word-votes {
+  height: 100%;
+  margin: 5px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: white;
+}
+
+.words .word-item .word-votes .vote-num {
+  color: #494949;
+}
+
+.words .word-item .word-votes .upvote {
+  -webkit-transform: rotateZ(-90deg);
+          transform: rotateZ(-90deg);
+  cursor: pointer;
+  border-radius: 5px;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.words .word-item .word-votes .upvote:hover {
+  color: #14b414;
+  background: #ececec;
+}
+
+.words .word-item .word-votes .downvote {
+  -webkit-transform: rotateZ(90deg);
+          transform: rotateZ(90deg);
+  cursor: pointer;
+  border-radius: 5px;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.words .word-item .word-votes .downvote:hover {
+  color: #b41414;
+  background: #ececec;
+}
+
+.words .word-item a {
+  height: 100%;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 1fr 3fr 1fr;
       grid-template-columns: 1fr 3fr 1fr;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0 1rem;
 }
 
-.words .word-item:hover {
-  background: #d8e6f3;
-}
-
-.words .word-item .word-creator {
+.words .word-item a .word-creator {
   text-align: right;
 }
 
@@ -85,13 +156,13 @@
   background: #c4e3ff;
 }
 
-.account-tab {
+.main-header {
   width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  height: 5rem;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -99,20 +170,89 @@
   padding: 1rem;
 }
 
-.account-tab .logo {
-  -ms-flex-item-align: start;
-      align-self: flex-start;
-  color: #8ec8ff;
-  text-shadow: 0 2px 1px grey;
+.main-header .logo {
+  color: #363636;
 }
 
-.account-tab .tabs {
+.main-header .account-info-container {
+  position: relative;
+  height: 100%;
+}
+
+.main-header .account-info-container .account-icon-container {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  z-index: 999;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 3rem;
+  background: #d6ebff;
+  padding-right: 0.75rem;
+  width: 15rem;
+}
+
+.main-header .account-info-container .account-icon-container .account-box-icon {
+  font-size: 2.5rem;
+  color: #646464;
+}
+
+.main-header .account-info-container .account-icon-container .account-arrow-icon {
+  font-size: 2rem;
+  color: #646464;
+}
+
+.main-header .account-info-container .account-icon-container p {
+  font-size: 1.1rem;
+  font-weight: 100;
+}
+
+.main-header .account-info-container .hidden {
+  opacity: 0;
+  top: 0%;
+}
+
+.main-header .account-info-container .show {
+  opacity: 1;
+  top: 100%;
+}
+
+.main-header .account-info-container .account-info {
+  border-top: 1px solid grey;
+  border-radius: 0 0 5px 5px;
+  width: 15rem;
+  background: #d6ebff;
+  position: absolute;
+  right: 3rem;
+  padding: 0.5rem;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.main-header .account-info-container .account-info p {
+  margin: 0.5rem 0;
+}
+
+.main-header .tabs {
+  justify-self: end;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
-.account-tab .tabs .account-btn {
+.main-header .tabs .account-btn {
   -webkit-box-shadow: 0 5px 10px #9c9c9c;
           box-shadow: 0 5px 10px #9c9c9c;
   border-radius: 5px;
@@ -124,17 +264,20 @@
   cursor: pointer;
 }
 
-.account-tab .tabs .account-btn:hover {
+.main-header .tabs .account-btn:hover {
   background: #c4e3ff;
 }
 
-.account-tab .tabs .account-btn:focus {
+.main-header .tabs .account-btn:focus {
   outline: 1px solid #73a4ff;
 }
 
 .user-login-form {
-  margin: 2rem 5rem;
-  height: 50vh;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 4rem auto;
+  padding: 2rem 4rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -152,16 +295,49 @@
   -webkit-box-shadow: 0px 5px 10px grey;
           box-shadow: 0px 5px 10px grey;
   border-radius: 5px;
+  text-align: center;
 }
 
-.user-login-form label {
+.user-login-form form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.user-login-form form h1 {
+  color: #505050;
+}
+
+.user-login-form form label {
   font-weight: bold;
   font-size: 1.2rem;
   margin: 1rem;
 }
 
-.user-login-form button {
-  margin: 1rem;
+.user-login-form form input {
+  width: 90%;
+  margin: auto;
+  padding: 0.5rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 2px 10px #9c9c9c;
+          box-shadow: 0 2px 10px #9c9c9c;
+}
+
+.user-login-form form input:focus {
+  outline: 1px solid #73a4ff;
+}
+
+.user-login-form form button {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 1rem auto;
   padding: 0.5rem;
   border: none;
   border-radius: 5px;
@@ -172,13 +348,40 @@
   transition: all 0.2s ease-in-out;
 }
 
-.user-login-form button:hover {
+.user-login-form form button:hover {
+  background-color: #c3ddf5;
+}
+
+.user-login-form h4 {
+  padding: 2rem 0 1rem 0;
+  border-top: 1px solid grey;
+}
+
+.user-login-form .create-account-link {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: block;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 5px #7d96cc;
+          box-shadow: 0 0 5px #7d96cc;
+  background-color: #e2eefa;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.user-login-form .create-account-link:hover {
   background-color: #c3ddf5;
 }
 
 .create-account-form {
-  margin: 2rem 5rem;
-  height: 50vh;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 4rem auto;
+  padding: 2rem 4rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -196,16 +399,49 @@
   -webkit-box-shadow: 0px 5px 10px grey;
           box-shadow: 0px 5px 10px grey;
   border-radius: 5px;
+  text-align: center;
 }
 
-.create-account-form label {
+.create-account-form form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.create-account-form form h1 {
+  color: #505050;
+}
+
+.create-account-form form label {
   font-weight: bold;
   font-size: 1.2rem;
   margin: 1rem;
 }
 
-.create-account-form button {
-  margin: 1rem;
+.create-account-form form input {
+  width: 80%;
+  margin: auto;
+  padding: 0.5rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 2px 10px #9c9c9c;
+          box-shadow: 0 2px 10px #9c9c9c;
+}
+
+.create-account-form form input:focus {
+  outline: 1px solid #73a4ff;
+}
+
+.create-account-form form button {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 1rem auto;
   padding: 0.5rem;
   border: none;
   border-radius: 5px;
@@ -216,7 +452,32 @@
   transition: all 0.2s ease-in-out;
 }
 
-.create-account-form button:hover {
+.create-account-form form button:hover {
+  background-color: #c3ddf5;
+}
+
+.create-account-form h4 {
+  padding: 2rem 0 1rem 0;
+  border-top: 1px solid grey;
+}
+
+.create-account-form .login-link {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: auto;
+  display: block;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 5px #7d96cc;
+          box-shadow: 0 0 5px #7d96cc;
+  background-color: #e2eefa;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.create-account-form .login-link:hover {
   background-color: #c3ddf5;
 }
 
@@ -228,7 +489,8 @@
 }
 
 html {
-  background: #ffe9d7;
+  background: #e2e2e2;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
 a {

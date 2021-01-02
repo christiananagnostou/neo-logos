@@ -5,17 +5,17 @@ module.exports = usersRouter;
 
 const users = [
   {
-    name: "Christian",
+    name: "Christian Anagnostou",
     email: "christian0722@gmail.com",
     password: "123",
-    accountCreated: "Dec 30, 2020",
+    accountCreated: new Date().toDateString(),
     userId: uuidv4(),
   },
   {
-    name: "Bad",
+    name: "Bad Baby",
     email: "bad@gmail.com",
-    password: "badPW",
-    accountCreated: "Dec 10, 2020",
+    password: "123",
+    accountCreated: new Date().toDateString(),
     userId: uuidv4(),
   },
 ];

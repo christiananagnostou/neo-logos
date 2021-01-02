@@ -9,6 +9,8 @@ function WordDetails({ words }) {
           <Route path={`/${word.wordId}`} key={word.wordId}>
             <p>{word.word}</p>
             <p>{word.def}</p>
+            <p>{word.dateCreated}</p>
+            <p>{word.creator}</p>
           </Route>
         );
       })}

@@ -34,25 +34,29 @@ function UserLogin({ handleUserLogin }) {
   };
 
   return (
-    <form action="POST" onSubmit={handleFormSubmit} className="user-login-form">
-      <h1>Hey you're back!</h1>
-      {invalidCreds && <h4 style={{ color: "red" }}>Invalid email or password.</h4>}
-      <label htmlFor="email">Email:</label>
-      <input type="text" name="email" onChange={handleEmail} value={loginCreds.email} required />
-      <label htmlFor="password">Password:</label>
-      <input
-        type="password"
-        name="password"
-        onChange={handlePassword}
-        value={loginCreds.password}
-        required
-      />
-      <button type="submit">Log In</button>
+    <div className="user-login-form">
+      <form action="POST" onSubmit={handleFormSubmit}>
+        <h1>Hey you're back!</h1>
+        {invalidCreds && <h4 style={{ color: "red" }}>Invalid email or password.</h4>}
+        <label htmlFor="email">Email:</label>
+        <input type="text" name="email" onChange={handleEmail} value={loginCreds.email} required />
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          name="password"
+          onChange={handlePassword}
+          value={loginCreds.password}
+          required
+        />
+        <button type="submit">Log In</button>
+      </form>
       <div>
-        <h3>Need an account?</h3>
-        <Link to="/create-account">Create an Account</Link>
+        <h4>Need an account?</h4>
+        <Link to="/create-account" className="create-account-link">
+          Create an Account
+        </Link>
       </div>
-    </form>
+    </div>
   );
 }
 

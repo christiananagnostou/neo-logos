@@ -39,40 +39,50 @@ function UserLogin({ handleCreateAccount }) {
   };
 
   return (
-    <form action="POST" onSubmit={handleFormSubmit} className="create-account-form">
-      <h1>Welcome to the club!</h1>
-      {accountAlreadyExists && (
-        <h4 style={{ color: "red" }}>
-          An account with that Email already exists. Please{" "}
-          <Link to="user-login" style={{ textDecoration: "underline" }}>
-            log in.
-          </Link>
-        </h4>
-      )}
-      <label htmlFor="name">Name:</label>
-      <input type="text" name="name" onChange={handleName} value={newAccountCreds.name} required />
-      <label htmlFor="email">Email:</label>
-      <input
-        type="text"
-        name="email"
-        onChange={handleEmail}
-        value={newAccountCreds.email}
-        required
-      />
-      <label htmlFor="password">Password:</label>
-      <input
-        type="password"
-        name="password"
-        onChange={handlePassword}
-        value={newAccountCreds.password}
-        required
-      />
-      <button type="submit">Create Account</button>
+    <div className="create-account-form">
+      <form action="POST" onSubmit={handleFormSubmit}>
+        <h1>Welcome to the club!</h1>
+        {accountAlreadyExists && (
+          <h4 style={{ color: "red" }}>
+            An account with that Email already exists. Click here to{" "}
+            <Link to="user-login" style={{ textDecoration: "underline" }}>
+              log in.
+            </Link>
+          </h4>
+        )}
+        <label htmlFor="name">Name:</label>
+        <input
+          type="text"
+          name="name"
+          onChange={handleName}
+          value={newAccountCreds.name}
+          required
+        />
+        <label htmlFor="email">Email:</label>
+        <input
+          type="text"
+          name="email"
+          onChange={handleEmail}
+          value={newAccountCreds.email}
+          required
+        />
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          name="password"
+          onChange={handlePassword}
+          value={newAccountCreds.password}
+          required
+        />
+        <button type="submit">Create Account</button>
+      </form>
       <div>
-        <h3>Already have an account?</h3>
-        <Link to="/user-login">Log In</Link>
+        <h4>Already have an account?</h4>
+        <Link to="/user-login" className="login-link">
+          Log In
+        </Link>
       </div>
-    </form>
+    </div>
   );
 }
 
