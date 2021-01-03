@@ -1,18 +1,43 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function RecentlyViewed({ visitedWordIds }) {
+  const [visitedWords, setVisitedWords] = useState({});
+
+  const getWordInfoFromIds = async () => {
+    const response = axios.post("http://localhost:4001/api/words", {
+      visitedWordIds,
+      type: "get-recently-viewed",
+    });
+    try {
+      const res = await response;
+      setVisitedWords(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   useEffect(() => {
-    const response = axios.get("http://localhost:4001/api/words");
+    getWordInfoFromIds();
   }, [visitedWordIds]);
+
   return (
     <div className="recently-viewed">
       <h3>RECENTLY VIEWED WORDS</h3>
-      <ul>
-        {visitedWordIds.map((wordId) => {
-          return <li key={wordId}>{wordId}</li>;
-        })}
-      </ul>
+      {visitedWords.length > 0 && (
+        <ul>
+          {visitedWords.map((word) => {
+            return (
+              <Link to={`/${word.wordId}`} key={word.wordId}>
+                <li>
+                  <p>{word.word}</p>
+                  <p>{word.def}</p>
+                </li>
+              </Link>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 }

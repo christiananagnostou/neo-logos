@@ -11,6 +11,7 @@ function WordDetails({ words }) {
             <p>{word.def}</p>
             <p>{word.dateCreated}</p>
             <p>{word.creator}</p>
+            <p>{word.wordId}</p>
           </Route>
         );
       })}

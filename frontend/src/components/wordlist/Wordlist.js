@@ -4,7 +4,6 @@ import WordVotes from "./wordVotes/WordVotes";
 
 function Wordlist({ words, handleAddViewedWord }) {
   const handleWordClick = (wordId) => {
-    console.log(wordId);
     handleAddViewedWord(wordId);
   };
 

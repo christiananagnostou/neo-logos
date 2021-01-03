@@ -16,97 +16,104 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [visitedWordIds, setVisitedWordIds] = useState([]);
 
-  // Get all words from words api
-  const fetchWordData = () => {
-    console.log("fetching new data");
-    const response = axios.get("http://localhost:4001/api/words");
-    return response
-      .then((res) => {
-        setWords(res.data);
-        return true;
-      })
-      .catch((e) => {
-        console.log(e);
-        return false;
-      });
-  };
-
   // Create a new word
-  const postWordData = (newWordData) => {
+  const postWordData = async (newWordData) => {
     console.log("posting new data");
-    const response = axios.post("http://localhost:4001/api/words", { newWordData });
-    return response
-      .then(() => {
-        fetchWordData();
-        return true;
-      })
-      .catch((e) => {
-        if (e.response.status === 400) {
-          return false;
-        } else {
-          console.log(e);
-        }
-      });
+    const response = axios.post("http://localhost:4001/api/words", {
+      newWordData,
+      type: "post-new-word",
+    });
+    try {
+      await response;
+      fetchWordData();
+      return true;
+    } catch (e) {
+      if (e.response.status === 400) {
+        return false;
+      } else {
+        console.log(e);
+      }
+    }
   };
 
   // Request to login with user email then validate password
-  const handleUserLogin = (userCreds) => {
+  const handleUserLogin = async (userCreds) => {
     const response = axios.post("http://localhost:4001/api/users/login", { userCreds });
-    return response
-      .then((res) => {
-        if (res.status !== 200) {
-          throw new Error("Invalid User Credentials");
-        } else {
-          setCurrentUser(res.data);
-          setLoggedIn(true);
-          return true;
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-        return false;
-      });
-  };
-
-  // Create a new account
-  const handleCreateAccount = (userCreds) => {
-    const response = axios.post("http://localhost:4001/api/users", { newUser: userCreds });
-    return response
-      .then((res) => {
+    try {
+      const res = await response;
+      if (res.status !== 200) {
+        throw new Error("Invalid User Credentials");
+      } else {
         setCurrentUser(res.data);
         setLoggedIn(true);
         return true;
-      })
-      .catch((e) => {
-        console.log(e);
-        return false;
-      });
+      }
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  };
+
+  // Create a new account
+  const handleCreateAccount = async (userCreds) => {
+    const response = axios.post("http://localhost:4001/api/users", { newUser: userCreds });
+    try {
+      const res = await response;
+      setCurrentUser(res.data);
+      setLoggedIn(true);
+      return true;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
   };
 
   // Add a word to a user's visitedWordIds array
-  const handleAddViewedWord = (wordId) => {
+  const handleAddViewedWord = async (wordId) => {
     if (!visitedWordIds.includes(wordId)) {
       if (loggedIn) {
         const response = axios.post(`http://localhost:4001/api/users/${currentUser.userId}`, {
           wordId,
         });
-        return response
-          .then((res) => {
-            console.log(res);
-            setVisitedWordIds(res.data);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+        try {
+          const res = await response;
+          setVisitedWordIds(res.data);
+        } catch (e) {
+          console.log(e);
+        }
       } else {
         setVisitedWordIds([...visitedWordIds, wordId]);
       }
     }
   };
 
+  // Get all words from words api
+  const fetchWordData = async () => {
+    console.log("fetching new data");
+    const response = axios.get("http://localhost:4001/api/words");
+    try {
+      const res = await response;
+      setWords(res.data);
+      return true;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  };
+  // Get all the recently viewed words id's for the current user
+  const fetchVisitedWordIds = async () => {
+    const response = axios.get(`http://localhost:4001/api/users/${currentUser.userId}`);
+    try {
+      const res = await response;
+      setVisitedWordIds(res.data.recentlyViewedWords);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     if (loggedIn) {
-      console.log(loggedIn);
+      fetchVisitedWordIds();
     }
   }, [loggedIn]);
 

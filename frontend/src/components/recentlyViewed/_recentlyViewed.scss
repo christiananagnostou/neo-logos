@@ -11,8 +11,25 @@
     li {
       background: white;
       margin: 0.5rem 0;
-      height: 2rem;
-      border: 1px solid red;
+      height: 3rem;
+      display: flex;
+      flex-direction: column;
+      padding: 0.25rem 0.5rem;
+      p:first-child {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        font-weight: 600;
+        justify-self: flex-end;
+        text-transform: capitalize;
+      }
+      p:last-child {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        font-weight: 100;
+        justify-self: flex-end;
+      }
     }
   }
 }

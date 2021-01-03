@@ -578,8 +578,32 @@
 .recently-viewed ul li {
   background: white;
   margin: 0.5rem 0;
-  height: 2rem;
-  border: 1px solid red;
+  height: 3rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 0.25rem 0.5rem;
+}
+
+.recently-viewed ul li p:first-child {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: 600;
+  justify-self: flex-end;
+  text-transform: capitalize;
+}
+
+.recently-viewed ul li p:last-child {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: 100;
+  justify-self: flex-end;
 }
 
 * {

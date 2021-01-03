@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function WordEntryForm({ postWordData, currentUser, loggedIn }) {
-  const [wordIdCounter, setWordIdCounter] = useState(4);
+function WordEntryForm({ postWordData, currentUser, loggedIn, words }) {
   const initialWordData = {
     word: "",
-    wordId: wordIdCounter,
     def: "",
     dateCreated: "",
     creator: "",
@@ -20,11 +18,10 @@ function WordEntryForm({ postWordData, currentUser, loggedIn }) {
       newWordData.dateCreated = new Date();
       const postIsValid = await postWordData(newWordData);
       if (postIsValid) {
-        setIsValidWord(postIsValid);
-        setNewWordData({ ...initialWordData, wordId: wordIdCounter + 1 });
-        setWordIdCounter((prevCounter) => (prevCounter += 1));
+        setIsValidWord(true);
+        setNewWordData(initialWordData);
       } else {
-        setIsValidWord(postIsValid);
+        setIsValidWord(false);
       }
     }
   };
@@ -48,17 +45,17 @@ function WordEntryForm({ postWordData, currentUser, loggedIn }) {
         </button>
         {!isValidWord && <h4>Please choose a new word. That word is already defined.</h4>}
       </form>
-        {!loggedIn & (newWordData.word.length > 0) ? (
-          <h4>
-            Please{" "}
-            <Link to="/user-login" style={{ textDecoration: "underline" }}>
-              Log in
-            </Link>{" "}
-            to submit your word.
-          </h4>
-        ) : (
-          <></>
-        )}
+      {!loggedIn & (newWordData.word.length > 0) ? (
+        <h4>
+          Please{" "}
+          <Link to="/user-login" style={{ textDecoration: "underline" }}>
+            Log in
+          </Link>{" "}
+          to submit your word.
+        </h4>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
