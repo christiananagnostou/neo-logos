@@ -11,6 +11,8 @@ const users = [
     accountCreated: new Date().toDateString(),
     userId: "123-123-123",
     recentlyViewedWords: [],
+    upvotedWords: [],
+    downvotedWords: [],
   },
   {
     name: "Bad Baby",
@@ -18,6 +20,9 @@ const users = [
     password: "123",
     accountCreated: new Date().toDateString(),
     userId: uuidv4(),
+    recentlyViewedWords: [],
+    upvotedWords: [],
+    downvotedWords: [],
   },
 ];
 const getUserFromCreds = (id) => {

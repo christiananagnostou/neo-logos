@@ -7,6 +7,7 @@ function WordEntryForm({ postWordData, currentUser, loggedIn, words }) {
     def: "",
     dateCreated: "",
     creator: "",
+    voteCount: 0,
   };
   const [newWordData, setNewWordData] = useState(initialWordData);
   const [isValidWord, setIsValidWord] = useState(true);

@@ -80,6 +80,14 @@
   background: #ececec;
 }
 
+.wordlist .word-item .word-votes .voted-up {
+  color: #14b414 !important;
+}
+
+.wordlist .word-item .word-votes .voted-down {
+  color: #b41414 !important;
+}
+
 .wordlist .word-item a {
   height: 100%;
   display: -ms-grid;

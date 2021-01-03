@@ -17,6 +17,7 @@ function RecentlyViewed({ visitedWordIds }) {
       console.log(e);
     }
   };
+  
   useEffect(() => {
     getWordInfoFromIds();
   }, [visitedWordIds]);

@@ -47,6 +47,12 @@
           background: rgb(236, 236, 236);
         }
       }
+      .voted-up {
+        color: rgb(20, 180, 20) !important;
+      }
+      .voted-down {
+        color: rgb(180, 20, 20) !important;
+      }
     }
     a {
       height: 100%;

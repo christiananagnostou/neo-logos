@@ -15,6 +15,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [visitedWordIds, setVisitedWordIds] = useState([]);
+  const [upvotedWords, setUpvotedWords] = useState([]);
 
   // Create a new word
   const postWordData = async (newWordData) => {
@@ -133,6 +134,8 @@ function App() {
               words={words}
               handleAddViewedWord={handleAddViewedWord}
               visitedWordIds={visitedWordIds}
+              upvotedWords={upvotedWords}
+              setUpvotedWords={setUpvotedWords}
             />
           </Route>
           <Route path="/user-login">
