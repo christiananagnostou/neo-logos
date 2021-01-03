@@ -14,8 +14,8 @@ function Wordlist({ words, handleAddViewedWord }) {
           <li className="word-item" key={word.wordId}>
             <WordVotes />
             <Link
-              to={`/${word.wordId}`}
-              key={word.wordId}
+              to={`/${word.word}`}
+              key={word.word}
               onClick={() => handleWordClick(word.wordId)}
             >
               <span className="word-text">{word.word.toUpperCase()}</span>

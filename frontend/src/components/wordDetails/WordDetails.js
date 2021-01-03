@@ -6,7 +6,7 @@ function WordDetails({ words }) {
     <div>
       {words.map((word) => {
         return (
-          <Route path={`/${word.wordId}`} key={word.wordId}>
+          <Route path={`/${word.word}`} key={word.word}>
             <p>{word.word}</p>
             <p>{word.def}</p>
             <p>{word.dateCreated}</p>

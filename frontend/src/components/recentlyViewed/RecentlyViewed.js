@@ -28,7 +28,7 @@ function RecentlyViewed({ visitedWordIds }) {
         <ul>
           {visitedWords.map((word) => {
             return (
-              <Link to={`/${word.wordId}`} key={word.wordId}>
+              <Link to={`/${word.word}`} key={word.word}>
                 <li>
                   <p>{word.word}</p>
                   <p>{word.def}</p>
