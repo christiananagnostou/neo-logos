@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { AccountBox, ArrowDropDown, ArrowDropUp } from "@material-ui/icons";
+import { AccountBox, ArrowDropDown } from "@material-ui/icons";
 
-function AccountTab({ currentUser, loggedIn }) {
+function Heading({ currentUser, loggedIn }) {
   const [displayAccountInfo, setDisplayAccountInfo] = useState(false);
 
   const handleIconClick = () => {
@@ -17,11 +17,11 @@ function AccountTab({ currentUser, loggedIn }) {
       {loggedIn ? (
         <div className="account-info-container">
           <div className="account-icon-container" onClick={handleIconClick}>
-            {displayAccountInfo ? (
-              <ArrowDropUp className="account-arrow-icon" />
-            ) : (
-              <ArrowDropDown className="account-arrow-icon" />
-            )}
+            <ArrowDropDown
+              className={
+                displayAccountInfo ? "account-arrow-icon rotated-arrow" : "account-arrow-icon"
+              }
+            />
             <AccountBox className="account-box-icon" />
             <p>{currentUser.name}</p>
           </div>
@@ -38,10 +38,10 @@ function AccountTab({ currentUser, loggedIn }) {
       ) : (
         <div className="tabs">
           <Link to="/user-login">
-            <div className="account-login account-btn">Login</div>
+            <div className="account-btn">Login</div>
           </Link>
           <Link to="/create-account">
-            <div className="account-create account-btn">Create Account</div>
+            <div className="account-btn">Create Account</div>
           </Link>
         </div>
       )}
@@ -49,4 +49,4 @@ function AccountTab({ currentUser, loggedIn }) {
   );
 }
 
-export default AccountTab;
+export default Heading;

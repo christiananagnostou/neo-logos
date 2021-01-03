@@ -1,0 +1,23 @@
+.home-page {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "wordEntry wordEntry"
+    "wordlist recentView"
+    "wordlist e";
+  grid-template-rows: 5rem 1fr 15rem 2fr;
+  grid-template-columns: 3fr 1fr;
+  gap: 1rem;
+  .main-header {
+    grid-area: header;
+  }
+  .word-entry-form-container {
+    grid-area: wordEntry;
+  }
+  .wordlist {
+    grid-area: wordlist;
+  }
+  .recently-viewed {
+    grid-area: recentView;
+  }
+}

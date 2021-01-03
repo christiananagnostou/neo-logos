@@ -36,28 +36,30 @@ function WordEntryForm({ postWordData, currentUser, loggedIn }) {
     setNewWordData({ ...newWordData, def: target.value });
   };
   return (
-    <form action="POST" onSubmit={handleFormSubmit} className="word-entry-form">
+    <div className="word-entry-form-container">
       <h1>Create a new Word!</h1>
-      <label htmlFor="word">Add Word:</label>
-      <input type="text" name="word" onChange={handleWordChange} value={newWordData.word} />
-      <label htmlFor="def">Definition:</label>
-      <input type="text" name="def" onChange={handleDefChange} value={newWordData.def} />
-      <button type="submit" disabled={!loggedIn}>
-        Submit
-      </button>
-      {!isValidWord && <h4>Please choose a new word. That word is already defined.</h4>}
-      {!loggedIn & (newWordData.word.length > 0) ? (
-        <h4>
-          Please{" "}
-          <Link to="/user-login" style={{ textDecoration: "underline" }}>
-            Log in
-          </Link>{" "}
-          to submit your word.
-        </h4>
-      ) : (
-        <></>
-      )}
-    </form>
+      <form action="POST" onSubmit={handleFormSubmit} className="word-entry-form">
+        <label htmlFor="word">Word:</label>
+        <input type="text" name="word" onChange={handleWordChange} value={newWordData.word} />
+        <label htmlFor="def">Definition:</label>
+        <input type="text" name="def" onChange={handleDefChange} value={newWordData.def} />
+        <button type="submit" disabled={!loggedIn}>
+          Submit
+        </button>
+        {!isValidWord && <h4>Please choose a new word. That word is already defined.</h4>}
+      </form>
+        {!loggedIn & (newWordData.word.length > 0) ? (
+          <h4>
+            Please{" "}
+            <Link to="/user-login" style={{ textDecoration: "underline" }}>
+              Log in
+            </Link>{" "}
+            to submit your word.
+          </h4>
+        ) : (
+          <></>
+        )}
+    </div>
   );
 }
 

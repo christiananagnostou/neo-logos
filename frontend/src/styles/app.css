@@ -1,13 +1,11 @@
-.words {
-  border: 1px solid black;
-  margin: 2rem 0;
+.wordlist {
   padding: 1rem;
   background: #c3ddf5;
   -webkit-box-shadow: 0 5px 10px grey;
           box-shadow: 0 5px 10px grey;
 }
 
-.words .word-item {
+.wordlist .word-item {
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
@@ -26,12 +24,12 @@
   transition: all 0.2s ease;
 }
 
-.words .word-item:hover {
+.wordlist .word-item:hover {
   border: 1px solid #a7a7a7;
   background: #f0f0f0;
 }
 
-.words .word-item .word-votes {
+.wordlist .word-item .word-votes {
   height: 100%;
   margin: 5px 0;
   display: -webkit-box;
@@ -50,11 +48,11 @@
   background: white;
 }
 
-.words .word-item .word-votes .vote-num {
+.wordlist .word-item .word-votes .vote-num {
   color: #494949;
 }
 
-.words .word-item .word-votes .upvote {
+.wordlist .word-item .word-votes .upvote {
   -webkit-transform: rotateZ(-90deg);
           transform: rotateZ(-90deg);
   cursor: pointer;
@@ -63,12 +61,12 @@
   transition: all 0.2s ease-in-out;
 }
 
-.words .word-item .word-votes .upvote:hover {
+.wordlist .word-item .word-votes .upvote:hover {
   color: #14b414;
   background: #ececec;
 }
 
-.words .word-item .word-votes .downvote {
+.wordlist .word-item .word-votes .downvote {
   -webkit-transform: rotateZ(90deg);
           transform: rotateZ(90deg);
   cursor: pointer;
@@ -77,12 +75,12 @@
   transition: all 0.2s ease-in-out;
 }
 
-.words .word-item .word-votes .downvote:hover {
+.wordlist .word-item .word-votes .downvote:hover {
   color: #b41414;
   background: #ececec;
 }
 
-.words .word-item a {
+.wordlist .word-item a {
   height: 100%;
   display: -ms-grid;
   display: grid;
@@ -94,40 +92,57 @@
   padding: 0 1rem;
 }
 
-.words .word-item a .word-creator {
+.wordlist .word-item a .word-creator {
   text-align: right;
 }
 
-.word-entry-form {
+.word-entry-form-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.word-entry-form-container .word-entry-form {
   margin: 2rem 5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   margin: auto;
 }
 
-.word-entry-form h1 {
+.word-entry-form-container .word-entry-form h1 {
   margin: 1rem auto;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
 }
 
-.word-entry-form h4 {
-  margin: 1rem auto;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  color: red;
-}
-
-.word-entry-form label {
+.word-entry-form-container .word-entry-form label {
   font-weight: bold;
   font-size: 1.2rem;
   margin: 0 1rem;
 }
 
-.word-entry-form input {
+.word-entry-form-container .word-entry-form input {
   padding: 0.5rem;
   font-size: 1.1rem;
   border: none;
@@ -136,11 +151,11 @@
           box-shadow: 0 5px 10px #9c9c9c;
 }
 
-.word-entry-form input:focus {
+.word-entry-form-container .word-entry-form input:focus {
   outline: 1px solid #73a4ff;
 }
 
-.word-entry-form button {
+.word-entry-form-container .word-entry-form button {
   margin: 0 1rem;
   padding: 1rem;
   border: none;
@@ -152,8 +167,26 @@
   transition: all 0.2s ease-in-out;
 }
 
-.word-entry-form button:hover {
+.word-entry-form-container .word-entry-form button:hover {
   background: #c4e3ff;
+}
+
+@media (max-width: 800px) {
+  .word-entry-form-container .word-entry-form {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: .5rem;
+  }
+}
+
+.word-entry-form-container h4 {
+  margin: 1rem auto;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  color: red;
 }
 
 .main-header {
@@ -212,6 +245,13 @@
 .main-header .account-info-container .account-icon-container .account-arrow-icon {
   font-size: 2rem;
   color: #646464;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.main-header .account-info-container .account-icon-container .rotated-arrow {
+  -webkit-transform: rotateZ(-180deg);
+          transform: rotateZ(-180deg);
 }
 
 .main-header .account-info-container .account-icon-container p {
@@ -481,11 +521,88 @@
   background-color: #c3ddf5;
 }
 
+.home-page {
+  display: -ms-grid;
+  display: grid;
+      grid-template-areas: "header header" "wordEntry wordEntry" "wordlist recentView" "wordlist e";
+  -ms-grid-rows: 5rem 1fr 15rem 2fr;
+      grid-template-rows: 5rem 1fr 15rem 2fr;
+  -ms-grid-columns: 3fr 1fr;
+      grid-template-columns: 3fr 1fr;
+  gap: 1rem;
+}
+
+.home-page .main-header {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-area: header;
+}
+
+.home-page .word-entry-form-container {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-area: wordEntry;
+}
+
+.home-page .wordlist {
+  -ms-grid-row: 3;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 1;
+  grid-area: wordlist;
+}
+
+.home-page .recently-viewed {
+  -ms-grid-row: 3;
+  -ms-grid-column: 2;
+  grid-area: recentView;
+}
+
+.recently-viewed {
+  padding: 1rem;
+  background: #c3ddf5;
+  -webkit-box-shadow: 0 5px 10px grey;
+          box-shadow: 0 5px 10px grey;
+  overflow-y: scroll;
+}
+
+.recently-viewed H3 {
+  font-weight: 100;
+}
+
+.recently-viewed ul {
+  list-style: none;
+}
+
+.recently-viewed ul li {
+  background: white;
+  margin: 0.5rem 0;
+  height: 2rem;
+  border: 1px solid red;
+}
+
 * {
   padding: 0;
   margin: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 20px;
+  border: transparent;
 }
 
 html {

@@ -5,17 +5,16 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // Styles
 import "./styles/app.css";
 // Components
-import Wordlist from "./components/wordlist/Wordlist";
-import WordEntryForm from "./components/wordEntryForm/WordEntryForm";
-import AccountTab from "./components/accountTab/AccountTab";
 import UserLogin from "./components/userLogin/UserLogin";
 import CreateAccount from "./components/createAccount/CreateAccount";
 import WordDetails from "./components/wordDetails/WordDetails";
+import Home from "./components/home-page/Home";
 
 function App() {
   const [words, setWords] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
+  const [visitedWordIds, setVisitedWordIds] = useState([]);
 
   // Get all words from words api
   const fetchWordData = () => {
@@ -52,10 +51,10 @@ function App() {
 
   // Request to login with user email then validate password
   const handleUserLogin = (userCreds) => {
-    const response = axios.get(`http://localhost:4001/api/users/${userCreds.email}`);
+    const response = axios.post("http://localhost:4001/api/users/login", { userCreds });
     return response
       .then((res) => {
-        if (res.data.password !== userCreds.password) {
+        if (res.status !== 200) {
           throw new Error("Invalid User Credentials");
         } else {
           setCurrentUser(res.data);
@@ -84,6 +83,33 @@ function App() {
       });
   };
 
+  // Add a word to a user's visitedWordIds array
+  const handleAddViewedWord = (wordId) => {
+    if (!visitedWordIds.includes(wordId)) {
+      if (loggedIn) {
+        const response = axios.post(`http://localhost:4001/api/users/${currentUser.userId}`, {
+          wordId,
+        });
+        return response
+          .then((res) => {
+            console.log(res);
+            setVisitedWordIds(res.data);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else {
+        setVisitedWordIds([...visitedWordIds, wordId]);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (loggedIn) {
+      console.log(loggedIn);
+    }
+  }, [loggedIn]);
+
   useEffect(() => {
     fetchWordData();
   }, []);
@@ -93,13 +119,14 @@ function App() {
       <Router>
         <Switch>
           <Route path="/" exact>
-            <AccountTab currentUser={currentUser} loggedIn={loggedIn} />
-            <WordEntryForm
-              postWordData={postWordData}
+            <Home
               currentUser={currentUser}
               loggedIn={loggedIn}
+              postWordData={postWordData}
+              words={words}
+              handleAddViewedWord={handleAddViewedWord}
+              visitedWordIds={visitedWordIds}
             />
-            <Wordlist words={words} />
           </Route>
           <Route path="/user-login">
             <UserLogin handleUserLogin={handleUserLogin} />

@@ -1,0 +1,18 @@
+.recently-viewed {
+  padding: 1rem;
+  background: rgb(195, 221, 245);
+  box-shadow: 0 5px 10px grey;
+  overflow-y: scroll;
+  H3 {
+    font-weight: 100;
+  }
+  ul {
+    list-style: none;
+    li {
+      background: white;
+      margin: 0.5rem 0;
+      height: 2rem;
+      border: 1px solid red;
+    }
+  }
+}
