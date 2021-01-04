@@ -14,6 +14,10 @@ function Home({
   visitedWordIds,
   upvotedWords,
   setUpvotedWords,
+  downvotedWords,
+  setDownvotedWords,
+  updateUsersWordVotes,
+  fetchAllUserVotes,
 }) {
   return (
     <div className="home-page">
@@ -30,6 +34,10 @@ function Home({
         loggedIn={loggedIn}
         upvotedWords={upvotedWords}
         setUpvotedWords={setUpvotedWords}
+        downvotedWords={downvotedWords}
+        setDownvotedWords={setDownvotedWords}
+        updateUsersWordVotes={updateUsersWordVotes}
+        fetchAllUserVotes={fetchAllUserVotes}
       />
       <RecentlyViewed visitedWordIds={visitedWordIds} />
     </div>

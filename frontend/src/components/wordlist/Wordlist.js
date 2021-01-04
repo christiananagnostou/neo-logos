@@ -2,7 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import WordVotes from "./wordVotes/WordVotes";
 
-function Wordlist({ words, handleAddViewedWord, loggedIn, upvotedWords, setUpvotedWords }) {
+function Wordlist({
+  words,
+  handleAddViewedWord,
+  loggedIn,
+  upvotedWords,
+  setUpvotedWords,
+  downvotedWords,
+  setDownvotedWords,
+  updateUsersWordVotes,
+  fetchAllUserVotes,
+}) {
   const handleWordClick = (wordId) => {
     handleAddViewedWord(wordId);
   };
@@ -17,6 +27,10 @@ function Wordlist({ words, handleAddViewedWord, loggedIn, upvotedWords, setUpvot
               loggedIn={loggedIn}
               upvotedWords={upvotedWords}
               setUpvotedWords={setUpvotedWords}
+              downvotedWords={downvotedWords}
+              setDownvotedWords={setDownvotedWords}
+              updateUsersWordVotes={updateUsersWordVotes}
+              fetchAllUserVotes={fetchAllUserVotes}
             />
             <Link to={`/${word.word}`} key={word.word} onClick={() => handleWordClick(word.wordId)}>
               <span className="word-text">{word.word.toUpperCase()}</span>

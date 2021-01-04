@@ -14,8 +14,23 @@ function App() {
   const [words, setWords] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
-  const [visitedWordIds, setVisitedWordIds] = useState([]);
+
   const [upvotedWords, setUpvotedWords] = useState([]);
+  const [downvotedWords, setDownvotedWords] = useState([]);
+
+  // Update all of users upvotes and downvotes
+  const updateUsersWordVotes = async () => {
+    const response = axios.post(`http://localhost:4001/api/users/${currentUser.userId}/votes`, {
+      upvotedWords,
+      downvotedWords,
+    });
+    try {
+      const res = await response;
+      return res;
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   // Create a new word
   const postWordData = async (newWordData) => {
@@ -69,6 +84,7 @@ function App() {
     }
   };
 
+  const [visitedWordIds, setVisitedWordIds] = useState([]);
   // Add a word to a user's visitedWordIds array
   const handleAddViewedWord = async (wordId) => {
     if (!visitedWordIds.includes(wordId)) {
@@ -101,12 +117,26 @@ function App() {
       return false;
     }
   };
+
   // Get all the recently viewed words id's for the current user
-  const fetchVisitedWordIds = async () => {
+  const fetchAllUserData = async () => {
     const response = axios.get(`http://localhost:4001/api/users/${currentUser.userId}`);
     try {
       const res = await response;
-      setVisitedWordIds(res.data.recentlyViewedWords);
+      setCurrentUser(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // Get all votes from the user
+  const fetchAllUserVotes = async () => {
+    const response = axios.get(`http://localhost:4001/api/users/${currentUser.userId}/votes`);
+    try {
+      const res = await response;
+      const { allUpvotedWords, allDownvotedWords } = res.data;
+      setUpvotedWords(allUpvotedWords);
+      setDownvotedWords(allDownvotedWords);
     } catch (e) {
       console.log(e);
     }
@@ -114,7 +144,7 @@ function App() {
 
   useEffect(() => {
     if (loggedIn) {
-      fetchVisitedWordIds();
+      fetchAllUserData();
     }
   }, [loggedIn]);
 
@@ -136,6 +166,10 @@ function App() {
               visitedWordIds={visitedWordIds}
               upvotedWords={upvotedWords}
               setUpvotedWords={setUpvotedWords}
+              downvotedWords={downvotedWords}
+              setDownvotedWords={setDownvotedWords}
+              updateUsersWordVotes={updateUsersWordVotes}
+              fetchAllUserVotes={fetchAllUserVotes}
             />
           </Route>
           <Route path="/user-login">
