@@ -1,38 +1,30 @@
 const wordsRouter = require("express").Router();
 const { v4: uuidv4 } = require("uuid");
 
-module.exports = wordsRouter;
+const words = require("./DB/wordDB");
 
-const words = [
-  {
-    word: "lamerty",
-    wordId: uuidv4(),
-    def: "Keyboard configuration for lame people",
-    dateCreated: Date(),
-    creator: "Bob",
-    voteCount: 1125,
-  },
-  {
-    word: "okery",
-    wordId: uuidv4(),
-    def: "Idiots trying to use the word okay",
-    dateCreated: Date(),
-    creator: "Christian",
-    voteCount: 111,
-  },
-  {
-    word: "planterp",
-    wordId: uuidv4(),
-    def: 'Shorthand for the compound word "plant-terpines" (aka: marijuana)',
-    dateCreated: Date(),
-    creator: "Christian",
-    voteCount: 20,
-  },
-];
+module.exports = wordsRouter;
 
 // Get all words
 wordsRouter.get("/", (req, res, next) => {
   res.status(200).send(words);
+});
+
+// Get current votes for a specified word
+wordsRouter.get("/:wordId/votes", (req, res, next) => {
+  const wordIndex = words.findIndex((word) => req.params.wordId === word.wordId);
+  if (wordIndex !== -1) {
+    const currVotes = words[wordIndex].voteCount;
+    res.status(200).send(String(currVotes));
+  } else {
+    res.status(400).send();
+  }
+});
+
+// Get the top 5 most voted words
+wordsRouter.get("/top-five", (req, res, next) => {
+  const topFive = [...words].sort((a, b) => b.voteCount - a.voteCount).slice(0, 5);
+  res.send(topFive);
 });
 
 // Post a new word to words
@@ -71,17 +63,6 @@ wordsRouter.put("/:wordId/votes", (req, res, next) => {
   if (wordIndex !== -1) {
     words[wordIndex].voteCount = req.body.voteCount;
     res.status(200).send();
-  } else {
-    res.status(400).send();
-  }
-});
-
-// Get current votes for a specified word
-wordsRouter.get("/:wordId/votes", (req, res, next) => {
-  const wordIndex = words.findIndex((word) => req.params.wordId === word.wordId);
-  if (wordIndex !== -1) {
-    const currVotes = words[wordIndex].voteCount;
-    res.status(200).send(String(currVotes));
   } else {
     res.status(400).send();
   }

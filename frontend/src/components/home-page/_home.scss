@@ -3,9 +3,10 @@
   grid-template-areas:
     "header header"
     "wordEntry wordEntry"
+    "wordlist topWords"
     "wordlist recentView"
     "wordlist e";
-  grid-template-rows: 5rem 1fr 15rem 2fr;
+  grid-template-rows: 5rem 10rem 1fr 15rem 1fr;
   grid-template-columns: 3fr 1fr;
   gap: 1rem;
   .main-header {
@@ -16,8 +17,12 @@
   }
   .wordlist {
     grid-area: wordlist;
+    height: fit-content;
   }
   .recently-viewed {
     grid-area: recentView;
+  }
+  .top-words {
+    grid-area: topWords;
   }
 }

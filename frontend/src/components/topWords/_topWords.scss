@@ -1,0 +1,61 @@
+.top-words {
+  padding: 1rem;
+  background: rgb(195, 221, 245);
+  box-shadow: 0 5px 10px grey;
+  overflow-y: scroll;
+  h3 {
+    font-weight: 100;
+  }
+  ul {
+    list-style: none;
+    a {
+      display: inline-block;
+      height: fit-content;
+      width: 100%;
+      margin: 0.5rem 0;
+      background: white;
+      &:first-child {
+        background: rgba(255, 217, 0, 0.623);
+        border: 1px solid gold;
+        &:hover {
+          background: gold;
+        }
+      }
+      &:nth-child(2) {
+        background: rgba(192, 192, 192, 0.651);
+        border: 1px solid rgb(209, 209, 209);
+      }
+      &:nth-child(3) {
+        background: rgba(255, 166, 0, 0.363);
+        border: 1px solid rgba(255, 166, 0, 0.589);
+      }
+      &:hover {
+        background: #f0f0f0;
+      }
+      li {
+        height: 3rem;
+        display: flex;
+        flex-direction: column;
+        padding: 0.25rem 0.5rem;
+        p {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          justify-self: flex-end;
+        }
+        p:first-child {
+          font-weight: 600;
+          text-transform: capitalize;
+          span {
+            font-weight: 100;
+            font-size: 0.75rem;
+            float: right;
+          }
+        }
+        p:last-child {
+          font-weight: 100;
+        }
+      }
+    }
+  }
+}
