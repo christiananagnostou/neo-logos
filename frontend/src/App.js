@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+// Axios
 import axios from "axios";
 // React Router
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -10,7 +11,11 @@ import CreateAccount from "./components/createAccount/CreateAccount";
 import WordDetails from "./components/wordDetails/WordDetails";
 import Home from "./components/home-page/Home";
 
+import { useSelector } from "react-redux";
+
 function App() {
+  const user = useSelector((state) => state.user);
+  console.log(user);
   const [words, setWords] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
