@@ -1,31 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import { handleCreateAccount } from "../../redux/actions/userActions";
 
-function UserLogin({ handleCreateAccount }) {
+const initialCreds = {
+  name: "",
+  email: "",
+  password: "",
+};
+
+function UserLogin() {
+  // Redux
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  // Router
   const history = useHistory();
-  const initialInfo = {
-    name: "",
-    email: "",
-    password: "",
-  };
-  const [newAccountCreds, setNewAccountCreds] = useState(initialInfo);
+  const [newAccountCreds, setNewAccountCreds] = useState(initialCreds);
   const [accountAlreadyExists, setAccountAlreadyExists] = useState(false);
 
+  const setupNewAccState = () => {
+    newAccountCreds.recentlyViewedWords = [];
+    newAccountCreds.upvotedWords = [];
+    newAccountCreds.downvotedWords = [];
+    newAccountCreds.loggedIn = false;
+  };
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const creationDate = Date();
-    newAccountCreds.accountCreated = creationDate;
-    const accountCreated = await handleCreateAccount(newAccountCreds);
-    console.log("account", accountCreated);
-    setNewAccountCreds(initialInfo);
-    if (accountCreated) {
+    newAccountCreds.accountCreated = new Date().toDateString();
+    setupNewAccState();
+    dispatch(handleCreateAccount(newAccountCreds)).catch((e) => setAccountAlreadyExists(true));
+    setNewAccountCreds(initialCreds);
+  };
+
+  useEffect(() => {
+    if (user.loggedIn) {
       history.push("/");
       setAccountAlreadyExists(false);
-    } else {
-      setAccountAlreadyExists(true);
     }
-  };
+  }, [user, history]);
 
   const handleName = ({ target }) => {
     setNewAccountCreds({ ...newAccountCreds, name: target.value });

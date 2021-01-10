@@ -6,42 +6,14 @@ import TopWords from "../topWords/TopWords";
 import WordEntryForm from "../wordEntryForm/WordEntryForm";
 import Wordlist from "../wordlist/Wordlist";
 
-function Home({
-  currentUser,
-  loggedIn,
-  postWordData,
-  words,
-  handleAddViewedWord,
-  visitedWordIds,
-  upvotedWords,
-  setUpvotedWords,
-  downvotedWords,
-  setDownvotedWords,
-  updateUsersWordVotes,
-  fetchAllUserVotes,
-}) {
+function Home() {
   return (
     <div className="home-page">
-      <Heading currentUser={currentUser} loggedIn={loggedIn} />
-      <WordEntryForm
-        postWordData={postWordData}
-        currentUser={currentUser}
-        loggedIn={loggedIn}
-        words={words}
-      />
-      <Wordlist
-        words={words}
-        handleAddViewedWord={handleAddViewedWord}
-        loggedIn={loggedIn}
-        upvotedWords={upvotedWords}
-        setUpvotedWords={setUpvotedWords}
-        downvotedWords={downvotedWords}
-        setDownvotedWords={setDownvotedWords}
-        updateUsersWordVotes={updateUsersWordVotes}
-        fetchAllUserVotes={fetchAllUserVotes}
-      />
+      <Heading />
+      <WordEntryForm />
+      <Wordlist />
       <TopWords />
-      <RecentlyViewed visitedWordIds={visitedWordIds} />
+      <RecentlyViewed />
     </div>
   );
 }

@@ -1,29 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+// Router
 import { Link, useHistory } from "react-router-dom";
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import { handleUserLogin } from "../../redux/actions/userActions";
 
-function UserLogin({ handleUserLogin }) {
+const initialCreds = { email: "", password: "" };
+
+function UserLogin() {
+  //Redux
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  // Router
   const history = useHistory();
-  const initialCreds = {
-    email: "",
-    password: "",
-  };
+  // Local State
   const [loginCreds, setLoginCreds] = useState(initialCreds);
   const [invalidCreds, setInvalidCreds] = useState(false);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (loginCreds.email && loginCreds.password) {
-      const isLoggedIn = await handleUserLogin(loginCreds);
-      setLoginCreds(initialCreds);
-      // if user logged in, redirect back to home page
-      if (isLoggedIn) {
-        setInvalidCreds(false);
-        history.push("/");
-      } else {
+      dispatch(handleUserLogin(loginCreds)).catch((e) => {
         setInvalidCreds(true);
-      }
+        setLoginCreds(initialCreds);
+      });
     }
   };
+
+  useEffect(() => {
+    if (user.loggedIn) {
+      setInvalidCreds(false);
+      history.push("/");
+    }
+  }, [user, history]);
 
   const handleEmail = ({ target }) => {
     setLoginCreds({ ...loginCreds, email: target.value });

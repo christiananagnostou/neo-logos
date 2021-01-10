@@ -1,7 +1,11 @@
 import React from "react";
 import { Route } from "react-router-dom";
+// Redux
+import { useSelector } from "react-redux";
 
-function WordDetails({ words }) {
+function WordDetails() {
+  const words = useSelector((state) => state.words);
+
   return (
     <div>
       {words.map((word) => {

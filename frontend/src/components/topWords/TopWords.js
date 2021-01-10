@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from "react";
+// Router
 import { Link } from "react-router-dom";
-import axios from "axios";
+// Redux
+import { useSelector } from "react-redux";
 
 function TopWords() {
+  // Redux
+  const words = useSelector((state) => state.words);
   const [topFiveWords, setTopFiveWords] = useState([]);
 
-  const getTopFiveWords = async () => {
-    const response = axios.get("http://localhost:4001/api/words/top-five");
-    try {
-      const res = await response;
-      console.log(res);
-      setTopFiveWords(res.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   useEffect(() => {
-    getTopFiveWords();
-  }, []);
+    setTopFiveWords([...words].sort((a, b) => b.voteCount - a.voteCount).slice(0, 3));
+  }, [words]);
 
   return (
     <div className="top-words">

@@ -1,33 +1,17 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
+// Router
 import { Link } from "react-router-dom";
+// Redux
+import { useSelector } from "react-redux";
 
-function RecentlyViewed({ visitedWordIds }) {
-  const [visitedWords, setVisitedWords] = useState([]);
-
-  const getWordInfoFromIds = async () => {
-    const response = axios.post("http://localhost:4001/api/words", {
-      visitedWordIds,
-      type: "get-recently-viewed",
-    });
-    try {
-      const res = await response;
-      console.log("from recentlyViewed", res);
-      setVisitedWords(res.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    getWordInfoFromIds();
-  }, [visitedWordIds]);
+function RecentlyViewed() {
+  const { recentlyViewedWords } = useSelector((state) => state.user);
 
   return (
     <div className="recently-viewed">
-      <h3>RECENTLY VIEWED WORDS</h3>
+      <h3>RECENTLY VIEWED</h3>
       <ul>
-        {visitedWords.map((word) => {
+        {recentlyViewedWords.map((word) => {
           return (
             <Link to={`/${word.word}`} key={word.word}>
               <li>

@@ -1,10 +1,17 @@
 import React, { useState } from "react";
+// Router
 import { Link } from "react-router-dom";
+// Icons
 import { AccountBox, ArrowDropDown } from "@material-ui/icons";
+// Redux
+import { useSelector } from "react-redux";
 
-function Heading({ currentUser, loggedIn }) {
+function Heading() {
+  const user = useSelector((state) => state.user);
+  
   const [displayAccountInfo, setDisplayAccountInfo] = useState(false);
 
+  // Display info on click
   const handleIconClick = () => {
     setDisplayAccountInfo((prev) => !prev);
   };
@@ -14,7 +21,7 @@ function Heading({ currentUser, loggedIn }) {
       <div className="logo">
         <h1>Phantomnation</h1>
       </div>
-      {loggedIn ? (
+      {user.loggedIn ? (
         <div className="account-info-container">
           <div className="account-icon-container" onClick={handleIconClick}>
             <ArrowDropDown
@@ -23,15 +30,15 @@ function Heading({ currentUser, loggedIn }) {
               }
             />
             <AccountBox className="account-box-icon" />
-            <p>{currentUser.name}</p>
+            <p>{user.name}</p>
           </div>
 
           <div className={displayAccountInfo ? "account-info show" : "account-info hidden"}>
-            <p>{currentUser.name}</p>
-            <p>{currentUser.email}</p>
+            <p>{user.name}</p>
+            <p>{user.email}</p>
             <p>
               Member since: <br />
-              {currentUser.accountCreated}
+              {user.accountCreated}
             </p>
           </div>
         </div>
