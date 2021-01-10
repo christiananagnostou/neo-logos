@@ -1,12 +1,10 @@
-const { v4: uuidv4 } = require("uuid");
-
 const users = [
   {
     name: "Christian Anagnostou",
     email: "christian0722@gmail.com",
     password: "123",
     accountCreated: new Date().toDateString(),
-    userId: "123-123-123",
+    userId: 0,
     recentlyViewedWords: [],
     upvotedWords: [],
     downvotedWords: [],
@@ -16,7 +14,7 @@ const users = [
     email: "bad@gmail.com",
     password: "123",
     accountCreated: new Date().toDateString(),
-    userId: uuidv4(),
+    userId: 1,
     recentlyViewedWords: [],
     upvotedWords: [],
     downvotedWords: [],

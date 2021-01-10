@@ -1,5 +1,4 @@
 const wordsRouter = require("express").Router();
-const { v4: uuidv4 } = require("uuid");
 
 const words = require("./DB/wordDB");
 
@@ -28,41 +27,33 @@ wordsRouter.get("/top-five", (req, res, next) => {
 });
 
 // Post a new word to words
-wordsRouter.post("/", (req, res, next) => {
-  if (req.body.type === "post-new-word") {
-    const wordIndex = words.findIndex((word) => req.body.newWordData.word === word.word);
-    if (wordIndex === -1) {
-      req.body.newWordData.wordId = uuidv4();
-      words.push(req.body.newWordData);
-      res.status(201).send(words[wordIndex]);
-    } else {
-      res.status(400).send();
-    }
+wordsRouter.post("/new-word", (req, res, next) => {
+  const wordIndex = words.findIndex((word) => req.body.newWord.word === word.word);
+  if (wordIndex === -1) {
+    req.body.newWord.wordId = words.length;
+    words.unshift(req.body.newWord);
+    res.status(201).send(words[0]);
   } else {
-    next();
-  }
-});
-
-// Get recently viewed words from IDs
-wordsRouter.post("/", (req, res, next) => {
-  if (req.body.type === "get-recently-viewed") {
-    const viewedWords = words.filter((word) => req.body.visitedWordIds.includes(word.wordId));
-    if (viewedWords) {
-      res.status(200).send(viewedWords);
-    } else {
-      res.status(400).send();
-    }
-  } else {
-    next();
+    res.status(400).send();
   }
 });
 
 // Update the voteCount for a specified word
-wordsRouter.put("/:wordId/votes", (req, res, next) => {
-  const wordIndex = words.findIndex((word) => req.params.wordId === word.wordId);
+wordsRouter.post("/:wordId/vote", (req, res, next) => {
+  const wordIndex = words.findIndex((word) => Number(req.params.wordId) === word.wordId);
   if (wordIndex !== -1) {
-    words[wordIndex].voteCount = req.body.voteCount;
-    res.status(200).send();
+    switch (req.body.direction) {
+      case "up":
+        words[wordIndex].voteCount += 1;
+        break;
+      case "down":
+        words[wordIndex].voteCount -= 1;
+        break;
+    }
+    words[wordIndex].voteCount;
+    res
+      .status(200)
+      .send({ wordId: Number(req.params.wordId), voteCount: words[wordIndex].voteCount });
   } else {
     res.status(400).send();
   }

@@ -1,35 +1,22 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
+// Router
 import { Link } from "react-router-dom";
+// Redux
+import { useSelector } from "react-redux";
+// Styles and Animation
+import styled from "styled-components";
+import { motion } from "framer-motion";
 
-function RecentlyViewed({ visitedWordIds }) {
-  const [visitedWords, setVisitedWords] = useState([]);
-
-  const getWordInfoFromIds = async () => {
-    const response = axios.post("http://localhost:4001/api/words", {
-      visitedWordIds,
-      type: "get-recently-viewed",
-    });
-    try {
-      const res = await response;
-      console.log("from recentlyViewed", res);
-      setVisitedWords(res.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    getWordInfoFromIds();
-  }, [visitedWordIds]);
+function RecentlyViewed() {
+  const { recentlyViewedWords } = useSelector((state) => state.user);
 
   return (
-    <div className="recently-viewed">
-      <h3>RECENTLY VIEWED WORDS</h3>
+    <RecentlyViewedContainer className="recently-viewed">
+      <h3>RECENTLY VIEWED</h3>
       <ul>
-        {visitedWords.map((word) => {
+        {recentlyViewedWords.map((word) => {
           return (
-            <Link to={`/${word.word}`} key={word.word}>
+            <Link to={`/word/${word.word}`} key={word.word}>
               <li>
                 <p>{word.word}</p>
                 <p>{word.def}</p>
@@ -38,8 +25,45 @@ function RecentlyViewed({ visitedWordIds }) {
           );
         })}
       </ul>
-    </div>
+    </RecentlyViewedContainer>
   );
 }
+
+const RecentlyViewedContainer = styled(motion.div)`
+  padding: 1rem;
+  background: rgb(195, 221, 245);
+  box-shadow: 0 5px 10px grey;
+  overflow-y: scroll;
+  h3 {
+    font-weight: 100;
+  }
+  ul {
+    list-style: none;
+    li {
+      border-radius: 0.4rem;
+      background: white;
+      margin: 0.5rem 0;
+      height: 3rem;
+      display: flex;
+      flex-direction: column;
+      padding: 0.25rem 0.5rem;
+      p:first-child {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        font-weight: 600;
+        justify-self: flex-end;
+        text-transform: capitalize;
+      }
+      p:last-child {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        font-weight: 100;
+        justify-self: flex-end;
+      }
+    }
+  }
+`;
 
 export default RecentlyViewed;

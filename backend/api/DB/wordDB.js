@@ -1,9 +1,7 @@
-const { v4: uuidv4 } = require("uuid");
-
 const words = [
   {
     word: "lamerty",
-    wordId: uuidv4(),
+    wordId: 0,
     def: "Keyboard configuration for lame people",
     dateCreated: Date(),
     creator: "Bob",
@@ -11,7 +9,7 @@ const words = [
   },
   {
     word: "planterp",
-    wordId: uuidv4(),
+    wordId: 1,
     def: 'Shorthand for the compound word "plant-terpines" (aka: marijuana)',
     dateCreated: Date(),
     creator: "Christian",
@@ -19,15 +17,15 @@ const words = [
   },
   {
     word: "wer",
-    wordId: uuidv4(),
+    wordId: 2,
     def: "werwerwer wer wer wer wer wer wer wer",
     dateCreated: Date(),
     creator: "Christian",
-    voteCount: 25365,
+    voteCount: 1125,
   },
   {
     word: "poi",
-    wordId: uuidv4(),
+    wordId: 3,
     def: "poipoi pio poi pio poi poi io pp io p",
     dateCreated: Date(),
     creator: "Christian Anagnostou",
@@ -35,11 +33,11 @@ const words = [
   },
   {
     word: "asdf",
-    wordId: uuidv4(),
+    wordId: 4,
     def: "asdfasdf asdf asdf asdf asdf asdf asdf asdf",
     dateCreated: Date(),
     creator: "Christian",
-    voteCount: 9876,
+    voteCount: 1125,
   },
 ];
 

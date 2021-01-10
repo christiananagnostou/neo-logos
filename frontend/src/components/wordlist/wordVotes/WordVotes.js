@@ -1,113 +1,68 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+// Icon
 import ForwardOutlinedIcon from "@material-ui/icons/ForwardOutlined";
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import { userUpvote, handleDownvote } from "../../../redux/actions/userActions";
+import { voteOnWord } from "../../../redux/actions/wordsActions";
+// Styling and Animation
+import styled from "styled-components";
+import { motion } from "framer-motion";
 
-function WordVotes({
-  word,
-  loggedIn,
-  upvotedWords,
-  setUpvotedWords,
-  downvotedWords,
-  setDownvotedWords,
-  updateUsersWordVotes,
-  fetchAllUserVotes,
-}) {
-  const [voteCount, setVoteCount] = useState(word.voteCount);
+function WordVotes({ word }) {
+  // Redux
+  const dispatch = useDispatch();
+  const { loggedIn, upvotedWords, downvotedWords, userId } = useSelector((state) => state.user);
+  // Local State
   const [userUpvotedWord, setUserUpvotedWord] = useState(false);
   const [userDownvotedWord, setUserDownvotedWord] = useState(false);
 
-  // Get voteCount for specific word
-  const getVoteCount = async () => {
-    const response = axios.get(`http://localhost:4001/api/words/${word.wordId}/votes`);
-    try {
-      const res = await response;
-      return res.data;
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  // Update vote after clicking vote
-  const updateVote = async () => {
-    const response = axios.put(`http://localhost:4001/api/words/${word.wordId}/votes`, {
-      voteCount,
-    });
-    try {
-      const res = await response;
-      return res.status;
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
+  // If user has already voted on this this word
   useEffect(() => {
-    // Get current votes this word when component mounts
-    const getVotesOnLoad = async () => {
-      const num = await getVoteCount();
-      setVoteCount(num);
-    };
-    getVotesOnLoad();
-  }, []);
-
-  // Call after vote count has been updated
-  useEffect(() => {
-    if (loggedIn) {
-      updateVote();
-    }
-  }, [voteCount]);
-
-  useEffect(() => {
-    // If user has already voted on this this word
     if (upvotedWords.includes(word.wordId)) {
       setUserUpvotedWord(true);
-    } else if (downvotedWords.includes(word.wordId)) {
-      setUserDownvotedWord(true);
+    } else {
+      setUserUpvotedWord(false);
     }
-  }, [upvotedWords, downvotedWords]);
 
-  // helper function for handleVoteClick
-  const filterOutCurrentWord = (prevWordIds) => {
-    return prevWordIds.filter((wordId) => wordId !== word.wordId);
-  };
+    if (downvotedWords.includes(word.wordId)) {
+      setUserDownvotedWord(true);
+    } else {
+      setUserDownvotedWord(false);
+    }
+  }, [upvotedWords, downvotedWords, word.wordId]);
 
   const handleVoteClick = (direction) => {
     if (!loggedIn) {
-      console.log("no voting unless logged in");
+      alert("no voting unless logged in");
     } else {
       switch (direction) {
         case "up":
           if (userDownvotedWord) {
-            //if already downvoted, remove the downvote
-            setUserDownvotedWord(false);
-            setDownvotedWords(filterOutCurrentWord);
-            setVoteCount((prevCount) => (prevCount += 1));
+            dispatch(handleDownvote(userId, word.wordId));
+            dispatch(voteOnWord(word.wordId, "up"));
+            dispatch(voteOnWord(word.wordId, "up"));
           } else if (userUpvotedWord) {
-            // if already upvoted, remove the upvote and break
-            setUserUpvotedWord(false);
-            setUpvotedWords(filterOutCurrentWord);
-            setVoteCount((prevCount) => (prevCount -= 1));
-            break;
+            dispatch(voteOnWord(word.wordId, "down"));
+          } else {
+            dispatch(voteOnWord(word.wordId, "up"));
           }
-          setUserUpvotedWord(true); // add the upvote
-          setUpvotedWords([...upvotedWords, word.wordId]);
-          setVoteCount((prevCount) => (prevCount += 1));
+          dispatch(userUpvote(userId, word.wordId));
+
           break;
         case "down":
           if (userUpvotedWord) {
-            //if already upvoted, remove the upvote
-            setUserUpvotedWord(false);
-            setUpvotedWords(filterOutCurrentWord);
-            setVoteCount((prevCount) => (prevCount -= 1));
+            dispatch(userUpvote(userId, word.wordId));
+            dispatch(voteOnWord(word.wordId, "down"));
+            dispatch(voteOnWord(word.wordId, "down"));
           } else if (userDownvotedWord) {
-            //if already downvoted, remove the downvote and break
-            setUserDownvotedWord(false);
-            setDownvotedWords(filterOutCurrentWord);
-            setVoteCount((prevCount) => (prevCount += 1));
-            break;
+            dispatch(voteOnWord(word.wordId, "up"));
+          } else {
+            dispatch(voteOnWord(word.wordId, "down"));
           }
-          setUserDownvotedWord(true); // add the downvote
-          setDownvotedWords([...downvotedWords, word.wordId]);
-          setVoteCount((prevCount) => (prevCount -= 1));
+          dispatch(handleDownvote(userId, word.wordId));
+
+          console.log("vote -");
           break;
         default:
           break;
@@ -115,31 +70,59 @@ function WordVotes({
     }
   };
 
-  const [alreadyRetrievedFromServer, setaAreadyRetrievedFromServer] = useState(false);
-  useEffect(() => {
-    if (loggedIn) {
-      if (alreadyRetrievedFromServer) {
-        updateUsersWordVotes();
-      } else {
-        fetchAllUserVotes();
-        setaAreadyRetrievedFromServer(true);
-      }
-    }
-  }, [userUpvotedWord, userDownvotedWord, alreadyRetrievedFromServer]);
-
   return (
-    <div className="word-votes">
+    <WordVotesContainer layoutId={`votes ${word.word}`} className="word-votes-container">
       <ForwardOutlinedIcon
         className={userUpvotedWord ? "upvote voted-up" : "upvote"}
         onClick={() => handleVoteClick("up")}
       />
-      <span className="vote-num">{voteCount}</span>
+      <VoteCount layoutId={`voteCount ${word.word}`}>{word.voteCount}</VoteCount>
       <ForwardOutlinedIcon
         className={userDownvotedWord ? "downvote voted-down" : "downvote"}
         onClick={() => handleVoteClick("down")}
       />
-    </div>
+    </WordVotesContainer>
   );
 }
+
+const WordVotesContainer = styled(motion.div)`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+
+  .upvote {
+    transform: rotateZ(-90deg);
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      color: rgb(20, 180, 20);
+      background: rgb(236, 236, 236);
+    }
+  }
+  .downvote {
+    transform: rotateZ(90deg);
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      color: rgb(180, 20, 20);
+      background: rgb(236, 236, 236);
+    }
+  }
+  .voted-up {
+    color: rgb(20, 180, 20) !important;
+  }
+  .voted-down {
+    color: rgb(180, 20, 20) !important;
+  }
+`;
+
+const VoteCount = styled(motion.div)`
+  color: rgb(73, 73, 73);
+`;
 
 export default WordVotes;
