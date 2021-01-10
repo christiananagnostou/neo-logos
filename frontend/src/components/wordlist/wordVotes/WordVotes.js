@@ -5,6 +5,9 @@ import ForwardOutlinedIcon from "@material-ui/icons/ForwardOutlined";
 import { useSelector, useDispatch } from "react-redux";
 import { userUpvote, handleDownvote } from "../../../redux/actions/userActions";
 import { voteOnWord } from "../../../redux/actions/wordsActions";
+// Styling and Animation
+import styled from "styled-components";
+import { motion } from "framer-motion";
 
 function WordVotes({ word }) {
   // Redux
@@ -68,18 +71,58 @@ function WordVotes({ word }) {
   };
 
   return (
-    <div className="word-votes">
+    <WordVotesContainer layoutId={`votes ${word.word}`} className="word-votes-container">
       <ForwardOutlinedIcon
         className={userUpvotedWord ? "upvote voted-up" : "upvote"}
         onClick={() => handleVoteClick("up")}
       />
-      <span className="vote-num">{word.voteCount}</span>
+      <VoteCount layoutId={`voteCount ${word.word}`}>{word.voteCount}</VoteCount>
       <ForwardOutlinedIcon
         className={userDownvotedWord ? "downvote voted-down" : "downvote"}
         onClick={() => handleVoteClick("down")}
       />
-    </div>
+    </WordVotesContainer>
   );
 }
+
+const WordVotesContainer = styled(motion.div)`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+
+  .upvote {
+    transform: rotateZ(-90deg);
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      color: rgb(20, 180, 20);
+      background: rgb(236, 236, 236);
+    }
+  }
+  .downvote {
+    transform: rotateZ(90deg);
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      color: rgb(180, 20, 20);
+      background: rgb(236, 236, 236);
+    }
+  }
+  .voted-up {
+    color: rgb(20, 180, 20) !important;
+  }
+  .voted-down {
+    color: rgb(180, 20, 20) !important;
+  }
+`;
+
+const VoteCount = styled(motion.div)`
+  color: rgb(73, 73, 73);
+`;
 
 export default WordVotes;
