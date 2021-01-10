@@ -11,6 +11,9 @@ import WordEntryForm from "../wordEntryForm/WordEntryForm";
 import Wordlist from "../wordlist/Wordlist";
 import WordDetails from "../wordDetails/WordDetails";
 // Styling and Animation
+// Styles and Animation
+import styled from "styled-components";
+import { motion } from "framer-motion";
 import { AnimatePresence, AnimateSharedLayout } from "framer-motion";
 
 function Home() {
@@ -32,7 +35,7 @@ function Home() {
     }
   });
   return (
-    <div className="home-page">
+    <HomePage className="home-page">
       <AnimateSharedLayout type="tween">
         <AnimatePresence>{pathId && <WordDetails selectedWord={selectedWord} />}</AnimatePresence>
         <Heading />
@@ -41,8 +44,37 @@ function Home() {
         <TopWords />
         <RecentlyViewed />
       </AnimateSharedLayout>
-    </div>
+    </HomePage>
   );
 }
 
 export default Home;
+
+const HomePage = styled(motion.div)`
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "wordEntry wordEntry"
+    "wordlist topWords"
+    "wordlist recentView"
+    "wordlist e";
+  grid-template-rows: 5rem 10rem 1fr 15rem 1fr;
+  grid-template-columns: 3fr 1fr;
+  gap: 1rem;
+  .main-header {
+    grid-area: header;
+  }
+  .word-entry-form-container {
+    grid-area: wordEntry;
+  }
+  .wordlist {
+    grid-area: wordlist;
+    height: fit-content;
+  }
+  .recently-viewed {
+    grid-area: recentView;
+  }
+  .top-words {
+    grid-area: topWords;
+  }
+`;

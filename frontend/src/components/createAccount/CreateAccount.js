@@ -4,6 +4,9 @@ import { useHistory } from "react-router-dom";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { handleCreateAccount } from "../../redux/actions/userActions";
+// Styles and Animation
+import styled from "styled-components";
+import { motion } from "framer-motion";
 
 const initialCreds = {
   name: "",
@@ -53,7 +56,7 @@ function UserLogin() {
   };
 
   return (
-    <div className="create-account-form">
+    <CreateAccountFormContainer className="create-account-form">
       <form action="POST" onSubmit={handleFormSubmit}>
         <h1>Welcome to the club!</h1>
         {accountAlreadyExists && (
@@ -96,8 +99,77 @@ function UserLogin() {
           Log In
         </Link>
       </div>
-    </div>
+    </CreateAccountFormContainer>
   );
 }
+
+const CreateAccountFormContainer = styled(motion.div)`
+  width: fit-content;
+  margin: 4rem auto;
+  padding: 2rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  box-shadow: 0px 5px 10px grey;
+  border-radius: 5px;
+  text-align: center;
+  form {
+    display: flex;
+    flex-direction: column;
+    h1 {
+      color: rgb(80, 80, 80);
+    }
+    label {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin: 1rem;
+    }
+    input {
+      width: 80%;
+      margin: auto;
+      padding: 0.5rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgb(156, 156, 156);
+      &:focus {
+        outline: 1px solid rgb(115, 164, 255);
+      }
+    }
+    button {
+      width: fit-content;
+      margin: 1rem auto;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgb(125, 150, 204);
+      background-color: rgb(226, 238, 250);
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background-color: rgb(195, 221, 245);
+      }
+    }
+  }
+  h4 {
+    padding: 2rem 0 1rem 0;
+    border-top: 1px solid grey;
+  }
+  .login-link {
+    width: fit-content;
+    margin: auto;
+    display: block;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgb(125, 150, 204);
+    background-color: rgb(226, 238, 250);
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      background-color: rgb(195, 221, 245);
+    }
+  }
+`;
 
 export default UserLogin;

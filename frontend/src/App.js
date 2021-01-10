@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // Styles
 import "./styles/app.css";
 // Components
+import GlobalStyles from "./GlobalStyles";
 import UserLogin from "./components/userLogin/UserLogin";
 import CreateAccount from "./components/createAccount/CreateAccount";
 import Home from "./components/home-page/Home";
@@ -11,6 +12,7 @@ import Home from "./components/home-page/Home";
 function App() {
   return (
     <div className="App">
+      <GlobalStyles />
       <Router>
         <Switch>
           <Route path={["/word/:wordId", "/"]} exact>

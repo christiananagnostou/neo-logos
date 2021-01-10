@@ -22,15 +22,15 @@ function TopWords() {
       <ul>
         {topFiveWords.map((word) => {
           return (
-            <Link to={`/word/${word.word}`} key={word.word}>
-              <li>
+            <li>
+              <Link to={`/word/${word.word}`} key={word.word}>
                 <p>
                   {word.word}
                   <span>{word.voteCount}</span>
                 </p>
                 <p>{word.def}</p>
-              </li>
-            </Link>
+              </Link>
+            </li>
           );
         })}
       </ul>
@@ -48,7 +48,8 @@ const TopWordsDiv = styled(motion.div)`
   }
   ul {
     list-style: none;
-    a {
+    li {
+      border-radius: 0.4rem;
       display: inline-block;
       height: fit-content;
       width: 100%;
@@ -74,7 +75,7 @@ const TopWordsDiv = styled(motion.div)`
           background: rgba(255, 166, 0, 0.486);
         }
       }
-      li {
+      a {
         height: 3rem;
         display: flex;
         flex-direction: column;
