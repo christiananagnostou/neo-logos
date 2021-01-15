@@ -20,14 +20,38 @@ const GlobalStyles = createGlobalStyle`
     }
   }
   html {
-    background: rgb(226, 226, 226);
-    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+    background: rgb(238, 245, 255);
+    font-family: 'Montserrat', sans-serif;
   }
 
   a {
-    color: black;
+    color: white;
     text-decoration: none;
   }
+  h3 {
+    font-weight: 100;
+    font-size: 1.3rem;
+  }
 `;
+
+// LIGHTGREEN
+// background-color: rgb(207, 219, 213);
+// color: rgb(207, 219, 213);
+
+// Tan
+// background-color: rgb(232, 237, 223);
+// color: rgb(232, 237, 223);
+
+// YELLOW
+// background-color: rgb(245, 203, 92);
+// color: rgb(245, 203, 92);
+
+// DARKGREY
+// background-color: rgb(51, 53, 51);
+// color: rgb(36, 36, 35);
+
+// BLACK
+// background-color: rgb(36, 36, 35);
+// color: rgb(51, 53, 51);
 
 export default GlobalStyles;

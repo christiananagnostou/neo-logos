@@ -8,15 +8,15 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 function RecentlyViewed() {
-  const { recentlyViewedWords } = useSelector((state) => state.user);
+  const { recently_viewed } = useSelector((state) => state.user);
 
   return (
     <RecentlyViewedContainer className="recently-viewed">
-      <h3>RECENTLY VIEWED</h3>
+      <h3>Recently Viewed</h3>
       <ul>
-        {recentlyViewedWords.map((word) => {
+        {recently_viewed.map((word) => {
           return (
-            <Link to={`/word/${word.word}`} key={word.word}>
+            <Link to={`/word/${word.word}`} key={word.id}>
               <li>
                 <p>{word.word}</p>
                 <p>{word.def}</p>
@@ -31,12 +31,9 @@ function RecentlyViewed() {
 
 const RecentlyViewedContainer = styled(motion.div)`
   padding: 1rem;
-  background: rgb(195, 221, 245);
-  box-shadow: 0 5px 10px grey;
   overflow-y: scroll;
-  h3 {
-    font-weight: 100;
-  }
+  color: rgb(245, 203, 92);
+  
   ul {
     list-style: none;
     li {

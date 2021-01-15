@@ -5,8 +5,6 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 // Components
 import Heading from "../heading/Heading";
-import RecentlyViewed from "../recentlyViewed/RecentlyViewed";
-import TopWords from "../topWords/TopWords";
 import WordEntryForm from "../wordEntryForm/WordEntryForm";
 import Wordlist from "../wordlist/Wordlist";
 import WordDetails from "../wordDetails/WordDetails";
@@ -15,6 +13,7 @@ import WordDetails from "../wordDetails/WordDetails";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { AnimatePresence, AnimateSharedLayout } from "framer-motion";
+import Sidebar from "../sidebar/Sidebar";
 
 function Home() {
   // Router
@@ -41,8 +40,7 @@ function Home() {
         <Heading />
         <WordEntryForm />
         <Wordlist />
-        <TopWords />
-        <RecentlyViewed />
+        <Sidebar />
       </AnimateSharedLayout>
     </HomePage>
   );
@@ -55,26 +53,39 @@ const HomePage = styled(motion.div)`
   grid-template-areas:
     "header header"
     "wordEntry wordEntry"
-    "wordlist topWords"
-    "wordlist recentView"
-    "wordlist e";
-  grid-template-rows: 5rem 10rem 1fr 15rem 1fr;
-  grid-template-columns: 3fr 1fr;
-  gap: 1rem;
+    "wordlist sidebar"
+    "wordlist sidebar"
+    "wordlist sidebar";
+  grid-template-rows: 5rem 1fr;
+  grid-template-columns: 3fr MINMAX(15rem, 1fr);
   .main-header {
     grid-area: header;
+    background-color: rgb(51, 53, 51);
   }
   .word-entry-form-container {
     grid-area: wordEntry;
+    background-color: rgb(36, 36, 35);
+    color: rgb(245, 203, 92);
   }
   .wordlist {
     grid-area: wordlist;
-    height: fit-content;
+    background-color: rgb(36, 36, 35);
   }
-  .recently-viewed {
-    grid-area: recentView;
+
+  .sidebar {
+    grid-area: sidebar;
   }
-  .top-words {
-    grid-area: topWords;
+  @media (max-width: 800px) {
+    grid-template-areas:
+      "header "
+      "wordEntry"
+      "wordlist"
+      "wordlist"
+      "wordlist"
+      "topWords"
+      "recentView";
+    grid-template-rows: 5rem MINMAX(5rem, fit-content) 16rem 15rem 1fr;
+
+    grid-template-columns: 100%;
   }
 `;

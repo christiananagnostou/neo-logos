@@ -5,6 +5,8 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import WordVotes from "../wordlist/wordVotes/WordVotes";
+// Utils
+import { timeConverter } from "../../utils/utils";
 
 function WordDetails({ selectedWord }) {
   // Router
@@ -26,9 +28,9 @@ function WordDetails({ selectedWord }) {
             <div>
               <p>{selectedWord.word}</p>
               <p>{selectedWord.def}</p>
-              <p>{selectedWord.dateCreated}</p>
+              <p>{timeConverter(selectedWord.date_created)}</p>
               <p>{selectedWord.creator}</p>
-              <p>{selectedWord.wordId}</p>
+              <p>{selectedWord.id}</p>
             </div>
           </WordPage>
         </CardShadow>

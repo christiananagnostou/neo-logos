@@ -104,7 +104,8 @@ const LoginFormContainer = styled(motion.div)`
       border-radius: 5px;
       box-shadow: 0 2px 10px rgb(156, 156, 156);
       &:focus {
-        outline: 1px solid rgb(115, 164, 255);
+        outline: none;
+        box-shadow: 0 0 2pt 2pt white;
       }
     }
     button {

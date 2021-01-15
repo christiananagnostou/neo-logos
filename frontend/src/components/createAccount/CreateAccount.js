@@ -23,16 +23,9 @@ function UserLogin() {
   const [newAccountCreds, setNewAccountCreds] = useState(initialCreds);
   const [accountAlreadyExists, setAccountAlreadyExists] = useState(false);
 
-  const setupNewAccState = () => {
-    newAccountCreds.recentlyViewedWords = [];
-    newAccountCreds.upvotedWords = [];
-    newAccountCreds.downvotedWords = [];
-    newAccountCreds.loggedIn = false;
-  };
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    newAccountCreds.accountCreated = new Date().toDateString();
-    setupNewAccState();
+    // setupNewAccState();
     dispatch(handleCreateAccount(newAccountCreds)).catch((e) => setAccountAlreadyExists(true));
     setNewAccountCreds(initialCreds);
   };
@@ -67,7 +60,7 @@ function UserLogin() {
             </Link>
           </h4>
         )}
-        <label htmlFor="name">Name:</label>
+        <label htmlFor="name">Username</label>
         <input
           type="text"
           name="name"
@@ -75,7 +68,7 @@ function UserLogin() {
           value={newAccountCreds.name}
           required
         />
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="email">Email</label>
         <input
           type="text"
           name="email"
@@ -83,7 +76,7 @@ function UserLogin() {
           value={newAccountCreds.email}
           required
         />
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="password">Password</label>
         <input
           type="password"
           name="password"
@@ -135,7 +128,8 @@ const CreateAccountFormContainer = styled(motion.div)`
       border-radius: 5px;
       box-shadow: 0 2px 10px rgb(156, 156, 156);
       &:focus {
-        outline: 1px solid rgb(115, 164, 255);
+        outline: none;
+        box-shadow: 0 0 2pt 2pt white;
       }
     }
     button {

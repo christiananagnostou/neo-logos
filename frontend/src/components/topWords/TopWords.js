@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 // Router
 import { Link } from "react-router-dom";
 // Redux
@@ -10,23 +11,28 @@ import { motion } from "framer-motion";
 function TopWords() {
   // Redux
   const words = useSelector((state) => state.words);
-  const [topFiveWords, setTopFiveWords] = useState([]);
+  const [topFiveWords, setTopWords] = useState([]);
+
+  const getTopWords = async () => {
+    const topWords = await axios.get("http://localhost:4001/api/words/top-words");
+    setTopWords(topWords.data.words);
+  };
 
   useEffect(() => {
-    setTopFiveWords([...words].sort((a, b) => b.voteCount - a.voteCount).slice(0, 3));
+    getTopWords();
   }, [words]);
 
   return (
-    <TopWordsDiv>
-      <h3>TOP WORDS</h3>
+    <TopWordsDiv className="top-words">
+      <h3>Top Words</h3>
       <ul>
         {topFiveWords.map((word) => {
           return (
-            <li>
-              <Link to={`/word/${word.word}`} key={word.word}>
+            <li key={word.word}>
+              <Link to={`/word/${word.word}`}>
                 <p>
                   {word.word}
-                  <span>{word.voteCount}</span>
+                  <span>{word.vote_count}</span>
                 </p>
                 <p>{word.def}</p>
               </Link>
@@ -38,18 +44,17 @@ function TopWords() {
   );
 }
 
+
+
 const TopWordsDiv = styled(motion.div)`
+  color: rgb(245, 203, 92);
   padding: 1rem;
-  background: rgb(195, 221, 245);
-  box-shadow: 0 5px 10px grey;
   overflow-y: scroll;
-  h3 {
-    font-weight: 100;
-  }
+  height: fit-content;
   ul {
     list-style: none;
     li {
-      border-radius: 0.4rem;
+      border-radius: 3px;
       display: inline-block;
       height: fit-content;
       width: 100%;

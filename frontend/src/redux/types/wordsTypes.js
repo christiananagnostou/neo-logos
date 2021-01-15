@@ -1,4 +1,3 @@
 export const FETCH_ALL_WORDS = "FETCH_ALL_WORDS";
-export const GET_TOP_FIVE_WORDS = "GET_TOP_FIVE_WORDS";
 export const ADD_WORD = "ADD_WORD";
 export const UPDATE_WORD_VOTES = "UPDATE_WORD_VOTES";

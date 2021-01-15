@@ -9,7 +9,7 @@ export const handleUserLogin = (userCreds) => async (dispatch) => {
     dispatch({
       type: USER_LOGIN,
       payload: {
-        userData: userData.data,
+        userData: userData.data.user,
       },
     });
   } catch (e) {
@@ -18,9 +18,9 @@ export const handleUserLogin = (userCreds) => async (dispatch) => {
 };
 
 // Add a word to user's recentlyViewedWords
-export const addViewedWord = (word, user_id) => async (dispatch) => {
+export const addViewedWord = (word_id, user_id) => async (dispatch) => {
   const viewedWords = await axios.post(`http://localhost:4001/api/users/${user_id}/viewed-word`, {
-    word,
+    word_id,
   });
   dispatch({
     type: ADD_VIEWED_WORD,
@@ -30,7 +30,7 @@ export const addViewedWord = (word, user_id) => async (dispatch) => {
   });
 };
 
-// Add / remove a words to users upvotedWords
+// Add / remove a word to users upvotedWords
 export const userUpvote = (user_id, word_id) => async (dispatch) => {
   const upvotedWords = await axios.post(`http://localhost:4001/api/users/${user_id}/upvoted`, {
     word_id,
@@ -43,6 +43,7 @@ export const userUpvote = (user_id, word_id) => async (dispatch) => {
   });
 };
 
+// Add / remove a word to users downvotedWords
 export const handleDownvote = (user_id, word_id) => async (dispatch) => {
   const downvotedWords = await axios.post(`http://localhost:4001/api/users/${user_id}/downvoted`, {
     word_id,
@@ -62,7 +63,7 @@ export const handleCreateAccount = (userCreds) => async (dispatch) => {
   dispatch({
     type: USER_LOGIN,
     payload: {
-      userData: response.data,
+      userData: response.data.user,
     },
   });
 };

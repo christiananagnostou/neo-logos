@@ -1,18 +1,14 @@
 import axios from "axios";
-import { FETCH_ALL_WORDS, GET_TOP_FIVE_WORDS } from "../types/wordsTypes";
+import { FETCH_ALL_WORDS, ADD_WORD, UPDATE_WORD_VOTES } from "../types/wordsTypes";
 
-export const getTopFiveWords = () => {
-  return { type: GET_TOP_FIVE_WORDS };
-};
-
-// // Get all words from words api
+// Get all words
 export const getAllWords = () => async (dispatch) => {
   const allWords = await axios.get("http://localhost:4001/api/words");
   try {
     dispatch({
       type: FETCH_ALL_WORDS,
       payload: {
-        allWords: allWords.data,
+        allWords: allWords.data.words,
       },
     });
   } catch (e) {
@@ -22,11 +18,11 @@ export const getAllWords = () => async (dispatch) => {
 
 // Create a new word
 export const postNewWord = (newWord) => async (dispatch) => {
-  const addedWord = await axios.post("http://localhost:4001/api/words/new-word", { newWord });
+  const addedWord = await axios.post("http://localhost:4001/api/words", { newWord });
   dispatch({
-    type: "ADD_WORD",
+    type: ADD_WORD,
     payload: {
-      newWord: addedWord.data,
+      newWord: addedWord.data.word,
     },
   });
 };
@@ -37,7 +33,7 @@ export const voteOnWord = (wordId, direction) => async (dispatch) => {
     direction,
   });
   dispatch({
-    type: "UPDATE_WORD_VOTES",
+    type: UPDATE_WORD_VOTES,
     payload: { voteCount: voteData.data.voteCount, wordId: voteData.data.wordId },
   });
 };

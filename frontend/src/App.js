@@ -1,8 +1,6 @@
 import React from "react";
 // React Router
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-// Styles
-import "./styles/app.css";
 // Components
 import GlobalStyles from "./GlobalStyles";
 import UserLogin from "./components/userLogin/UserLogin";
