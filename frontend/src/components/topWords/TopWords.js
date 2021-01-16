@@ -44,12 +44,10 @@ function TopWords() {
   );
 }
 
-
-
 const TopWordsDiv = styled(motion.div)`
-  color: rgb(245, 203, 92);
+  background: ${({ theme }) => theme.lightBg};
+  color: ${({ theme }) => theme.darkText};
   padding: 1rem;
-  overflow-y: scroll;
   height: fit-content;
   ul {
     list-style: none;
@@ -81,10 +79,14 @@ const TopWordsDiv = styled(motion.div)`
         }
       }
       a {
-        height: 3rem;
+        color: ${({ theme }) => theme.darkText};
+        height: fit-content;
         display: flex;
         flex-direction: column;
         padding: 0.25rem 0.5rem;
+        &:hover {
+          color: ${({ theme }) => theme.black};
+        }
         p {
           text-overflow: ellipsis;
           overflow: hidden;
@@ -92,7 +94,7 @@ const TopWordsDiv = styled(motion.div)`
           justify-self: flex-end;
         }
         p:first-child {
-          font-weight: 600;
+          font-weight: 400;
           text-transform: capitalize;
           span {
             font-weight: 100;
@@ -102,6 +104,7 @@ const TopWordsDiv = styled(motion.div)`
         }
         p:last-child {
           font-weight: 100;
+          font-size: 0.75rem;
         }
       }
     }

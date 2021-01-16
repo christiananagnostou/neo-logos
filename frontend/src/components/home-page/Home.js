@@ -27,12 +27,13 @@ function Home() {
     setSelectedWord(words.find((word) => word.word === pathId));
   }, [pathId, words]);
 
-  // Add scrolling when on home page
+  // Add scrolling when on home page and after word details
   useEffect(() => {
     if (!pathId) {
       document.body.style.overflow = "auto";
     }
-  });
+  }, [pathId]);
+
   return (
     <HomePage className="home-page">
       <AnimateSharedLayout type="tween">
@@ -56,22 +57,17 @@ const HomePage = styled(motion.div)`
     "wordlist sidebar"
     "wordlist sidebar"
     "wordlist sidebar";
-  grid-template-rows: 5rem 1fr;
-  grid-template-columns: 3fr MINMAX(15rem, 1fr);
+  grid-template-rows: 5rem 5rem 1fr;
+  grid-template-columns: 3fr minmax(15rem, 1fr);
   .main-header {
     grid-area: header;
-    background-color: rgb(51, 53, 51);
   }
   .word-entry-form-container {
     grid-area: wordEntry;
-    background-color: rgb(36, 36, 35);
-    color: rgb(245, 203, 92);
   }
   .wordlist {
     grid-area: wordlist;
-    background-color: rgb(36, 36, 35);
   }
-
   .sidebar {
     grid-area: sidebar;
   }
@@ -82,9 +78,9 @@ const HomePage = styled(motion.div)`
       "wordlist"
       "wordlist"
       "wordlist"
-      "topWords"
-      "recentView";
-    grid-template-rows: 5rem MINMAX(5rem, fit-content) 16rem 15rem 1fr;
+      "sidebar"
+      "sidebar";
+    grid-template-rows: 9rem 1fr;
 
     grid-template-columns: 100%;
   }

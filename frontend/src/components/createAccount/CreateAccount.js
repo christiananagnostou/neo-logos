@@ -84,19 +84,23 @@ function UserLogin() {
           value={newAccountCreds.password}
           required
         />
-        <button type="submit">Create Account</button>
+        <button type="submit" className="create-account btn">
+          Create Account
+        </button>
       </form>
-      <div>
-        <h4>Already have an account?</h4>
-        <Link to="/user-login" className="login-link">
-          Log In
-        </Link>
-      </div>
+      <h3>Have an account?</h3>
+      <Link to="/user-login">
+        <button className="login btn">Log In</button>
+      </Link>
     </CreateAccountFormContainer>
   );
 }
 
 const CreateAccountFormContainer = styled(motion.div)`
+  box-shadow: 0 0 5px ${({ theme }) => theme.shadow};
+  background: ${({ theme }) => theme.medText};
+  color: ${({ theme }) => theme.lightBg};
+
   width: fit-content;
   margin: 4rem auto;
   padding: 2rem 4rem;
@@ -104,32 +108,34 @@ const CreateAccountFormContainer = styled(motion.div)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: white;
-  box-shadow: 0px 5px 10px grey;
   border-radius: 5px;
-  text-align: center;
+  gap: 1rem;
+
   form {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 1rem;
     h1 {
-      color: rgb(80, 80, 80);
+      color: ${({ theme }) => theme.gold};
     }
     label {
-      font-weight: bold;
+      font-weight: 100;
       font-size: 1.2rem;
       margin: 1rem;
+      margin: 0.25rem 0rem;
     }
     input {
-      width: 80%;
+      width: 90%;
       margin: auto;
-      padding: 0.5rem;
-      font-size: 1.1rem;
+      font-family: "Montserrat", sans-serif;
+      font-size: 1rem;
+      padding: 0.25rem;
       border: none;
-      border-radius: 5px;
-      box-shadow: 0 2px 10px rgb(156, 156, 156);
+      border-radius: 2px;
       &:focus {
         outline: none;
-        box-shadow: 0 0 2pt 2pt white;
+        box-shadow: 0 0 5px ${({ theme }) => theme.shadow};
       }
     }
     button {
@@ -146,22 +152,25 @@ const CreateAccountFormContainer = styled(motion.div)`
       }
     }
   }
-  h4 {
-    padding: 2rem 0 1rem 0;
-    border-top: 1px solid grey;
-  }
-  .login-link {
-    width: fit-content;
-    margin: auto;
-    display: block;
-    padding: 0.5rem;
+
+  .btn {
+    letter-spacing: 1px;
+    font-weight: 400;
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.9rem;
+    background: ${({ theme }) => theme.darkBg};
+    box-shadow: 0 0 5px ${({ theme }) => theme.darkBg};
+    color: ${({ theme }) => theme.lightText};
+    border-radius: 3px;
     border: none;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgb(125, 150, 204);
-    background-color: rgb(226, 238, 250);
+    padding: 1rem;
+    margin: 0 0.25rem;
+    text-align: center;
+    cursor: pointer;
     transition: all 0.2s ease-in-out;
     &:hover {
-      background-color: rgb(195, 221, 245);
+      background: ${({ theme }) => theme.gold};
+      font-weight: 400;
     }
   }
 `;

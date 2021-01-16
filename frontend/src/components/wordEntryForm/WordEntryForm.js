@@ -53,6 +53,7 @@ function WordEntryForm() {
             className="form-word"
             onChange={handleWordChange}
             value={newWordData.word}
+            autocomplete="off"
           />
         </div>
         <div className="form-group">
@@ -65,24 +66,28 @@ function WordEntryForm() {
             className="form-def"
             onChange={handleDefChange}
             value={newWordData.def}
+            autocomplete="off"
           />
         </div>
-        <button type="submit" disabled={!user.loggedIn}>
-          Post
-        </button>
+        <button type="submit">Post</button>
+
+        {!validWord && (
+          <WarningText initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            Please choose a new word. That word is definitely not valid.
+          </WarningText>
+        )}
+        {!user.loggedIn & (newWordData.word.length > 0) ? (
+          <WarningText initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            Please{" "}
+            <Link to="/user-login" style={{ textDecoration: "underline" }}>
+              Log in
+            </Link>{" "}
+            to submit your word.
+          </WarningText>
+        ) : (
+          <></>
+        )}
       </form>
-      {!validWord && <h4>Please choose a new word. That word is already defined.</h4>}
-      {!user.loggedIn & (newWordData.word.length > 0) ? (
-        <motion.h4 initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          Please{" "}
-          <Link to="/user-login" style={{ textDecoration: "underline" }}>
-            Log in
-          </Link>{" "}
-          to submit your word.
-        </motion.h4>
-      ) : (
-        <></>
-      )}
     </WordEntryFormContainer>
   );
 }
@@ -94,76 +99,78 @@ const WordEntryFormContainer = styled(motion.div)`
   padding: 0.5rem 0;
   .word-entry-form {
     margin: 0 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    width: fit-content;
+    display: grid;
+    grid-template-columns: 1fr 3fr 0.5fr minmax(17rem, 1fr);
     .form-group {
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       label {
+        color: ${({ theme }) => theme.darkText};
         margin: 0.25rem 0rem;
       }
       input {
-        font-family: "Montserrat", sans-serif;
         font-size: 1.2rem;
         margin-right: 1rem;
-        padding: 0.25rem;
-        border: none;
-        border-radius: 2px;
-
         &:focus {
-          outline: none;
           box-shadow: 0 0 20px rgb(161, 161, 161);
         }
-      }
-      .form-word {
-      }
-      .form-def {
-        width: 50vw;
       }
     }
 
     button {
-      color: rgb(245, 203, 92);
-      background-color: rgb(51, 53, 51);
+      color: ${({ theme }) => theme.lightBg};
+      background: ${({ theme }) => theme.medText};
       padding: 0.4rem 1.5rem;
       cursor: pointer;
       border-radius: 20px;
       border: none;
-      font-weight: 100;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 300;
       font-size: 1.2rem;
-      &:hover {
-        box-shadow: 0px 3px 5px black;
-        background-color: rgb(51, 53, 51);
-      }
-      &:focus {
+      height: min-content;
+      width: 100%;
+      align-self: end;
+      transition: all 0.1s ease-in-out;
+      &:active {
         outline: none;
         box-shadow: 0 0 3px black;
       }
+      &:hover {
+        box-shadow: 3px 3px 0px ${({ theme }) => theme.shadow};
+        background: ${({ theme }) => theme.darkText};
+        transform: translate(-1px, -1px);
+      }
+      &:active {
+        transform: translate(1px, 1px);
+        box-shadow: none;
+      }
     }
     @media (max-width: 800px) {
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      border: 1px solid red;
-      width: 60%;
+      grid-template-columns: none;
+      grid-template-rows: 5rem 1fr 1fr;
+      width: 100%;
       .form-group {
         width: 100%;
       }
       .form-word {
-        width: 100%;
+        width: 50%;
       }
       .form-def {
-        width: 100% !important;
+        width: 100%;
+      }
+      button {
+        width: fit-content;
+        margin: auto;
       }
     }
   }
-  h4 {
-    width: fit-content;
-    color: rgb(245, 203, 92);
-  }
+`;
+
+const WarningText = styled(motion.h4)`
+  width: fit-content;
+  color: ${({ theme }) => theme.medText};
+  text-align: center;
 `;
 
 export default WordEntryForm;

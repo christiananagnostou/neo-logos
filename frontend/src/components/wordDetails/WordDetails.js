@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 // Styling and Animation
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import WordVotes from "../wordlist/wordVotes/WordVotes";
+import WordVotes from "../wordlist/WordVotes";
 // Utils
 import { timeConverter } from "../../utils/utils";
 
@@ -23,7 +23,12 @@ function WordDetails({ selectedWord }) {
     <>
       {selectedWord && (
         <CardShadow className="shadow" onClick={exitDetailHandler}>
-          <WordPage layoutId={selectedWord.word} key={selectedWord.word}>
+          <WordPage
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            key={selectedWord.id}
+          >
             <WordVotes word={selectedWord} />
             <div>
               <p>{selectedWord.word}</p>
@@ -51,24 +56,14 @@ const CardShadow = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* &::-webkit-scrollbar {
-    width: 0.5rem;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #b38383;
-    border-radius: 5px;
-  }
-  &::-webkit-scrollbar-track {
-    background: white;
-  } */
 `;
 const WordPage = styled(motion.div)`
-  width: 70%;
-  border-radius: 1rem;
+  width: 20%;
+  border-radius: 5px;
   padding: 2rem 5rem;
   background: white;
   position: absolute;
-  left: 15%;
+  left: 40%;
   color: black;
   display: flex;
   justify-content: space-between;

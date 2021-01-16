@@ -1,3 +1,3 @@
-export const FETCH_ALL_WORDS = "FETCH_ALL_WORDS";
+export const SET_DISPLAY_WORDS = "SET_DISPLAY_WORDS";
 export const ADD_WORD = "ADD_WORD";
 export const UPDATE_WORD_VOTES = "UPDATE_WORD_VOTES";

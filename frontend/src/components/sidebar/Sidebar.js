@@ -16,9 +16,8 @@ function Sidebar() {
 }
 
 const SidebarContainer = styled(motion.div)`
-  padding-top: 10px;
+  margin-top: 3.5rem;
   display: flex;
   flex-direction: column;
-  background-color: rgb(36, 36, 35);
 `;
 export default Sidebar;

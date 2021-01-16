@@ -108,4 +108,43 @@ wordsRouter.post("/:wordId/vote", (req, res, next) => {
   }
 });
 
+// Search is any words contain a specified term
+wordsRouter.get("/search/:term", (req, res, next) => {
+  const sql = `SELECT * FROM Words WHERE word LIKE '%${req.params.term}%'`;
+
+  db.all(sql, (err, words) => {
+    if (err) {
+      next(err);
+    } else {
+      res.status(200).json({ words: words });
+    }
+  });
+});
+
+// Order words by specified order
+wordsRouter.get("/order-by/:order", (req, res, next) => {
+  let sql = "";
+  switch (req.params.order) {
+    case "top":
+      sql = "SELECT * FROM Words ORDER BY vote_count DESC LIMIT 25";
+      break;
+    case "new":
+      sql = "SELECT * FROM Words ORDER BY date_created DESC LIMIT 25";
+      break;
+    case "hot":
+      sql = `SELECT * FROM Words WHERE (${Date.now()} - date_created) < 86400000 ORDER BY vote_count DESC, date_created DESC;`;
+      break;
+    default:
+      res.sendStatus(500);
+  }
+
+  db.all(sql, (err, words) => {
+    if (err) {
+      next(err);
+    } else {
+      res.status(200).json({ words: words });
+    }
+  });
+});
+
 module.exports = wordsRouter;

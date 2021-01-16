@@ -2,15 +2,18 @@ import React, { useEffect } from "react";
 // Router
 import { Link } from "react-router-dom";
 // Components
-import WordVotes from "./wordVotes/WordVotes";
+import WordVotes from "./WordVotes";
 // Redux
 import { useSelector, useDispatch } from "react-redux";
-import { getAllWords } from "../../redux/actions/wordsActions";
+import { orderWordsBy } from "../../redux/actions/wordsActions";
 import { addViewedWord } from "../../redux/actions/userActions";
 // Styling and Animation
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { container, item } from "../../animation";
+import WordSorting from "./WordSorting";
+// Utils
+import { getTimePassed } from "../../utils/utils";
 
 function Wordlist() {
   const words = useSelector((state) => state.words);
@@ -18,34 +21,34 @@ function Wordlist() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllWords());
+    dispatch(orderWordsBy("new"));
   }, [dispatch]);
 
-  const handleWordClick = (word) => {
-    user.loggedIn && dispatch(addViewedWord(word, user.userId));
+  const handleWordClick = (wordId) => {
+    user.loggedIn && dispatch(addViewedWord(wordId, user.userId));
   };
 
   return (
     <WordListContainer className="wordlist" variants={container} initial="hidden" animate="show">
-      <ul>
-        <li>
-          <h3>Best</h3>
-        </li>
-        <li>
-          <h3>New</h3>
-        </li>
-        <li>
-          <h3>Top</h3>
-        </li>
-      </ul>
+      <WordSorting />
       {words.map((word) => {
         return (
-          <WordItem key={word.id} layoutId={word.word} variants={item}>
+          <WordItem key={word.id} variants={item}>
             <WordVotes word={word} />
-            <Link to={`/word/${word.word}`} key={word.word} onClick={() => handleWordClick(word)}>
-              <span className="word-text">{word.word.toUpperCase()}</span>
-              <span className="word-def">{word.def}</span>
-              <span className="word-creator">Author: {word.creator}</span>
+            <Link
+              to={`/word/${word.word}`}
+              key={word.id}
+              onClick={() => handleWordClick(word.id)}
+              className="item-link"
+            >
+              <p className="word-text">
+                {word.word.toUpperCase()}
+                <span className="word-def"> - {word.def}</span>
+              </p>
+
+              <p className="word-creation">
+                Posted by: {word.creator} {getTimePassed(word.date_created)}
+              </p>
             </Link>
           </WordItem>
         );
@@ -55,48 +58,44 @@ function Wordlist() {
 }
 const WordListContainer = styled(motion.ul)`
   padding: 1rem;
-  ul {
-    display: flex;
-    list-style: none;
-    li {
-      color: rgb(245, 203, 92);
-      display: block;
-      margin-right: 2rem;
-      padding: 3px 15px;
-      cursor: pointer;
-      &:hover {
-        box-shadow: 0px 3px 5px black;
-        background-color: rgb(51, 53, 51);
-        border-radius: 20px;
-      }
-    }
-  }
 `;
+
 const WordItem = styled(motion.li)`
-  /* height: fit-content; */
+  background: ${({ theme }) => theme.lightBg};
+  border: 1px solid ${({ theme }) => theme.medBg};
   list-style: none;
   margin: 0.5rem 0;
-  border: 1px solid rgb(202, 202, 202);
-  border-radius: 0.2rem;
+  border-radius: 4px;
   overflow: hidden;
-  background-color: rgb(51, 53, 51);
   display: grid;
   grid-template-columns: 70px 1fr;
   align-items: center;
   transition: all 0.2s ease;
   &:hover {
     border: 1px solid rgb(167, 167, 167);
-    background-color: rgb(73, 73, 73);
+    background: ${({ theme }) => theme.darkBg};
   }
-  a {
-    color: white;
+
+  .item-link {
+    color: ${({ theme }) => theme.darkText};
     height: 100%;
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: 1fr 1fr;
     align-items: center;
     padding: 0 1rem;
-    .word-creator {
-      text-align: right;
+    .word-text {
+      color: ${({ theme }) => theme.darkText};
+      font-size: 1.2rem;
+    }
+    .word-def {
+      font-size: 1rem;
+
+      font-weight: 100;
+    }
+    .word-creation {
+      color: ${({ theme }) => theme.lightText};
+      font-weight: 100;
+      font-size: .75rem;
     }
   }
 `;

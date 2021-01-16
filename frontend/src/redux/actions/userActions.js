@@ -1,6 +1,12 @@
 import axios from "axios";
 // Types
-import { USER_LOGIN, UPDATE_UPVOTES, UPDATE_DOWNVOTES, ADD_VIEWED_WORD } from "../types/userTypes";
+import {
+  USER_LOGIN,
+  UPDATE_UPVOTES,
+  UPDATE_DOWNVOTES,
+  ADD_VIEWED_WORD,
+  TOGGLE_NIGHTMODE,
+} from "../types/userTypes";
 
 // Request to login with user email then validate password
 export const handleUserLogin = (userCreds) => async (dispatch) => {
@@ -59,13 +65,18 @@ export const handleDownvote = (user_id, word_id) => async (dispatch) => {
 // // Create a new account
 export const handleCreateAccount = (userCreds) => async (dispatch) => {
   const response = await axios.post("http://localhost:4001/api/users", { newUser: userCreds });
-  console.log(response.data);
   dispatch({
     type: USER_LOGIN,
     payload: {
       userData: response.data.user,
     },
   });
+};
+
+export const toggleNightMode = () => {
+  return {
+    type: TOGGLE_NIGHTMODE,
+  };
 };
 
 // // Update all of users upvotes and downvotes

@@ -31,9 +31,8 @@ function RecentlyViewed() {
 
 const RecentlyViewedContainer = styled(motion.div)`
   padding: 1rem;
-  overflow-y: scroll;
-  color: rgb(245, 203, 92);
-  
+  background: ${({ theme }) => theme.lightBg};
+  color: ${({ theme }) => theme.darkText};
   ul {
     list-style: none;
     li {

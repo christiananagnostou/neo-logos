@@ -1,4 +1,10 @@
-import { USER_LOGIN, UPDATE_UPVOTES, UPDATE_DOWNVOTES, ADD_VIEWED_WORD } from "../types/userTypes";
+import {
+  USER_LOGIN,
+  UPDATE_UPVOTES,
+  UPDATE_DOWNVOTES,
+  ADD_VIEWED_WORD,
+  TOGGLE_NIGHTMODE,
+} from "../types/userTypes";
 
 const initialUserState = {
   name: "",
@@ -8,6 +14,7 @@ const initialUserState = {
   upvoted_words: [],
   downvoted_words: [],
   loggedIn: false,
+  nightMode: false,
 };
 
 const userReducer = (userState = initialUserState, action) => {
@@ -23,6 +30,8 @@ const userReducer = (userState = initialUserState, action) => {
         ...userState,
         recently_viewed: [...action.payload.viewedWords],
       };
+    case TOGGLE_NIGHTMODE:
+      return { ...userState, nightMode: !userState.nightMode };
     default:
       return { ...userState };
   }

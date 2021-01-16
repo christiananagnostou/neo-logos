@@ -11,7 +11,7 @@ const GlobalStyles = createGlobalStyle`
       width: 5px;
     }
     &::-webkit-scrollbar-track {
-      background: transparent;
+      background-color: rgb(36, 36, 35);
     }
     &::-webkit-scrollbar-thumb {
       background-color: rgba(155, 155, 155, 0.5);
@@ -19,39 +19,29 @@ const GlobalStyles = createGlobalStyle`
       border: transparent;
     }
   }
-  html {
-    background: rgb(238, 245, 255);
-    font-family: 'Montserrat', sans-serif;
-  }
 
+  html {
+    font-family: 'Montserrat', sans-serif;
+    background: ${({ theme }) => theme.medBg};
+    min-height: 100vh;
+  }
   a {
-    color: white;
+    color: ${({ theme }) => theme.lightText};
     text-decoration: none;
   }
   h3 {
     font-weight: 100;
     font-size: 1.3rem;
   }
+  input {
+    font-family: "Montserrat", sans-serif;
+    padding: 0.25rem;
+    border: none;
+    border-radius: 2px;
+    &:focus {
+      outline: none;
+    }
+  }
 `;
-
-// LIGHTGREEN
-// background-color: rgb(207, 219, 213);
-// color: rgb(207, 219, 213);
-
-// Tan
-// background-color: rgb(232, 237, 223);
-// color: rgb(232, 237, 223);
-
-// YELLOW
-// background-color: rgb(245, 203, 92);
-// color: rgb(245, 203, 92);
-
-// DARKGREY
-// background-color: rgb(51, 53, 51);
-// color: rgb(36, 36, 35);
-
-// BLACK
-// background-color: rgb(36, 36, 35);
-// color: rgb(51, 53, 51);
 
 export default GlobalStyles;

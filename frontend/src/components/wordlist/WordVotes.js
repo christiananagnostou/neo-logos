@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import ForwardOutlinedIcon from "@material-ui/icons/ForwardOutlined";
 // Redux
 import { useSelector, useDispatch } from "react-redux";
-import { userUpvote, handleDownvote } from "../../../redux/actions/userActions";
-import { voteOnWord } from "../../../redux/actions/wordsActions";
+import { userUpvote, handleDownvote } from "../../redux/actions/userActions";
+import { voteOnWord } from "../../redux/actions/wordsActions";
 // Styling and Animation
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -68,12 +68,12 @@ function WordVotes({ word }) {
   };
 
   return (
-    <WordVotesContainer layoutId={`votes ${word.word}`} className="word-votes-container">
+    <WordVotesContainer className="word-votes-container">
       <ForwardOutlinedIcon
         className={userUpvotedWord ? "upvote voted-up" : "upvote"}
         onClick={() => handleVoteClick("up")}
       />
-      <VoteCount layoutId={`voteCount ${word.word}`}>{word.vote_count}</VoteCount>
+      <VoteCount>{word.vote_count}</VoteCount>
       <ForwardOutlinedIcon
         className={userDownvotedWord ? "downvote voted-down" : "downvote"}
         onClick={() => handleVoteClick("down")}
@@ -84,12 +84,13 @@ function WordVotes({ word }) {
 
 const WordVotesContainer = styled(motion.div)`
   height: 100%;
+  width: 55px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgb(51, 53, 51);
-  color: #c7c7c7;
+  background: ${({ theme }) => theme.lightBg};
+  color: ${({ theme }) => theme.lightText};
   padding: 5px 0;
   .upvote {
     transform: rotateZ(-90deg);
@@ -97,8 +98,8 @@ const WordVotesContainer = styled(motion.div)`
     border-radius: 2px;
     transition: all 0.2s ease-in-out;
     &:hover {
-      color: rgb(30, 255, 30);
-      background: rgba(255, 255, 255, 0.233);
+      color: rgb(20, 180, 20);
+      background: ${({ theme }) => theme.darkBg};
     }
   }
   .downvote {
@@ -107,8 +108,8 @@ const WordVotesContainer = styled(motion.div)`
     border-radius: 2px;
     transition: all 0.2s ease-in-out;
     &:hover {
-      color: rgb(255, 30, 30);
-      background: rgba(255, 255, 255, 0.233);
+      color: rgb(180, 20, 20);
+      background: ${({ theme }) => theme.darkBg};
     }
   }
   .voted-up {
@@ -120,7 +121,9 @@ const WordVotesContainer = styled(motion.div)`
 `;
 
 const VoteCount = styled(motion.div)`
-  color: white;
+  color: ${({ theme }) => theme.lightText};
+  font-weight: 300;
+  font-size: .8rem;
 `;
 
 export default WordVotes;

@@ -1,10 +1,10 @@
-import { FETCH_ALL_WORDS, ADD_WORD, UPDATE_WORD_VOTES } from "../types/wordsTypes";
+import { SET_DISPLAY_WORDS, ADD_WORD, UPDATE_WORD_VOTES } from "../types/wordsTypes";
 
 const initialWordsState = [];
 
 const wordsReducer = (wordsState = initialWordsState, action) => {
   switch (action.type) {
-    case FETCH_ALL_WORDS:
+    case SET_DISPLAY_WORDS:
       return [...action.payload.allWords];
     case ADD_WORD:
       return [action.payload.newWord, ...wordsState];

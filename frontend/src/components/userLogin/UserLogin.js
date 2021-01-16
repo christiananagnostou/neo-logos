@@ -48,11 +48,15 @@ function UserLogin() {
   return (
     <LoginFormContainer className="user-login-form">
       <form action="POST" onSubmit={handleFormSubmit}>
-        <h1>Hey you're back!</h1>
+        <h1>Welcome back!</h1>
         {invalidCreds && <h4 style={{ color: "red" }}>Invalid email or password.</h4>}
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="email">
+          <h3>Email:</h3>
+        </label>
         <input type="text" name="email" onChange={handleEmail} value={loginCreds.email} required />
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="password">
+          <h3>Password:</h3>
+        </label>
         <input
           type="password"
           name="password"
@@ -60,19 +64,23 @@ function UserLogin() {
           value={loginCreds.password}
           required
         />
-        <button type="submit">Log In</button>
+        <button type="submit" className="login btn">
+          Log In
+        </button>
       </form>
-      <div>
-        <h4>Need an account?</h4>
-        <Link to="/create-account" className="create-account-link">
-          Create an Account
-        </Link>
-      </div>
+      <h3>Need an account?</h3>
+      <Link to="/create-account">
+        <button className="create-account btn">Create Account</button>
+      </Link>
     </LoginFormContainer>
   );
 }
 
 const LoginFormContainer = styled(motion.div)`
+  box-shadow: 0 0 5px ${({ theme }) => theme.shadow};
+  background: ${({ theme }) => theme.medText};
+  color: ${({ theme }) => theme.lightBg};
+
   width: fit-content;
   margin: 4rem auto;
   padding: 2rem 4rem;
@@ -80,63 +88,55 @@ const LoginFormContainer = styled(motion.div)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: white;
-  box-shadow: 0px 5px 10px grey;
   border-radius: 5px;
-  text-align: center;
+  gap: 1rem;
   form {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 1rem;
     h1 {
-      color: rgb(80, 80, 80);
+      color: ${({ theme }) => theme.gold};
     }
     label {
-      font-weight: bold;
+      font-weight: 100;
       font-size: 1.2rem;
       margin: 1rem;
+      margin: 0.25rem 0rem;
     }
     input {
       width: 90%;
       margin: auto;
-      padding: 0.5rem;
-      font-size: 1.1rem;
+      font-family: "Montserrat", sans-serif;
+      font-size: 1rem;
+      padding: 0.25rem;
       border: none;
-      border-radius: 5px;
-      box-shadow: 0 2px 10px rgb(156, 156, 156);
+      border-radius: 2px;
       &:focus {
         outline: none;
-        box-shadow: 0 0 2pt 2pt white;
-      }
-    }
-    button {
-      width: fit-content;
-      margin: 1rem auto;
-      padding: 0.5rem;
-      border: none;
-      border-radius: 5px;
-      box-shadow: 0 0 5px rgb(125, 150, 204);
-      background-color: rgb(226, 238, 250);
-      transition: all 0.2s ease-in-out;
-      &:hover {
-        background-color: rgb(195, 221, 245);
+        box-shadow: 0 0 5px ${({ theme }) => theme.shadow};
       }
     }
   }
-  h4 {
-    padding: 2rem 0 1rem 0;
-    border-top: 1px solid grey;
-  }
-  .create-account-link {
-    width: fit-content;
-    display: block;
-    padding: 0.5rem;
+
+  .btn {
+    letter-spacing: 1px;
+    font-weight: 400;
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.9rem;
+    background: ${({ theme }) => theme.darkBg};
+    box-shadow: 0 0 5px ${({ theme }) => theme.darkBg};
+    color: ${({ theme }) => theme.lightText};
+    border-radius: 3px;
     border: none;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgb(125, 150, 204);
-    background-color: rgb(226, 238, 250);
+    padding: 1rem;
+    margin: 0 0.25rem;
+    text-align: center;
+    cursor: pointer;
     transition: all 0.2s ease-in-out;
     &:hover {
-      background-color: rgb(195, 221, 245);
+      background: ${({ theme }) => theme.gold};
+      font-weight: 400;
     }
   }
 `;
