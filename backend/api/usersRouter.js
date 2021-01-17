@@ -20,18 +20,28 @@ const getUserFromId = (id) => {
 
 const configureUserData = (user) => {
   const userData = { ...user };
-  const { upvoted_words, downvoted_words, recently_viewed } = userData;
   delete userData.password;
+  const { upvoted_words, downvoted_words, recently_viewed } = userData;
 
   upvoted_words === ""
     ? (userData.upvoted_words = [])
-    : (userData.upvoted_words = upvoted_words.split(",").map((id) => Number(id)));
+    : (userData.upvoted_words = upvoted_words
+        .split(",")
+        .map((id) => Number(id))
+        .slice(1));
   downvoted_words === ""
     ? (userData.downvoted_words = [])
-    : (userData.downvoted_words = downvoted_words.split(",").map((id) => Number(id)));
+    : (userData.downvoted_words = downvoted_words
+        .split(",")
+        .map((id) => Number(id))
+        .slice(1));
   recently_viewed === ""
     ? (userData.recently_viewed = [])
-    : (userData.recently_viewed = recently_viewed.split(",").map((id) => Number(id)));
+    : (userData.recently_viewed = recently_viewed
+        .split(",")
+        .map((id) => Number(id))
+        .filter((index) => index !== -1)
+        .slice(0, 5));
 
   return userData;
 };
@@ -55,6 +65,7 @@ const checkIfAccountExists = (req, res, next) => {
 usersRouter.param("userId", (req, res, next, userId) => {
   const sql = `SELECT * FROM Users WHERE id = $id`;
   const values = { $id: userId };
+
   db.get(sql, values, (err, user) => {
     if (err) {
       next(err);
@@ -131,11 +142,32 @@ usersRouter.get("/:userId", (req, res, next) => {
 
 // Post a new word to recentlyViewedWords
 usersRouter.post("/:userId/viewed-word", (req, res, next) => {
-  const userViewedWords = req.currUser.recentlyViewedWords;
-  const viewedWordIndex = userViewedWords.findIndex((word) => word.wordId === req.body.word.wordId);
-  if (viewedWordIndex !== -1) userViewedWords.splice(viewedWordIndex, 1);
-  userViewedWords.unshift(req.body.word);
-  res.status(201).send(userViewedWords);
+  const sql = `UPDATE Users SET recently_viewed = $wordId || "," || recently_viewed WHERE id = $userId`;
+  const values = { $wordId: req.body.word_id, $userId: req.params.userId };
+
+  db.run(sql, values, (err) => {
+    if (err) {
+      next(err);
+    } else {
+      db.get(
+        `SELECT recently_viewed FROM Users WHERE id = ${req.params.userId}`,
+        (err, recentlyViewed) => {
+          if (err) {
+            next(err);
+          } else {
+            const allIds = recentlyViewed.recently_viewed.split(",").map((id) => Number(id));
+            const uniqueIds = allIds.filter((item, i, ar) => ar.indexOf(item) === i).slice(0, -1);
+
+            if (uniqueIds.length < 6) {
+              res.status(201).send(uniqueIds);
+            } else {
+              res.status(201).send(uniqueIds.slice(0, 5));
+            }
+          }
+        }
+      );
+    }
+  });
 });
 
 // Middleware for removing upvoted words if they are already upvoted on
@@ -148,7 +180,7 @@ const checkUpvotedWord = (req, res, next) => {
       if (upvotedWordIds.upvoted_words) {
         const idArr = upvotedWordIds.upvoted_words.split(",").map((id) => Number(id));
         if (idArr.includes(req.body.word_id)) {
-          // word has already been upvoted
+          // word has already been upvoted, so remove the upvote
           const index = idArr.findIndex((ele) => ele === req.body.word_id);
           idArr.splice(index, 1);
           const sql = `UPDATE Users SET upvoted_words = $newUpvotedWords WHERE id = $id`;
@@ -187,7 +219,10 @@ usersRouter.post("/:userId/upvoted", checkUpvotedWord, (req, res, next) => {
           if (err) {
             next(err);
           } else {
-            const idArr = upvotedWords.upvoted_words.split(",").map((id) => Number(id));
+            const idArr = upvotedWords.upvoted_words
+              .split(",")
+              .map((id) => Number(id))
+              .slice(1);
             res.status(201).send(idArr);
           }
         }
@@ -205,7 +240,7 @@ const checkDownvotedWord = (req, res, next) => {
       if (downvotedWordIds.downvoted_words) {
         const idArr = downvotedWordIds.downvoted_words.split(",").map((id) => Number(id));
         if (idArr.includes(req.body.word_id)) {
-          // word has already been downvoted
+          // word has already been downvoted, so remove the downvote
           const index = idArr.findIndex((ele) => ele === req.body.word_id);
           idArr.splice(index, 1);
           const sql = `UPDATE Users SET downvoted_words = $newDownvotedWords WHERE id = $id`;
@@ -251,13 +286,4 @@ usersRouter.post("/:userId/downvoted", checkDownvotedWord, (req, res, next) => {
       );
     }
   });
-});
-
-// Get all votes from specific user
-usersRouter.get("/:userId/votes", (req, res, next) => {
-  const voteObj = {
-    allUpvotedWords: req.currUser.upvotedWords,
-    allDownvotedWords: req.currUser.downvotedWords,
-  };
-  res.send(voteObj);
 });

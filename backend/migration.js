@@ -14,7 +14,7 @@ db.serialize(() => {
     accountCreated INTEGER DEFAULT ${Date.now()},
     upvoted_words TEXT DEFAULT '-1',
     downvoted_words TEXT DEFAULT '-1',
-    recently_viewed TEXT DEFAULT ''
+    recently_viewed TEXT DEFAULT '-1'
   );`);
   // Words table
   db.run(`CREATE TABLE Words (

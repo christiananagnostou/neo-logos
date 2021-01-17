@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 import { container, item } from "../../animation";
 import WordSorting from "./WordSorting";
 // Utils
-import { getTimePassed } from "../../utils/utils";
+import { getTimePassed, capitalizeFirstLetter } from "../../utils/utils";
 
 function Wordlist() {
   const words = useSelector((state) => state.words);
@@ -25,7 +25,7 @@ function Wordlist() {
   }, [dispatch]);
 
   const handleWordClick = (wordId) => {
-    user.loggedIn && dispatch(addViewedWord(wordId, user.userId));
+    user.loggedIn && dispatch(addViewedWord(wordId, user.id));
   };
 
   return (
@@ -42,7 +42,7 @@ function Wordlist() {
               className="item-link"
             >
               <p className="word-text">
-                {word.word.toUpperCase()}
+                {capitalizeFirstLetter(word.word)}
                 <span className="word-def"> - {word.def}</span>
               </p>
 
@@ -82,7 +82,7 @@ const WordItem = styled(motion.li)`
     display: grid;
     grid-template-rows: 1fr 1fr;
     align-items: center;
-    padding: 0 1rem;
+    padding: 1rem;
     .word-text {
       color: ${({ theme }) => theme.darkText};
       font-size: 1.2rem;
@@ -95,7 +95,7 @@ const WordItem = styled(motion.li)`
     .word-creation {
       color: ${({ theme }) => theme.lightText};
       font-weight: 100;
-      font-size: .75rem;
+      font-size: 0.75rem;
     }
   }
 `;

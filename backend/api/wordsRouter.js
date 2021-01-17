@@ -108,7 +108,7 @@ wordsRouter.post("/:wordId/vote", (req, res, next) => {
   }
 });
 
-// Search is any words contain a specified term
+// Search if any words contain a specified term
 wordsRouter.get("/search/:term", (req, res, next) => {
   const sql = `SELECT * FROM Words WHERE word LIKE '%${req.params.term}%'`;
 
@@ -137,6 +137,29 @@ wordsRouter.get("/order-by/:order", (req, res, next) => {
     default:
       res.sendStatus(500);
   }
+
+  db.all(sql, (err, words) => {
+    if (err) {
+      next(err);
+    } else {
+      res.status(200).json({ words: words });
+    }
+  });
+});
+
+// Take in an array of word id's and respond with all corresponding word info
+wordsRouter.post("/id-to-word", (req, res, next) => {
+  const generateSql = (arr) => {
+    let sql = `SELECT * FROM Words WHERE id IN (${arr}) ORDER BY CASE id `;
+
+    for (let i = 0; i < arr.length; i++) {
+      let whenClauses = `WHEN ${arr[i]} THEN ${i + 1} `;
+      sql += whenClauses;
+    }
+    return `${sql}END`;
+  };
+
+  const sql = generateSql(req.body.recently_viewed);
 
   db.all(sql, (err, words) => {
     if (err) {

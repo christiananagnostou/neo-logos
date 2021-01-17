@@ -53,7 +53,7 @@ function WordEntryForm() {
             className="form-word"
             onChange={handleWordChange}
             value={newWordData.word}
-            autocomplete="off"
+            autoComplete="off"
           />
         </div>
         <div className="form-group">
@@ -66,7 +66,7 @@ function WordEntryForm() {
             className="form-def"
             onChange={handleDefChange}
             value={newWordData.def}
-            autocomplete="off"
+            autoComplete="off"
           />
         </div>
         <button type="submit">Post</button>

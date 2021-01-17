@@ -1,4 +1,6 @@
 import React from "react";
+// Router
+import { Link } from "react-router-dom";
 // Redux
 import { useSelector } from "react-redux";
 // Styles and Animation
@@ -13,10 +15,12 @@ function Heading() {
 
   return (
     <MainHeader className="main-header">
-      <Logo>
-        <h1>DICT-IT</h1>
-        <h6>REDDIT DICTIONARY </h6>
-      </Logo>
+      <Link to="/">
+        <Logo>
+          <h1>DICT-IT</h1>
+          <h6>REDDIT DICTIONARY </h6>
+        </Logo>
+      </Link>
       {loggedIn ? <AccountInfo /> : <LoginTabs />}
     </MainHeader>
   );

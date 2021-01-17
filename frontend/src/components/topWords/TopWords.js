@@ -28,11 +28,11 @@ function TopWords() {
       <ul>
         {topFiveWords.map((word) => {
           return (
-            <li key={word.word}>
+            <li key={word.id}>
               <Link to={`/word/${word.word}`}>
                 <p>
                   {word.word}
-                  <span>{word.vote_count}</span>
+                  <span>{word.vote_count} votes</span>
                 </p>
                 <p>{word.def}</p>
               </Link>
@@ -97,6 +97,7 @@ const TopWordsDiv = styled(motion.div)`
           font-weight: 400;
           text-transform: capitalize;
           span {
+            text-transform: none;
             font-weight: 100;
             font-size: 0.75rem;
             float: right;

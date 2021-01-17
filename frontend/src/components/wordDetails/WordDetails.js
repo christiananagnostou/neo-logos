@@ -45,7 +45,7 @@ function WordDetails({ selectedWord }) {
 }
 
 const CardShadow = styled(motion.div)`
-  z-index: 999;
+  z-index: 1001;
   width: 100%;
   min-height: 100vh;
   overflow-y: scroll;
