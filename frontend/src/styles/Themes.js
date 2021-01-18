@@ -2,7 +2,7 @@ export const lightTheme = {
   lightBg: "rgb(232, 237, 223)",
   medBg: "rgb(220, 228, 218)",
   darkBg: "rgb(207, 219, 213)",
-  gold: "rgb(193, 162, 78)",
+  gold: "rgb(200, 85, 61)",
   lightText: "rgb(51, 53, 51)",
   medText: "rgb(44, 45, 43)",
   darkText: "rgb(36, 36, 35)",
@@ -11,6 +11,7 @@ export const lightTheme = {
   black: "rgb(0,0,0)",
   shadow: "rgb(153, 153, 153)",
 };
+
 export const darkTheme = {
   lightText: "rgb(207, 219, 213)",
   medText: "rgb(220, 228, 218)",

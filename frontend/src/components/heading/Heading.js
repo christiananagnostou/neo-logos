@@ -17,8 +17,10 @@ function Heading() {
     <MainHeader className="main-header">
       <Link to="/">
         <Logo>
-          <h1>DICT-IT</h1>
-          <h6>REDDIT DICTIONARY </h6>
+          <h1>
+            <span>NEO</span>LOGOS
+          </h1>
+          <h6>define the future of language</h6>
         </Logo>
       </Link>
       {loggedIn ? <AccountInfo /> : <LoginTabs />}
@@ -50,6 +52,11 @@ const Logo = styled(motion.div)`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  h1 {
+    span {
+      color: ${({ theme }) => theme.gold};
+    }
+  }
   h6 {
     font-weight: 300;
     letter-spacing: 1px;

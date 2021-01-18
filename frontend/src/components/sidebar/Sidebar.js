@@ -3,8 +3,8 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 // Components
-import RecentlyViewed from "../recentlyViewed/RecentlyViewed";
-import TopWords from "../topWords/TopWords";
+import RecentlyViewed from "./recentlyViewed/RecentlyViewed";
+import TopWords from "./topWords/TopWords";
 
 function Sidebar() {
   return (
