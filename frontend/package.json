@@ -44,5 +44,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://neologos.herokuapp.com/"
+  "proxy": "http://localhost:4001"
 }

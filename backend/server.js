@@ -16,7 +16,12 @@ mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 mongoose.set("useUnifiedTopology", true);
 
-app.use(express.static("public"));
+// Serve all static files from build directory
+app.use(express.static(path.join(__dirname, 'build')));
+// Keep client side routing functional
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 // Add middleware for handling CORS requests from index.html
 app.use(cors());
@@ -29,7 +34,7 @@ app.use(bodyParser.json());
 app.use(morgan("dev"));
 
 // api Router
-const apiRouter = require("/api/api");
+const apiRouter = require("./api/api");
 app.use("/api", apiRouter);
 
 app.use(errorhandler());
