@@ -4,11 +4,9 @@
   "description": "A place to make up new words and their definitions",
   "main": "backend/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\" --kill-others --kill-others-on-fail",
-    "start": "node backend/server.js",
-    "heroku-postbuild": "cd frontend && npm install --only=dev && npm install && npm run build"
-
+    "start": "cd backend && npm install && node server.js",
+    "heroku-postbuild": "cd frontend && npm install && npm run build"
   },
   "author": "Christian Anagnostou",
   "license": "MIT",
