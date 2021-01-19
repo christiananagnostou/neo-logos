@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import React from "react";
 // Router
 import { Link } from "react-router-dom";
 // Redux
@@ -9,39 +8,23 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 function RecentlyViewed() {
-  const { recently_viewed, loggedIn } = useSelector((state) => state.user);
-  const [recentsDisplay, setRecentsDisplay] = useState([]);
-
-  const getWordsFromIdArray = useCallback(async () => {
-    const recentlyViewedWords = await axios.post("http://localhost:4001/api/words/id-to-word", {
-      recently_viewed,
-    });
-    setRecentsDisplay([...recentlyViewedWords.data.words]);
-  }, [recently_viewed]);
-
-  useEffect(() => {
-    if (loggedIn && recently_viewed.length > 0) {
-      getWordsFromIdArray();
-    }
-  }, [recently_viewed, getWordsFromIdArray, loggedIn]);
+  const { viewHistory } = useSelector((state) => state.user);
 
   return (
     <RecentlyViewedContainer className="recently-viewed">
       <h3>Recently Viewed</h3>
       <ul>
-        {recentsDisplay.map((word) => {
-          return (
-            <li key={word.id}>
-              <Link to={`/word/${word.word}`}>
-                <p>
-                  {word.word}
-                  <span>{word.vote_count} votes</span>
-                </p>
-                <p>{word.def}</p>
-              </Link>
-            </li>
-          );
-        })}
+        {viewHistory.map((word) => (
+          <li key={word._id}>
+            <Link to={`/word/${word.word}`}>
+              <p>
+                {word.word}
+                <span>{word.voteCount} votes</span>
+              </p>
+              <p>{word.def}</p>
+            </Link>
+          </li>
+        ))}
       </ul>
     </RecentlyViewedContainer>
   );
@@ -70,9 +53,6 @@ const RecentlyViewedContainer = styled(motion.div)`
         display: flex;
         flex-direction: column;
         padding: 0.25rem 0.5rem;
-        &:hover {
-          color: ${({ theme }) => theme.lightText};
-        }
         p {
           text-overflow: ellipsis;
           overflow: hidden;

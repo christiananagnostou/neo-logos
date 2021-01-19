@@ -1,11 +1,11 @@
 const express = require("express");
 const apiRouter = express.Router();
 
-// Api Routers
-const wordsRouter = require("./wordsRouter");
-const usersRouter = require("./usersRouter");
+// // Api Routers
+const wordsRoute = require("./wordsRoute");
+const usersRoute = require("./usersRoute");
 
-apiRouter.use("/words", wordsRouter);
-apiRouter.use("/users", usersRouter);
+apiRouter.use("/words", wordsRoute);
+apiRouter.use("/users", usersRoute);
 
 module.exports = apiRouter;

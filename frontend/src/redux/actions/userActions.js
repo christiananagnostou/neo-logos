@@ -15,7 +15,7 @@ export const handleUserLogin = (userCreds) => async (dispatch) => {
     dispatch({
       type: USER_LOGIN,
       payload: {
-        userData: userData.data.user,
+        userData: userData.data,
       },
     });
   } catch (e) {
@@ -24,22 +24,22 @@ export const handleUserLogin = (userCreds) => async (dispatch) => {
 };
 
 // Add a word to user's recentlyViewedWords
-export const addViewedWord = (word_id, user_id) => async (dispatch) => {
-  const viewedWords = await axios.post(`http://localhost:4001/api/users/${user_id}/viewed-word`, {
-    word_id,
+export const addViewedWord = (word, userId) => async (dispatch) => {
+  const recentlyViewed = await axios.post(`http://localhost:4001/api/users/${userId}/viewed-word`, {
+    word,
   });
   dispatch({
     type: ADD_VIEWED_WORD,
     payload: {
-      viewedWords: viewedWords.data,
+      recentlyViewed: recentlyViewed.data,
     },
   });
 };
 
 // Add / remove a word to users upvotedWords
-export const userUpvote = (user_id, word_id) => async (dispatch) => {
-  const upvotedWords = await axios.post(`http://localhost:4001/api/users/${user_id}/upvoted`, {
-    word_id,
+export const toggleUserUpvote = (userId, wordId) => async (dispatch) => {
+  const upvotedWords = await axios.post(`http://localhost:4001/api/users/${userId}/upvoted`, {
+    wordId,
   });
   dispatch({
     type: UPDATE_UPVOTES,
@@ -50,9 +50,9 @@ export const userUpvote = (user_id, word_id) => async (dispatch) => {
 };
 
 // Add / remove a word to users downvotedWords
-export const handleDownvote = (user_id, word_id) => async (dispatch) => {
-  const downvotedWords = await axios.post(`http://localhost:4001/api/users/${user_id}/downvoted`, {
-    word_id,
+export const toggleUserDownvote = (userId, wordId) => async (dispatch) => {
+  const downvotedWords = await axios.post(`http://localhost:4001/api/users/${userId}/downvoted`, {
+    wordId,
   });
   dispatch({
     type: UPDATE_DOWNVOTES,
@@ -68,7 +68,7 @@ export const handleCreateAccount = (userCreds) => async (dispatch) => {
   dispatch({
     type: USER_LOGIN,
     payload: {
-      userData: response.data.user,
+      userData: response.data,
     },
   });
 };

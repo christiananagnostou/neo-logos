@@ -49,7 +49,7 @@ function UserLogin() {
     <LoginFormContainer className="user-login-form">
       <form action="POST" onSubmit={handleFormSubmit}>
         <h1>Welcome back!</h1>
-        {invalidCreds && <h4 style={{ color: "red" }}>Invalid email or password.</h4>}
+        {invalidCreds && <h4>Invalid email or password.</h4>}
         <label htmlFor="email">
           <h3>Email:</h3>
         </label>
@@ -96,6 +96,9 @@ const LoginFormContainer = styled(motion.div)`
     align-items: center;
     gap: 1rem;
     h1 {
+      color: ${({ theme }) => theme.gold};
+    }
+    h4 {
       color: ${({ theme }) => theme.gold};
     }
     label {

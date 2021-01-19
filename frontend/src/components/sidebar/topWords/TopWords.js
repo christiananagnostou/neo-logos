@@ -28,11 +28,11 @@ function TopWords() {
       <ul>
         {topFiveWords.map((word) => {
           return (
-            <li key={word.id}>
+            <li key={word._id}>
               <Link to={`/word/${word.word}`}>
                 <p>
                   {word.word}
-                  <span>{word.vote_count} votes</span>
+                  <span>{word.voteCount} votes</span>
                 </p>
                 <p>{word.def}</p>
               </Link>
