@@ -31,27 +31,46 @@ const getUserFromId = async (id) => {
 //   });
 // });
 
-// // Add a new user
-// usersRoute.post("/", checkIfAccountExists, (req, res, next) => {
-//   const { name, email, password } = req.body.newUser;
-//   const sql = `INSERT INTO Users (name, email, password) VALUES ($name, $email, $password)`;
-//   const values = {
-//     $name: name,
-//     $email: email,
-//     $password: password,
-//   };
+const checkIfAccountExists = async (req, res, next) => {
+  const { name, email } = req.body.newUser;
+  // Check if email or name is already registered
+  const emailSearch = User.findOne({ email: email });
+  const nameSearch = User.findOne({ name: name });
+  try {
+    const emailResult = await emailSearch;
+    const nameResult = await nameSearch;
+    if (emailResult) {
+      // Email already in database
+      res.sendStatus(451);
+    } else if (nameResult) {
+      // Name already in database
+      res.sendStatus(452);
+    } else {
+      // Valid new account
+      next();
+    }
+  } catch (e) {
+    next(e);
+  }
+};
 
-//   db.run(sql, values, function (err) {
-//     if (err) {
-//       next(err);
-//     } else {
-//       db.get(`SELECT * FROM Users WHERE id = ${this.lastID}`, (err, user) => {
-//         const userData = configureUserData(user);
-//         res.status(201).json({ user: userData });
-//       });
-//     }
-//   });
-// });
+// Add a new user
+usersRoute.post("/", checkIfAccountExists, async (req, res, next) => {
+  const { name, email, password } = req.body.newUser;
+
+  const user = new User({
+    name: name,
+    email: email,
+    password: password,
+  });
+
+  try {
+    const newUser = await user.save();
+    res.status(201).json(newUser);
+  } catch (e) {
+    next(e);
+  }
+});
 
 // Used for user login
 usersRoute.post("/login", async (req, res, next) => {
@@ -60,14 +79,14 @@ usersRoute.post("/login", async (req, res, next) => {
 
   try {
     const userData = await userResult;
-    delete userData.password;
     if (userData) {
+      delete userData.password;
       res.status(200).json(userData);
     } else {
       res.sendStatus(400);
     }
   } catch (e) {
-    next(err);
+    next(e);
   }
 });
 
@@ -76,7 +95,7 @@ usersRoute.post("/:userId/viewed-word", async (req, res, next) => {
   const userId = req.params.userId;
   const newWord = req.body.word;
   const { viewHistory } = await getUserFromId(userId);
-
+  // Mongoose params
   const query = { _id: userId };
   let newViewHistory = [];
   const options = { new: true };

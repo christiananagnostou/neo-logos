@@ -73,7 +73,7 @@ function WordVotes({ word }) {
         className={userUpvotedWord ? "upvote voted-up" : "upvote"}
         onClick={() => handleVoteClick("up")}
       />
-      <VoteCount>{word.upvotes - word.downvotes}</VoteCount>
+      <VoteCount>{word.voteCount}</VoteCount>
       <ForwardOutlinedIcon
         className={userDownvotedWord ? "downvote voted-down" : "downvote"}
         onClick={() => handleVoteClick("down")}

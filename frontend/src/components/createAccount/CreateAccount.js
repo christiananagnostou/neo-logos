@@ -21,20 +21,29 @@ function UserLogin() {
   // Router
   const history = useHistory();
   const [newAccountCreds, setNewAccountCreds] = useState(initialCreds);
-  const [accountAlreadyExists, setAccountAlreadyExists] = useState(false);
+  const [emailAlreadyExists, setEmailAlreadyExists] = useState(false);
+  const [usernameAlreadyExists, setUsernameAlreadyExists] = useState(false);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     // setupNewAccState();
-    dispatch(handleCreateAccount(newAccountCreds)).catch((e) => setAccountAlreadyExists(true));
+    dispatch(handleCreateAccount(newAccountCreds)).catch((e) => {
+      const responseCode = e.response.status;
+      responseCode === 451 ? setEmailAlreadyExists(true) : setEmailAlreadyExists(false);
+      responseCode === 452 ? setUsernameAlreadyExists(true) : setUsernameAlreadyExists(false);
+    });
+
     setNewAccountCreds(initialCreds);
   };
 
   useEffect(() => {
     if (user.loggedIn) {
       history.push("/");
-      setAccountAlreadyExists(false);
     }
+    return () => {
+      setEmailAlreadyExists(false);
+      setUsernameAlreadyExists(false);
+    };
   }, [user, history]);
 
   const handleName = ({ target }) => {
@@ -52,13 +61,16 @@ function UserLogin() {
     <CreateAccountFormContainer className="create-account-form">
       <form action="POST" onSubmit={handleFormSubmit}>
         <h1>Welcome to the club!</h1>
-        {accountAlreadyExists && (
-          <h4 style={{ color: "red" }}>
+        {emailAlreadyExists && (
+          <h4>
             An account with that Email already exists. Click here to{" "}
             <Link to="user-login" style={{ textDecoration: "underline" }}>
               log in.
             </Link>
           </h4>
+        )}
+        {usernameAlreadyExists && (
+          <h4>An account with that username already exists. Try a different one.</h4>
         )}
         <label htmlFor="name">Username</label>
         <input
@@ -101,13 +113,14 @@ const CreateAccountFormContainer = styled(motion.div)`
   background: ${({ theme }) => theme.medText};
   color: ${({ theme }) => theme.lightBg};
 
-  width: fit-content;
+  width: 55%;
   margin: 4rem auto;
   padding: 2rem 4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   border-radius: 5px;
   gap: 1rem;
 
@@ -118,6 +131,12 @@ const CreateAccountFormContainer = styled(motion.div)`
     gap: 1rem;
     h1 {
       color: ${({ theme }) => theme.gold};
+    }
+    h4 {
+      color: white;
+      a {
+        color: ${({ theme }) => theme.gold};
+      }
     }
     label {
       font-weight: 100;

@@ -21,12 +21,12 @@ export const postNewWord = (newWord) => async (dispatch) => {
 
 // Upvote or Downvote a word
 export const voteOnWord = (wordId, direction) => async (dispatch) => {
-  const voteData = await axios.post(`http://localhost:4001/api/words/${wordId}/vote`, {
+  const updatedWord = await axios.post(`http://localhost:4001/api/words/${wordId}/vote`, {
     direction,
   });
   dispatch({
     type: UPDATE_WORD_VOTES,
-    payload: { voteCount: voteData.data.voteCount, wordId: voteData.data.wordId },
+    payload: updatedWord.data,
   });
 };
 

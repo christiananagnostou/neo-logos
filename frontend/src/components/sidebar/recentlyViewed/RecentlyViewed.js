@@ -19,7 +19,7 @@ function RecentlyViewed() {
             <Link to={`/word/${word.word}`}>
               <p>
                 {word.word}
-                <span>{word.upvotes - word.downvotes} votes</span>
+                <span>{word.voteCount} votes</span>
               </p>
               <p>{word.def}</p>
             </Link>

@@ -68,7 +68,7 @@ export const handleCreateAccount = (userCreds) => async (dispatch) => {
   dispatch({
     type: USER_LOGIN,
     payload: {
-      userData: response.data.user,
+      userData: response.data,
     },
   });
 };

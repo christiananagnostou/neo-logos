@@ -1,6 +1,4 @@
 const wordsRoute = require("express").Router();
-// const sqlite3 = require("sqlite3");
-// const db = new sqlite3.Database("./database.sqlite");
 const Word = require("../models/Word");
 module.exports = wordsRoute;
 
@@ -16,7 +14,6 @@ wordsRoute.post("/", async (req, res, next) => {
 
   try {
     const savedWord = await newWord.save();
-    console.log(savedWord);
     res.status(201).json({ word: savedWord });
   } catch (e) {
     res.sendStatus(500);
@@ -37,7 +34,7 @@ wordsRoute.get("/", async (req, res, next) => {
 
 // Get the top 5 most voted words
 wordsRoute.get("/top-words", async (req, res, next) => {
-  const topWords = Word.find({}).sort("-upvotes").limit(3);
+  const topWords = Word.find({}).sort("-voteCount").limit(3);
 
   try {
     const results = await topWords;
@@ -47,58 +44,50 @@ wordsRoute.get("/top-words", async (req, res, next) => {
   }
 });
 
-// // Update the voteCount for a specified word
-// wordsRoute.post("/:wordId/vote", (req, res, next) => {
-//   const upvoteSql = `UPDATE Words SET vote_count = vote_count + 1 WHERE id = $id`;
-//   const upvoteTwoSql = `UPDATE Words SET vote_count = vote_count + 2 WHERE id = $id`;
-//   const downvoteSql = `UPDATE Words SET vote_count = vote_count - 1 WHERE id = $id`;
-//   const downvoteTwoSql = `UPDATE Words SET vote_count = vote_count - 2 WHERE id = $id`;
+// Update the voteCount for a specified word
+wordsRoute.post("/:wordId/vote", async (req, res, next) => {
+  const wordId = req.params.wordId;
 
-//   const values = { $id: req.params.wordId };
+  const filterQuery = { _id: wordId };
+  const upvoteOne = { $inc: { voteCount: 1 } };
+  const upvoteTwo = { $inc: { voteCount: 2 } };
+  const downvoteOne = { $inc: { voteCount: -1 } };
+  const downvoteTwo = { $inc: { voteCount: -2 } };
+  const options = { new: true };
 
-//   const getWordFromDB = (err) => {
-//     if (err) {
-//       next(err);
-//     } else {
-//       db.get(`SELECT * FROM Words WHERE id = ${req.params.wordId}`, (err, word) => {
-//         if (err) {
-//           next(err);
-//         } else {
-//           res.status(200).send({ wordId: Number(req.params.wordId), voteCount: word.vote_count });
-//         }
-//       });
-//     }
-//   };
+  const updateDatabase = async (voteType) => {
+    const updatedWordRequest = Word.findOneAndUpdate(filterQuery, voteType, options);
+    try {
+      const updatedWord = await updatedWordRequest;
+      res.status(200).json(updatedWord);
+    } catch (e) {
+      next(e);
+    }
+  };
 
-//   switch (req.body.direction) {
-//     case "up 1":
-//       db.run(upvoteSql, values, (err) => {
-//         getWordFromDB(err);
-//       });
-//       break;
-//     case "up 2":
-//       db.run(upvoteTwoSql, values, (err) => {
-//         getWordFromDB(err);
-//       });
-//       break;
-//     case "down 1":
-//       db.run(downvoteSql, values, (err) => {
-//         getWordFromDB(err);
-//       });
-//       break;
-//     case "down 2":
-//       db.run(downvoteTwoSql, values, (err) => {
-//         getWordFromDB(err);
-//       });
-//       break;
-//     default:
-//       next(new Error("Bad vote"));
-//   }
-// });
+  switch (req.body.direction) {
+    case "up 1":
+      updateDatabase(upvoteOne);
+      break;
+    case "up 2":
+      updateDatabase(upvoteTwo);
+      break;
+    case "down 1":
+      updateDatabase(downvoteOne);
+      break;
+    case "down 2":
+      updateDatabase(downvoteTwo);
+      break;
+    default:
+      next(new Error("Bad vote"));
+  }
+});
 
 // Search if any words contain a specified term
 wordsRoute.get("/search/:term", async (req, res, next) => {
-  const searchQuery = Word.find({ word: { $regex: `.*${req.params.term}.*` } }).sort("-upvotes").limit(50);
+  const searchQuery = Word.find({ word: { $regex: `.*${req.params.term}.*` } })
+    .sort("-voteCount")
+    .limit(50);
 
   try {
     const searchResults = await searchQuery;
@@ -114,13 +103,13 @@ wordsRoute.get("/order-by/:order", async (req, res, next) => {
 
   switch (req.params.order) {
     case "top":
-      order = "-upvotes";
+      order = "-voteCount";
       break;
     case "new":
       order = "-dateCreated";
       break;
     case "hot":
-      order = "-upvotes dateCreated";
+      order = "-voteCount -dateCreated";
       break;
     default:
       res.sendStatus(500);
@@ -146,9 +135,9 @@ wordsRoute.post("/id-to-word", async (req, res, next) => {
 
   try {
     const wordHistory = await wordHistoryRequest;
-    console.log(wordHistory);
     res.status(200).send(wordHistory);
   } catch (e) {
     next(e);
+    p;
   }
 });

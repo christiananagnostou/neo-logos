@@ -15,8 +15,7 @@ const WordSchema = new Schema({
     default: Date.now,
     required: true,
   },
-  upvotes: { type: Number, default: 0, required: true },
-  downvotes: { type: Number, default: 0, required: true },
+  voteCount: { type: Number, default: 0, required: true },
   creator: { type: String, required: true },
 });
 

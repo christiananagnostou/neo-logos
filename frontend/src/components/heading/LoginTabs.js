@@ -38,7 +38,7 @@ const Tabs = styled(motion.div)`
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     &:hover {
-      background-color: rgb(245, 203, 92);
+      background: ${({ theme }) => theme.medBg};
       color: black;
       font-weight: 400;
     }
