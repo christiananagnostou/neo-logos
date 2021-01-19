@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\" --kill-others --kill-others-on-fail",
-    "heroku-start": "cd backend && node server.js",
+    "start": "node backend/server.js",
     "heroku-postbuild": "cd frontend && npm install --only=dev && npm install && npm run build"
 
   },

@@ -14,7 +14,7 @@ function TopWords() {
   const [topFiveWords, setTopWords] = useState([]);
 
   const getTopWords = async () => {
-    const topWords = await axios.get("http://localhost:4001/api/words/top-words");
+    const topWords = await axios.get("/api/words/top-words");
     setTopWords(topWords.data.words);
   };
 
