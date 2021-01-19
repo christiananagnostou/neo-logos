@@ -17,11 +17,9 @@ mongoose.set("useCreateIndex", true);
 mongoose.set("useUnifiedTopology", true);
 
 // Serve all static files from build directory
-app.use(express.static(path.join(__dirname, 'build')));
-// Keep client side routing functional
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("../frontend/build"));
+}
 
 // Add middleware for handling CORS requests from index.html
 app.use(cors());
