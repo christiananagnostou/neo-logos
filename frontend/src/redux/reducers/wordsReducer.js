@@ -12,6 +12,11 @@ const wordsReducer = (wordsState = initialWordsState, action) => {
       const wordIndex = wordsState.findIndex((word) => word._id === action.payload._id);
       wordsState[wordIndex].voteCount = action.payload.voteCount;
       return [...wordsState];
+    case "DELETE_WORD":
+      const filterOutDeleted = wordsState.filter(
+        (word) => word._id !== action.payload.deletedWord._id
+      );
+      return [...filterOutDeleted];
     default:
       return [...wordsState];
   }

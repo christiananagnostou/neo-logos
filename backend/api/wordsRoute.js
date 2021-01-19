@@ -115,11 +115,11 @@ wordsRoute.get("/order-by/:order", async (req, res, next) => {
       res.sendStatus(500);
   }
 
-  const query = Word.find({}).sort(order).limit(25);
+  const orderWordsQuery = Word.find({}).sort(order).limit(25);
 
   try {
-    const result = await query;
-    res.status(200).json({ words: result });
+    const result = await orderWordsQuery;
+    res.status(200).json(result);
   } catch (e) {
     next(e);
   }
@@ -139,5 +139,17 @@ wordsRoute.post("/id-to-word", async (req, res, next) => {
   } catch (e) {
     next(e);
     p;
+  }
+});
+
+wordsRoute.delete("/:wordId", async (req, res, next) => {
+  const deleteWordRequest = Word.findOneAndDelete({ _id: req.params.wordId });
+
+  try {
+    const deletedWord = await deleteWordRequest;
+    console.log(deletedWord._id);
+    res.status(200).json(deletedWord);
+  } catch (e) {
+    next(e);
   }
 });

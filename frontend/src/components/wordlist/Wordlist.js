@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 // Components
 import WordVotes from "./WordVotes";
+import DeleteWord from "./DeleteWord";
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { orderWordsBy } from "../../redux/actions/wordsActions";
@@ -21,7 +22,7 @@ function Wordlist() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(orderWordsBy("new"));
+    dispatch(orderWordsBy("hot"));
   }, [dispatch]);
 
   const handleWordClick = (word) => {
@@ -50,6 +51,7 @@ function Wordlist() {
                 Posted by: {word.creator} {getTimePassed(word.dateCreated)}
               </p>
             </Link>
+            {word.creator === user.name && <DeleteWord word={word} />}
           </WordItem>
         );
       })}
@@ -61,6 +63,7 @@ const WordListContainer = styled(motion.ul)`
 `;
 
 const WordItem = styled(motion.li)`
+  position: relative;
   background: ${({ theme }) => theme.lightBg};
   border: 1px solid ${({ theme }) => theme.medBg};
   list-style: none;
@@ -89,7 +92,6 @@ const WordItem = styled(motion.li)`
     }
     .word-def {
       font-size: 1rem;
-
       font-weight: 100;
     }
     .word-creation {

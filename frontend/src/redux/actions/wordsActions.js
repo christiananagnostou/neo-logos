@@ -42,6 +42,14 @@ export const orderWordsBy = (order) => async (dispatch) => {
   const orderedWords = await axios.get(`http://localhost:4001/api/words/order-by/${order}`);
   dispatch({
     type: SET_DISPLAY_WORDS,
-    payload: { allWords: orderedWords.data.words },
+    payload: { allWords: orderedWords.data },
+  });
+};
+
+export const deleteWord = (wordId) => async (dispatch) => {
+  const deletedWord = await axios.delete(`http://localhost:4001/api/words/${wordId}`);
+  dispatch({
+    type: "DELETE_WORD",
+    payload: { deletedWord: deletedWord.data },
   });
 };

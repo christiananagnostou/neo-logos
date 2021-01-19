@@ -81,9 +81,9 @@ const SearchContainer = styled(motion.div)`
       width: 13rem;
       border-radius: 100px;
       padding-left: 1rem;
-      animation: fadeIn 0.2s forwards ease-in;
+      animation: animateSearch 0.2s forwards ease-in;
 
-      @keyframes fadeIn {
+      @keyframes animateSearch {
         from {
           right: 0rem;
           opacity: 0;
