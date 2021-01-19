@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 app.use(morgan("dev"));
 
 // api Router
-const apiRouter = require("./api/api");
+const apiRouter = require("/api/api");
 app.use("/api", apiRouter);
 
 app.use(errorhandler());
