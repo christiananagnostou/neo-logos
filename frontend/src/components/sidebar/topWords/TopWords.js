@@ -28,7 +28,7 @@ function TopWords() {
       <ul>
         {topFiveWords.map((word) => {
           return (
-            <li key={word.id}>
+            <li key={word._id}>
               <Link to={`/word/${word.word}`}>
                 <p>
                   {word.word}

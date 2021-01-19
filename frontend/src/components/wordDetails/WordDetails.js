@@ -27,15 +27,15 @@ function WordDetails({ selectedWord }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            key={selectedWord.id}
+            key={selectedWord._id}
           >
             <WordVotes word={selectedWord} />
             <div>
               <p>{selectedWord.word}</p>
               <p>{selectedWord.def}</p>
-              <p>{timeConverter(selectedWord.date_created)}</p>
+              <p>{timeConverter(selectedWord.dateCreated)}</p>
               <p>{selectedWord.creator}</p>
-              <p>{selectedWord.id}</p>
+              <p>{selectedWord._id}</p>
             </div>
           </WordPage>
         </CardShadow>
@@ -58,12 +58,12 @@ const CardShadow = styled(motion.div)`
   align-items: center;
 `;
 const WordPage = styled(motion.div)`
-  width: 20%;
-  border-radius: 5px;
-  padding: 2rem 5rem;
-  background: white;
   position: absolute;
-  left: 40%;
+  left: 10%;
+  width: 80%;
+  border-radius: 5px;
+  padding: 1rem 5rem;
+  background: white;
   color: black;
   display: flex;
   justify-content: space-between;

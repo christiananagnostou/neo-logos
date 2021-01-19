@@ -10,9 +10,9 @@ const initialUserState = {
   name: "",
   email: "",
   accountCreated: "",
-  recently_viewed: [],
-  upvoted_words: [],
-  downvoted_words: [],
+  viewHistory: [],
+  upvotedWords: [],
+  downvotedWords: [],
   loggedIn: false,
   nightMode: false,
 };
@@ -22,13 +22,13 @@ const userReducer = (userState = initialUserState, action) => {
     case USER_LOGIN:
       return { ...userState, ...action.payload.userData, loggedIn: true };
     case UPDATE_UPVOTES:
-      return { ...userState, upvoted_words: [...action.payload.upvotedWords] };
+      return { ...userState, upvotedWords: [...action.payload.upvotedWords] };
     case UPDATE_DOWNVOTES:
-      return { ...userState, downvoted_words: [...action.payload.downvotedWords] };
+      return { ...userState, downvotedWords: [...action.payload.downvotedWords] };
     case ADD_VIEWED_WORD:
       return {
         ...userState,
-        recently_viewed: [...action.payload.viewedWords],
+        viewHistory: [...action.payload.recentlyViewed],
       };
     case TOGGLE_NIGHTMODE:
       return { ...userState, nightMode: !userState.nightMode };

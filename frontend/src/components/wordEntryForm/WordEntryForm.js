@@ -26,7 +26,7 @@ function WordEntryForm() {
     e.preventDefault();
     if (newWordData.word && newWordData.def && user.loggedIn) {
       setValidWord(true);
-      newWordData.creator = user.name;
+      newWordData.creator = "Christian" || user.name;
       dispatch(postNewWord(newWordData)).catch((e) => {
         setValidWord(false);
       });

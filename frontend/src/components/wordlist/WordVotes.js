@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import ForwardOutlinedIcon from "@material-ui/icons/ForwardOutlined";
 // Redux
 import { useSelector, useDispatch } from "react-redux";
-import { userUpvote, handleDownvote } from "../../redux/actions/userActions";
+import { toggleUserUpvote, toggleUserDownvote } from "../../redux/actions/userActions";
 import { voteOnWord } from "../../redux/actions/wordsActions";
 // Styling and Animation
 import styled from "styled-components";
@@ -12,27 +12,27 @@ import { motion } from "framer-motion";
 function WordVotes({ word }) {
   // Redux
   const dispatch = useDispatch();
-  const { loggedIn, upvoted_words, downvoted_words, id } = useSelector((state) => state.user);
+  const { loggedIn, upvotedWords, downvotedWords, _id } = useSelector((state) => state.user);
   // Local State
   const [userUpvotedWord, setUserUpvotedWord] = useState(false);
   const [userDownvotedWord, setUserDownvotedWord] = useState(false);
 
-  // If user has already voted on this this word
+  // If user has already voted on this this word, set the vote icon show it
   useEffect(() => {
     if (loggedIn) {
-      if (upvoted_words.includes(word.id)) {
+      if (upvotedWords.includes(word._id)) {
         setUserUpvotedWord(true);
       } else {
         setUserUpvotedWord(false);
       }
 
-      if (downvoted_words.includes(word.id)) {
+      if (downvotedWords.includes(word._id)) {
         setUserDownvotedWord(true);
       } else {
         setUserDownvotedWord(false);
       }
     }
-  }, [upvoted_words, downvoted_words, word.id, loggedIn]);
+  }, [upvotedWords, downvotedWords, word._id, loggedIn]);
 
   const handleVoteClick = (direction) => {
     if (!loggedIn) {
@@ -41,25 +41,25 @@ function WordVotes({ word }) {
       switch (direction) {
         case "up":
           if (userDownvotedWord) {
-            dispatch(handleDownvote(id, word.id));
-            dispatch(voteOnWord(word.id, "up 2"));
+            dispatch(toggleUserDownvote(_id, word._id));
+            dispatch(voteOnWord(word._id, "up 2"));
           } else if (userUpvotedWord) {
-            dispatch(voteOnWord(word.id, "down 1"));
+            dispatch(voteOnWord(word._id, "down 1"));
           } else {
-            dispatch(voteOnWord(word.id, "up 1"));
+            dispatch(voteOnWord(word._id, "up 1"));
           }
-          dispatch(userUpvote(id, word.id));
+          dispatch(toggleUserUpvote(_id, word._id));
           break;
         case "down":
           if (userUpvotedWord) {
-            dispatch(userUpvote(id, word.id));
-            dispatch(voteOnWord(word.id, "down 2"));
+            dispatch(toggleUserUpvote(_id, word._id));
+            dispatch(voteOnWord(word._id, "down 2"));
           } else if (userDownvotedWord) {
-            dispatch(voteOnWord(word.id, "up 1"));
+            dispatch(voteOnWord(word._id, "up 1"));
           } else {
-            dispatch(voteOnWord(word.id, "down 1"));
+            dispatch(voteOnWord(word._id, "down 1"));
           }
-          dispatch(handleDownvote(id, word.id));
+          dispatch(toggleUserDownvote(_id, word._id));
           break;
         default:
           break;
@@ -73,7 +73,7 @@ function WordVotes({ word }) {
         className={userUpvotedWord ? "upvote voted-up" : "upvote"}
         onClick={() => handleVoteClick("up")}
       />
-      <VoteCount>{word.vote_count}</VoteCount>
+      <VoteCount>{word.upvotes - word.downvotes}</VoteCount>
       <ForwardOutlinedIcon
         className={userDownvotedWord ? "downvote voted-down" : "downvote"}
         onClick={() => handleVoteClick("down")}
@@ -123,7 +123,7 @@ const WordVotesContainer = styled(motion.div)`
 const VoteCount = styled(motion.div)`
   color: ${({ theme }) => theme.lightText};
   font-weight: 300;
-  font-size: .8rem;
+  font-size: 0.8rem;
 `;
 
 export default WordVotes;

@@ -24,8 +24,8 @@ function Wordlist() {
     dispatch(orderWordsBy("new"));
   }, [dispatch]);
 
-  const handleWordClick = (wordId) => {
-    user.loggedIn && dispatch(addViewedWord(wordId, user.id));
+  const handleWordClick = (word) => {
+    user.loggedIn && dispatch(addViewedWord(word, user._id));
   };
 
   return (
@@ -33,12 +33,12 @@ function Wordlist() {
       <WordSorting />
       {words.map((word) => {
         return (
-          <WordItem key={word.id} variants={item}>
+          <WordItem key={word._id} variants={item}>
             <WordVotes word={word} />
             <Link
               to={`/word/${word.word}`}
-              key={word.id}
-              onClick={() => handleWordClick(word.id)}
+              key={word._id}
+              onClick={() => handleWordClick(word)}
               className="item-link"
             >
               <p className="word-text">
@@ -47,7 +47,7 @@ function Wordlist() {
               </p>
 
               <p className="word-creation">
-                Posted by: {word.creator} {getTimePassed(word.date_created)}
+                Posted by: {word.creator} {getTimePassed(word.dateCreated)}
               </p>
             </Link>
           </WordItem>
