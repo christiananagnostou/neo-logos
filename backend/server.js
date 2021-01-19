@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const errorhandler = require("errorhandler");
 
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 4000;
 
 // Setup for mongoose
 mongoose.set("useNewUrlParser", true);
