@@ -4,6 +4,7 @@
 /frontend/node_modules
 
 # misc
+/backend/.env
 .DS_Store
 .env.local
 .env.development.local
