@@ -36,16 +36,16 @@ const SortingOptions = styled(motion.ul)`
     display: block;
     margin-right: 2rem;
     padding: 3px 15px;
-    border-radius: 20px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.1s ease-in-out;
     &:hover {
-      box-shadow: 3px 3px 0px ${({ theme }) => theme.shadow};
+      box-shadow: -2px 2px 1px ${({ theme }) => theme.shadow};
       background: ${({ theme }) => theme.darkText};
-      transform: translate(-1px, -1px);
+      transform: translate(1px, -1px);
     }
     &:active {
-      transform: translate(1px, 1px);
+      transform: translate(-1px, 1px);
       box-shadow: none;
     }
     button {
@@ -53,11 +53,29 @@ const SortingOptions = styled(motion.ul)`
       background: transparent;
       border: none;
       font-family: "Montserrat", sans-serif;
-      font-weight: 100;
+      font-weight: 300;
       font-size: 1.3rem;
       &:focus {
         outline: none;
         box-shadow: 0 0 3px black;
+      }
+    }
+  }
+  @media (max-width: 700px) {
+    li {
+      margin-right: 1rem;
+
+      &:hover {
+        background: ${({ theme }) => theme.medText};
+        box-shadow: none;
+        transform: none;
+      }
+      &:active {
+        background: ${({ theme }) => theme.darkText};
+        transform: scale(0.95);
+      }
+      button {
+        font-size: 1em;
       }
     }
   }

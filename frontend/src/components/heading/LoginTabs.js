@@ -1,8 +1,6 @@
 import React from "react";
 // Router
 import { Link } from "react-router-dom";
-// Components
-import SearchBar from "./SearchBar";
 // Styles and Animation
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -10,8 +8,6 @@ import { motion } from "framer-motion";
 function LoginTabs() {
   return (
     <Tabs>
-      <SearchBar />
-
       <Link to="/user-login">
         <div className="account-btn">Login</div>
       </Link>
@@ -23,9 +19,9 @@ function LoginTabs() {
 }
 
 const Tabs = styled(motion.div)`
-  justify-self: end;
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  height: 100%;
   .account-btn {
     background: ${({ theme }) => theme.darkBg};
     box-shadow: 0 0 5px ${({ theme }) => theme.shadow};
@@ -41,6 +37,12 @@ const Tabs = styled(motion.div)`
       background: ${({ theme }) => theme.medBg};
       color: black;
       font-weight: 400;
+    }
+  }
+  @media (max-width: 700px) {
+    font-size: 0.85em;
+    .account-btn {
+      padding: 0.4rem;
     }
   }
 `;

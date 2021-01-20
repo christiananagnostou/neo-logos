@@ -48,7 +48,10 @@ function Wordlist() {
               </p>
 
               <p className="word-creation">
-                Posted by: {word.creator} {getTimePassed(word.dateCreated)}
+                Posted by:{" "}
+                <span>
+                  {word.creator} {getTimePassed(word.dateCreated)}
+                </span>
               </p>
             </Link>
             {word.creator === user.name && <DeleteWord word={word} />}
@@ -60,6 +63,9 @@ function Wordlist() {
 }
 const WordListContainer = styled(motion.ul)`
   padding: 1rem;
+  @media (max-width: 700px) {
+    padding: 1rem 0.5rem;
+  }
 `;
 
 const WordItem = styled(motion.li)`
@@ -71,7 +77,7 @@ const WordItem = styled(motion.li)`
   border-radius: 4px;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 70px 1fr;
+  grid-template-columns: 55px 1fr;
   align-items: center;
   transition: all 0.2s ease;
   &:hover {
@@ -83,9 +89,8 @@ const WordItem = styled(motion.li)`
     color: ${({ theme }) => theme.darkText};
     height: 100%;
     display: grid;
-    grid-template-rows: 1fr 1fr;
-    align-items: center;
-    padding: 1rem;
+    grid-template-rows: 1fr 1.5rem;
+    padding: 0.5rem 0.25rem 0;
     .word-text {
       color: ${({ theme }) => theme.darkText};
       font-size: 1.2rem;
@@ -98,6 +103,21 @@ const WordItem = styled(motion.li)`
       color: ${({ theme }) => theme.lightText};
       font-weight: 100;
       font-size: 0.75rem;
+      span {
+        font-weight: 300;
+      }
+    }
+  }
+  @media (max-width: 700px) {
+    grid-template-columns: 40px 1fr;
+
+    &:hover {
+      border: 1px solid ${({ theme }) => theme.medBg};
+      background: ${({ theme }) => theme.lightBg};
+    }
+    &:active {
+      border: 1px solid rgb(167, 167, 167);
+      background: ${({ theme }) => theme.darkBg};
     }
   }
 `;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // Redux
 import { useDispatch } from "react-redux";
 import { searchWord } from "../../redux/actions/wordsActions";
@@ -13,10 +13,13 @@ function SearchBar() {
 
   // Local State
   const [searchBarActive, setSearchBarActive] = useState(false);
+  const [usingSearchBar, setUsingSearchBar] = useState(false);
   const [term, setTerm] = useState("");
 
   const toggleSearchBar = () => {
-    setSearchBarActive(!searchBarActive);
+    if (!usingSearchBar) {
+      setSearchBarActive(!searchBarActive);
+    }
   };
 
   const handleSearch = (e) => {
@@ -38,6 +41,26 @@ function SearchBar() {
   const handleTermChange = (e) => {
     setTerm(e.target.value);
   };
+
+  const clickListener = (e) => {
+    if (e.target.classList[0] === "search-input") {
+      // user is active in search input
+      setUsingSearchBar(true);
+    } else {
+      // close bar and cleanup
+      setUsingSearchBar(false);
+      setSearchBarActive(false);
+    }
+  };
+
+  useEffect(() => {
+    if (searchBarActive) {
+      window.addEventListener("click", clickListener, true);
+    }
+    return () => {
+      window.removeEventListener("click", clickListener, true);
+    };
+  }, [searchBarActive]);
 
   return (
     <SearchContainer>
@@ -64,7 +87,6 @@ function SearchBar() {
 
 const SearchContainer = styled(motion.div)`
   color: ${({ theme }) => theme.lightText};
-  width: 15rem;
   display: inline-flex;
   justify-content: flex-end;
   align-items: center;
@@ -78,18 +100,18 @@ const SearchContainer = styled(motion.div)`
       box-shadow: 0 0 5px ${({ theme }) => theme.shadow};
       position: absolute;
       height: 100%;
-      width: 13rem;
+      width: 12rem;
       border-radius: 100px;
       padding-left: 1rem;
       animation: animateSearch 0.2s forwards ease-in;
 
       @keyframes animateSearch {
         from {
-          right: 0rem;
+          right: -0.2rem;
           opacity: 0;
         }
         to {
-          right: 0.75rem;
+          right: 0.5rem;
           opacity: 1;
         }
       }
@@ -101,8 +123,8 @@ const SearchContainer = styled(motion.div)`
       background: ${({ theme }) => theme.darkBg};
       font-size: 1rem;
       padding: 10px;
-      height: 2.8rem;
-      width: 2.8rem;
+      height: inherit;
+      width: inherit;
       border-radius: 50%;
       cursor: pointer;
       &:hover {
@@ -112,7 +134,17 @@ const SearchContainer = styled(motion.div)`
   }
 
   @media (max-width: 700px) {
-    width: 5rem;
+    margin-right: 0.5rem;
+    .hover-container {
+      height: 2rem;
+      .search-input {
+        width: 10rem;
+        font-size: 0.75em;
+      }
+      .search-icon {
+        padding: 5px;
+      }
+    }
   }
 `;
 

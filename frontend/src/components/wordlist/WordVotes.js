@@ -32,7 +32,8 @@ function WordVotes({ word }) {
         setUserDownvotedWord(false);
       }
     }
-  }, [upvotedWords, downvotedWords, word._id, loggedIn]);
+    //eslint-disable-next-line
+  }, []);
 
   const handleVoteClick = (direction) => {
     if (!loggedIn) {
@@ -43,22 +44,35 @@ function WordVotes({ word }) {
           if (userDownvotedWord) {
             dispatch(toggleUserDownvote(_id, word._id));
             dispatch(voteOnWord(word._id, "up 2"));
+            setUserUpvotedWord(true);
           } else if (userUpvotedWord) {
             dispatch(voteOnWord(word._id, "down 1"));
+            setUserUpvotedWord(false);
           } else {
+            // no action was recorded prior
             dispatch(voteOnWord(word._id, "up 1"));
+            setUserUpvotedWord(true);
           }
           dispatch(toggleUserUpvote(_id, word._id));
+          setUserDownvotedWord(false);
           break;
         case "down":
           if (userUpvotedWord) {
+            // was previously upvoted
             dispatch(toggleUserUpvote(_id, word._id));
             dispatch(voteOnWord(word._id, "down 2"));
+            setUserDownvotedWord(true);
           } else if (userDownvotedWord) {
+            // was previously downvoted
             dispatch(voteOnWord(word._id, "up 1"));
+            setUserDownvotedWord(false);
           } else {
+            // no action was recorded prior
             dispatch(voteOnWord(word._id, "down 1"));
+            setUserDownvotedWord(true);
           }
+          // remove any upvote and dispatch a downvotedWord to User
+          setUserUpvotedWord(false);
           dispatch(toggleUserDownvote(_id, word._id));
           break;
         default:
@@ -117,6 +131,29 @@ const WordVotesContainer = styled(motion.div)`
   }
   .voted-down {
     color: rgb(180, 20, 20) !important;
+  }
+  @media (max-width: 700px) {
+    width: 40px;
+    .upvote {
+      &:hover {
+        background: ${({ theme }) => theme.lightBg};
+        color: ${({ theme }) => theme.lightText};
+      }
+      &:active {
+        color: rgb(180, 20, 20);
+        background: ${({ theme }) => theme.darkBg};
+      }
+    }
+    .downvote {
+      &:hover {
+        background: ${({ theme }) => theme.lightBg};
+        color: ${({ theme }) => theme.lightText};
+      }
+      &:active {
+        color: rgb(180, 20, 20);
+        background: ${({ theme }) => theme.darkBg};
+      }
+    }
   }
 `;
 

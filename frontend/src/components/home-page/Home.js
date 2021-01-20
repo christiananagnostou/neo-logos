@@ -8,12 +8,11 @@ import Heading from "../heading/Heading";
 import WordEntryForm from "../wordEntryForm/WordEntryForm";
 import Wordlist from "../wordlist/Wordlist";
 import WordDetails from "../wordDetails/WordDetails";
-// Styling and Animation
+import Sidebar from "../sidebar/Sidebar";
 // Styles and Animation
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { AnimatePresence, AnimateSharedLayout } from "framer-motion";
-import Sidebar from "../sidebar/Sidebar";
 
 function Home() {
   // Router
@@ -52,17 +51,17 @@ export default Home;
 const HomePage = styled(motion.div)`
   display: grid;
   grid-template-areas:
-    "header header"
+    "heading heading"
     "wordEntry wordEntry"
     "wordlist sidebar"
     "wordlist sidebar"
     "wordlist sidebar";
-  grid-template-rows: 5rem 5rem 1fr;
+  grid-template-rows: 5rem 1fr;
   grid-template-columns: 3fr minmax(15rem, 1fr);
   .main-header {
-    grid-area: header;
+    grid-area: heading;
   }
-  .word-entry-form-container {
+  .word-entry-form {
     grid-area: wordEntry;
   }
   .wordlist {
@@ -71,17 +70,15 @@ const HomePage = styled(motion.div)`
   .sidebar {
     grid-area: sidebar;
   }
-  @media (max-width: 800px) {
+  @media (max-width: 700px) {
     grid-template-areas:
-      "header "
+      "heading "
       "wordEntry"
       "wordlist"
       "wordlist"
       "wordlist"
       "sidebar"
       "sidebar";
-    grid-template-rows: 9rem 1fr;
-
     grid-template-columns: 100%;
   }
 `;
