@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 // Styling and Animation
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import WordVotes from "../wordlist/WordVotes";
 // Utils
 import { timeConverter, capitalizeFirstLetter } from "../../utils/utils";
 
@@ -29,7 +28,6 @@ function WordDetails({ selectedWord }) {
             exit={{ opacity: 0 }}
             key={selectedWord._id}
           >
-            <WordVotes word={selectedWord} />
             <div className="details">
               <p className="word-word">{capitalizeFirstLetter(selectedWord.word)}</p>
               <p className="word-def">{selectedWord.def}</p>
@@ -68,7 +66,7 @@ const WordPage = styled(motion.div)`
   justify-content: flex-start;
   align-items: center;
   width: 40vw;
-  padding: 1rem 0;
+  padding: 1rem;
   .details {
     width: 100%;
     display: flex;

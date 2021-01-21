@@ -64,13 +64,13 @@ function UserLogin() {
           value={loginCreds.password}
           required
         />
-        <button type="submit" className="login btn">
+        <button type="submit" className="form-btn">
           Log In
         </button>
       </form>
       <h3>Need an account?</h3>
       <Link to="/create-account">
-        <button className="create-account btn">Create Account</button>
+        <button className="form-btn">Create Account</button>
       </Link>
     </LoginFormContainer>
   );
@@ -78,8 +78,8 @@ function UserLogin() {
 
 const LoginFormContainer = styled(motion.div)`
   box-shadow: 0 0 5px ${({ theme }) => theme.shadow};
-  background: ${({ theme }) => theme.medText};
-  color: ${({ theme }) => theme.lightBg};
+  background: ${({ theme }) => theme.lightBg};
+  color: ${({ theme }) => theme.darkText};
 
   width: fit-content;
   margin: 4rem auto;
@@ -88,6 +88,7 @@ const LoginFormContainer = styled(motion.div)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   border-radius: 5px;
   gap: 1rem;
   form {
@@ -95,6 +96,7 @@ const LoginFormContainer = styled(motion.div)`
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    margin-bottom: 1rem;
     h1 {
       color: ${({ theme }) => theme.gold};
     }
@@ -122,7 +124,8 @@ const LoginFormContainer = styled(motion.div)`
     }
   }
 
-  .btn {
+  .form-btn {
+    margin-top: 0.5rem;
     letter-spacing: 1px;
     font-weight: 400;
     font-family: "Montserrat", sans-serif;
@@ -133,7 +136,6 @@ const LoginFormContainer = styled(motion.div)`
     border-radius: 3px;
     border: none;
     padding: 1rem;
-    margin: 0 0.25rem;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -142,6 +144,12 @@ const LoginFormContainer = styled(motion.div)`
       font-weight: 400;
     }
   }
+
+  @media (max-width: 700px) {
+    background: ${({ theme }) => theme.medBg};
+    width: 100%;
+    box-shadow: none;
+  } ;
 `;
 
 export default UserLogin;

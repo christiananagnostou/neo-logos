@@ -39,13 +39,16 @@ function WordVotes({ word }) {
     if (!loggedIn) {
       alert("no voting unless logged in");
     } else {
+      console.log("switch one");
       switch (direction) {
         case "up":
           if (userDownvotedWord) {
+            // was previously downvoted
             dispatch(toggleUserDownvote(_id, word._id));
             dispatch(voteOnWord(word._id, "up 2"));
             setUserUpvotedWord(true);
           } else if (userUpvotedWord) {
+            // was previously upvoted
             dispatch(voteOnWord(word._id, "down 1"));
             setUserUpvotedWord(false);
           } else {
@@ -53,6 +56,7 @@ function WordVotes({ word }) {
             dispatch(voteOnWord(word._id, "up 1"));
             setUserUpvotedWord(true);
           }
+          // remove any downvote and dispatch a upvotedWord to User
           dispatch(toggleUserUpvote(_id, word._id));
           setUserDownvotedWord(false);
           break;
@@ -72,8 +76,8 @@ function WordVotes({ word }) {
             setUserDownvotedWord(true);
           }
           // remove any upvote and dispatch a downvotedWord to User
-          setUserUpvotedWord(false);
           dispatch(toggleUserDownvote(_id, word._id));
+          setUserUpvotedWord(false);
           break;
         default:
           break;

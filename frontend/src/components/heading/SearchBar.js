@@ -42,23 +42,23 @@ function SearchBar() {
     setTerm(e.target.value);
   };
 
-  const clickListener = (e) => {
-    if (e.target.classList[0] === "search-input") {
-      // user is active in search input
-      setUsingSearchBar(true);
-    } else {
-      // close bar and cleanup
-      setUsingSearchBar(false);
-      setSearchBarActive(false);
-    }
-  };
-
   useEffect(() => {
-    if (searchBarActive) {
-      window.addEventListener("click", clickListener, true);
-    }
+    const clickListener = (e) => {
+      if (e.target.classList[0] === "search-input") {
+        // user is active in search input
+        setUsingSearchBar(true);
+      } else {
+        // close bar and cleanup
+        setUsingSearchBar(false);
+        setSearchBarActive(false);
+      }
+    };
+    
+    // Attach event listner
+    searchBarActive && document.addEventListener("click", clickListener, true);
+
     return () => {
-      window.removeEventListener("click", clickListener, true);
+      document.removeEventListener("click", clickListener, true);
     };
   }, [searchBarActive]);
 

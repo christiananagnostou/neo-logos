@@ -96,13 +96,13 @@ function UserLogin() {
           value={newAccountCreds.password}
           required
         />
-        <button type="submit" className="create-account btn">
+        <button type="submit" className="form-btn">
           Create Account
         </button>
       </form>
       <h3>Have an account?</h3>
       <Link to="/user-login">
-        <button className="login btn">Log In</button>
+        <button className="form-btn">Log In</button>
       </Link>
     </CreateAccountFormContainer>
   );
@@ -110,10 +110,10 @@ function UserLogin() {
 
 const CreateAccountFormContainer = styled(motion.div)`
   box-shadow: 0 0 5px ${({ theme }) => theme.shadow};
-  background: ${({ theme }) => theme.medText};
-  color: ${({ theme }) => theme.lightBg};
+  background: ${({ theme }) => theme.lightBg};
+  color: ${({ theme }) => theme.darkText};
 
-  width: 55%;
+  width: fit-content;
   margin: 4rem auto;
   padding: 2rem 4rem;
   display: flex;
@@ -129,6 +129,7 @@ const CreateAccountFormContainer = styled(motion.div)`
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    margin-bottom: 1rem;
     h1 {
       color: ${({ theme }) => theme.gold};
     }
@@ -157,22 +158,10 @@ const CreateAccountFormContainer = styled(motion.div)`
         box-shadow: 0 0 5px ${({ theme }) => theme.shadow};
       }
     }
-    button {
-      width: fit-content;
-      margin: 1rem auto;
-      padding: 0.5rem;
-      border: none;
-      border-radius: 5px;
-      box-shadow: 0 0 5px rgb(125, 150, 204);
-      background-color: rgb(226, 238, 250);
-      transition: all 0.2s ease-in-out;
-      &:hover {
-        background-color: rgb(195, 221, 245);
-      }
-    }
   }
 
-  .btn {
+  .form-btn {
+    margin-top: 0.5rem;
     letter-spacing: 1px;
     font-weight: 400;
     font-family: "Montserrat", sans-serif;
@@ -183,7 +172,6 @@ const CreateAccountFormContainer = styled(motion.div)`
     border-radius: 3px;
     border: none;
     padding: 1rem;
-    margin: 0 0.25rem;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -191,6 +179,11 @@ const CreateAccountFormContainer = styled(motion.div)`
       background: ${({ theme }) => theme.gold};
       font-weight: 400;
     }
+  }
+  @media (max-width: 700px) {
+    background: ${({ theme }) => theme.medBg};
+    width: 100%;
+    box-shadow: none;
   }
 `;
 

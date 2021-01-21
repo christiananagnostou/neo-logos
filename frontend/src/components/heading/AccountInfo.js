@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { toggleNightMode } from "../../redux/actions/userActions";
@@ -11,22 +11,43 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 function AccountInfo() {
+  //Redux
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-
+  // Local State
   const [displayAccountInfo, setDisplayAccountInfo] = useState(false);
+  // Ref
+  const wrapperRef = useRef();
 
   // Display info on click
   const handleIconClick = (e) => {
+    console.log("toggle");
     setDisplayAccountInfo((prev) => !prev);
   };
+
   // Toggle Night Mode
   const toggleMode = () => {
     dispatch(toggleNightMode());
   };
 
+  useEffect(() => {
+    const clickListener = (e) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+        setDisplayAccountInfo(false);
+        console.log("closed");
+      }
+    };
+    
+    // Attach event listner
+    displayAccountInfo && document.addEventListener("click", clickListener, true);
+
+    return () => {
+      document.removeEventListener("click", clickListener, true);
+    };
+  }, [displayAccountInfo]);
+
   return (
-    <AccountInfoContainer>
+    <AccountInfoContainer ref={wrapperRef}>
       <div className="icon-container" onClick={handleIconClick}>
         <ArrowDropDown className={displayAccountInfo ? "arrow-icon rotated-arrow" : "arrow-icon"} />
         <AccountBox className="box-icon" />
