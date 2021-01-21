@@ -21,7 +21,6 @@ function AccountInfo() {
 
   // Display info on click
   const handleIconClick = (e) => {
-    console.log("toggle");
     setDisplayAccountInfo((prev) => !prev);
   };
 
@@ -34,10 +33,9 @@ function AccountInfo() {
     const clickListener = (e) => {
       if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
         setDisplayAccountInfo(false);
-        console.log("closed");
       }
     };
-    
+
     // Attach event listner
     displayAccountInfo && document.addEventListener("click", clickListener, true);
 
