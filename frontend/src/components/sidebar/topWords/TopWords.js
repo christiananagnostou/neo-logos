@@ -2,15 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 // Router
 import { Link } from "react-router-dom";
-// // Redux
-// import { useSelector } from "react-redux";
 // Styling and Animation
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
 function TopWords() {
-  // Redux
-  // const words = useSelector((state) => state.words);
   const [topFiveWords, setTopWords] = useState([]);
 
   const getTopWords = async () => {

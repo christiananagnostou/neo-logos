@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 // Router
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 // Styling and Animation
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -10,17 +10,28 @@ import { timeConverter, capitalizeFirstLetter } from "../../utils/utils";
 function WordDetails({ selectedWord }) {
   // Router
   const history = useHistory();
+  const location = useLocation();
+  const pathId = location.pathname.split("/")[2];
+  // Local State
+  const [isLoading, setIsLoading] = useState(true);
 
   const exitDetailHandler = (e) => {
-    const element = e.target;
-    if (element.classList.contains("shadow")) {
+    if (e.target.classList.contains("shadow")) {
       history.push("/");
     }
   };
 
+  useEffect(() => {
+    if (pathId === null || pathId !== selectedWord.word) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [pathId, selectedWord]);
+
   return (
     <>
-      {selectedWord && (
+      {!isLoading && (
         <CardShadow className="shadow" onClick={exitDetailHandler}>
           <WordPage
             initial={{ opacity: 0 }}
@@ -29,8 +40,13 @@ function WordDetails({ selectedWord }) {
             key={selectedWord._id}
           >
             <div className="details">
-              <p className="word-word">{capitalizeFirstLetter(selectedWord.word)}</p>
+              <p className="word-word">
+                {capitalizeFirstLetter(selectedWord.word)}{" "}
+                <span className="partOfSpeech">{selectedWord.partOfSpeech || "unknown"}</span>
+              </p>
               <p className="word-def">{selectedWord.def}</p>
+              <p>Example sentence:</p>
+              <p className="word-example">{selectedWord.example || "No example given :("}</p>
               <p className="word-date">
                 created: <span>{timeConverter(selectedWord.dateCreated)}</span>
               </p>
@@ -88,10 +104,22 @@ const WordPage = styled(motion.div)`
       padding-bottom: 0.25rem;
       margin-bottom: 0.25rem;
     }
+    .partOfSpeech {
+      color: ${({ theme }) => theme.lightText};
+      font-weight: 100;
+      font-style: italic;
+    }
     .word-def {
       padding-bottom: 2rem;
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: 400;
+    }
+    .word-example {
+      color: ${({ theme }) => theme.lightText};
+      padding-bottom: 2rem;
+      font-size: 1rem;
+      font-weight: 300;
+      font-style: italic;
     }
     .word-date {
     }

@@ -6,11 +6,12 @@ import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { orderWordsBy } from "../../redux/actions/wordsActions";
 
-function WordSorting() {
+function WordSorting({ setWordsDisplayPage }) {
   const dispatch = useDispatch();
 
   const handleSort = (order) => {
-    dispatch(orderWordsBy(order));
+    dispatch(orderWordsBy(order, 1));
+    setWordsDisplayPage(1);
   };
 
   return (

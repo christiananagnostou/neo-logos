@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SET_DISPLAY_WORDS, ADD_WORD, UPDATE_WORD_VOTES } from "../types/wordsTypes";
+import { SET_DISPLAY_WORDS, ADD_WORD, UPDATE_WORD_VOTES, DELETE_WORD } from "../types/wordsTypes";
 
 // Get all words
 export const getAllWords = () => async (dispatch) => {
@@ -38,18 +38,18 @@ export const searchWord = (term) => async (dispatch) => {
   });
 };
 
-export const orderWordsBy = (order) => async (dispatch) => {
-  const orderedWords = await axios.get(`/api/words/order-by/${order}`);
+export const orderWordsBy = (order, pageNum) => async (dispatch) => {
+  const orderedWords = await axios.get(`/api/words/order-by/${order}/${pageNum}`);
   dispatch({
     type: SET_DISPLAY_WORDS,
-    payload: { allWords: orderedWords.data },
+    payload: { allWords: orderedWords.data.words, sortingOrder: orderedWords.data.order },
   });
 };
 
 export const deleteWord = (wordId) => async (dispatch) => {
   const deletedWord = await axios.delete(`/api/words/${wordId}`);
   dispatch({
-    type: "DELETE_WORD",
+    type: DELETE_WORD,
     payload: { deletedWord: deletedWord.data },
   });
 };

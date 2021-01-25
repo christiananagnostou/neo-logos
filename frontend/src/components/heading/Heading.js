@@ -10,23 +10,24 @@ import { motion } from "framer-motion";
 import AccountInfo from "./AccountInfo";
 import LoginTabs from "./LoginTabs";
 import SearchBar from "./SearchBar";
+import FormContainer from "./wordEntryForm/FormContainer";
 
 function Heading() {
   const { loggedIn } = useSelector((state) => state.user);
 
   return (
     <MainHeader className="main-header">
-      <Link to="/">
-        <Logo>
+      <Logo>
+        <Link to="/">
           <h1>
             <span>NEO</span>LOGOS
           </h1>
           <h6>define the future of language</h6>
-        </Logo>
-      </Link>
-      <div className="right-side-container">
+        </Link>
+      </Logo>
+      <div className="controls-container">
         <SearchBar />
-
+        <FormContainer />
         {loggedIn ? <AccountInfo /> : <LoginTabs />}
       </div>
     </MainHeader>
@@ -41,11 +42,11 @@ const MainHeader = styled(motion.div)`
   grid-template-columns: 1fr 2fr;
   padding: 1rem 3rem;
   position: relative;
-  .right-side-container {
+  .controls-container {
     justify-self: flex-end;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
   }
   @media (max-width: 700px) {
     display: flex;
@@ -53,9 +54,9 @@ const MainHeader = styled(motion.div)`
     justify-content: space-between;
     align-items: center;
     padding: 0.25rem 0.5rem;
-    .right-side-container {
-      flex-direction: row;
-      align-self: flex-end;
+    .controls-container {
+      width: 100%;
+      justify-content: flex-end;
     }
   }
 `;
@@ -66,6 +67,7 @@ const Logo = styled(motion.div)`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  width: fit-content;
   h1 {
     span {
       color: ${({ theme }) => theme.gold};
@@ -75,7 +77,7 @@ const Logo = styled(motion.div)`
     font-weight: 300;
     letter-spacing: 1px;
   }
-  @media (max-width: 700px) {
+  @media (max-width: 850px) {
     font-size: 0.6em;
     align-items: center;
     h6 {

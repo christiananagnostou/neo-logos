@@ -1,44 +1,44 @@
 import React, { useState, useEffect } from "react";
+// Axios
+import axios from "axios";
 // Router
 import { useLocation } from "react-router-dom";
-// Redux
-import { useSelector } from "react-redux";
 // Components
 import Heading from "../heading/Heading";
-import WordEntryForm from "../wordEntryForm/WordEntryForm";
 import Wordlist from "../wordlist/Wordlist";
 import WordDetails from "../wordDetails/WordDetails";
 import Sidebar from "../sidebar/Sidebar";
 // Styles and Animation
 import styled from "styled-components";
-import { motion } from "framer-motion";
-import { AnimatePresence, AnimateSharedLayout } from "framer-motion";
+import { motion, AnimatePresence, AnimateSharedLayout } from "framer-motion";
 
 function Home() {
   // Router
   const location = useLocation();
   const pathId = location.pathname.split("/")[2];
-  // Redux
-  const words = useSelector((state) => state.words);
   // State
   const [selectedWord, setSelectedWord] = useState(null);
-  useEffect(() => {
-    setSelectedWord(words.find((word) => word.word === pathId));
-  }, [pathId, words]);
 
-  // Add scrolling when on home page and after word details
   useEffect(() => {
-    if (!pathId) {
+    const fetchWordDetails = async () => {
+      const clickedWord = await axios.get(`/api/words/${pathId}`);
+      setSelectedWord(clickedWord.data);
+    };
+
+    if (pathId) {
+      // Fetch word details for wordDetails if user clicks on a word
+      fetchWordDetails();
+    } else {
+      // Add scrolling when on home page and after word details
       document.body.style.overflow = "auto";
     }
   }, [pathId]);
 
   return (
     <HomePage className="home-page">
-      <AnimateSharedLayout type="tween">
+      <AnimateSharedLayout>
         <AnimatePresence>{pathId && <WordDetails selectedWord={selectedWord} />}</AnimatePresence>
         <Heading />
-        <WordEntryForm />
         <Wordlist />
         <Sidebar />
       </AnimateSharedLayout>
@@ -52,7 +52,6 @@ const HomePage = styled(motion.div)`
   display: grid;
   grid-template-areas:
     "heading heading"
-    "wordEntry wordEntry"
     "wordlist sidebar"
     "wordlist sidebar"
     "wordlist sidebar";
@@ -60,9 +59,6 @@ const HomePage = styled(motion.div)`
   grid-template-columns: 3fr minmax(15rem, 1fr);
   .main-header {
     grid-area: heading;
-  }
-  .word-entry-form {
-    grid-area: wordEntry;
   }
   .wordlist {
     grid-area: wordlist;
@@ -73,7 +69,6 @@ const HomePage = styled(motion.div)`
   @media (max-width: 700px) {
     grid-template-areas:
       "heading "
-      "wordEntry"
       "wordlist"
       "wordlist"
       "wordlist"

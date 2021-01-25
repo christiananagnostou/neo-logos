@@ -1,24 +1,30 @@
-import { SET_DISPLAY_WORDS, ADD_WORD, UPDATE_WORD_VOTES } from "../types/wordsTypes";
+import { SET_DISPLAY_WORDS, ADD_WORD, UPDATE_WORD_VOTES, DELETE_WORD } from "../types/wordsTypes";
 
-const initialWordsState = [];
+const initialWordsState = { wordsDisplay: [], wordsSorting: "hot" };
 
 const wordsReducer = (wordsState = initialWordsState, action) => {
   switch (action.type) {
     case SET_DISPLAY_WORDS:
-      return [...action.payload.allWords];
+      return {
+        ...wordsState,
+        wordsDisplay: [...action.payload.allWords],
+        wordsSorting: action.payload.sortingOrder,
+      };
     case ADD_WORD:
-      return [action.payload.newWord, ...wordsState];
+      return { ...wordsState, wordsDisplay: [action.payload.newWord, ...wordsState.wordsDisplay] };
     case UPDATE_WORD_VOTES:
-      const wordIndex = wordsState.findIndex((word) => word._id === action.payload._id);
-      wordsState[wordIndex].voteCount = action.payload.voteCount;
-      return [...wordsState];
-    case "DELETE_WORD":
-      const filterOutDeleted = wordsState.filter(
-        (word) => word._id !== action.payload.deletedWord._id
-      );
-      return [...filterOutDeleted];
+      const wordIndex = wordsState.wordsDisplay.findIndex((word) => {
+        return word._id === action.payload._id;
+      });
+      wordsState.wordsDisplay[wordIndex].voteCount = action.payload.voteCount;
+      return { ...wordsState };
+    case DELETE_WORD:
+      const filterOutDeleted = wordsState.wordsDisplay.filter((word) => {
+        return word._id !== action.payload.deletedWord._id;
+      });
+      return { ...wordsState, wordsDisplay: [...filterOutDeleted] };
     default:
-      return [...wordsState];
+      return { ...wordsState };
   }
 };
 

@@ -6,9 +6,15 @@ const WordSchema = new Schema({
     type: String,
     required: true,
   },
+  partOfSpeech: {
+    type: String,
+  },
   def: {
     type: String,
     required: true,
+  },
+  example: {
+    type: String,
   },
   dateCreated: {
     type: Number,

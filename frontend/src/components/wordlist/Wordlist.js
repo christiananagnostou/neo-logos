@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 // Router
 import { Link } from "react-router-dom";
 // Components
@@ -17,22 +17,45 @@ import WordSorting from "./WordSorting";
 import { getTimePassed, capitalizeFirstLetter } from "../../utils/utils";
 
 function Wordlist() {
-  const words = useSelector((state) => state.words);
+  const { wordsDisplay, wordsSorting } = useSelector((state) => state.words);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  // Current Page
+  const [wordsDisplayPage, setWordsDisplayPage] = useState(1);
+
   useEffect(() => {
-    dispatch(orderWordsBy("hot"));
-  }, [dispatch]);
+    dispatch(orderWordsBy(wordsSorting, wordsDisplayPage));
+    // eslint-disable-next-line
+  }, []);
 
   const handleWordClick = (word) => {
     user.loggedIn && dispatch(addViewedWord(word, user._id));
   };
 
+  const handlePageChange = (direction) => {
+    switch (direction) {
+      case "prev":
+        if (wordsDisplayPage > 1) {
+          dispatch(orderWordsBy(wordsSorting, wordsDisplayPage - 1));
+          setWordsDisplayPage(wordsDisplayPage - 1);
+        }
+        break;
+      case "next":
+        if (wordsDisplay.length === 25) {
+          dispatch(orderWordsBy(wordsSorting, wordsDisplayPage + 1));
+          setWordsDisplayPage(wordsDisplayPage + 1);
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <WordListContainer className="wordlist" variants={container} initial="hidden" animate="show">
-      <WordSorting />
-      {words.map((word) => {
+      <WordSorting setWordsDisplayPage={setWordsDisplayPage} />
+      {wordsDisplay.map((word) => {
         return (
           <WordItem key={word._id} variants={item}>
             <WordVotes word={word} />
@@ -58,6 +81,14 @@ function Wordlist() {
           </WordItem>
         );
       })}
+      <WordListNav>
+        <div className="btn" onClick={() => handlePageChange("prev")}>
+          Prev
+        </div>
+        <div className="btn" onClick={() => handlePageChange("next")}>
+          Next
+        </div>
+      </WordListNav>
     </WordListContainer>
   );
 }
@@ -118,6 +149,50 @@ const WordItem = styled(motion.li)`
     &:active {
       border: 1px solid rgb(167, 167, 167);
       background: ${({ theme }) => theme.darkBg};
+    }
+  }
+`;
+
+const WordListNav = styled(motion.div)`
+  display: flex;
+  justify-content: space-evenly;
+  .btn {
+    width: fit-content;
+    color: ${({ theme }) => theme.lightBg};
+    background: ${({ theme }) => theme.medText};
+    padding: 0.4rem 1.5rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+    align-self: end;
+    transition: all 0.1s ease-in-out;
+    outline: none;
+    &:hover {
+      box-shadow: -2px 2px 1px ${({ theme }) => theme.shadow};
+      background: ${({ theme }) => theme.darkText};
+      transform: translate(1px, -1px);
+    }
+    &:active {
+      transform: translate(-1px, 1px);
+      box-shadow: none;
+    }
+  }
+  @media (max-width: 700px) {
+    .btn {
+      font-size: 1em;
+      &:hover {
+        background: ${({ theme }) => theme.medText};
+        box-shadow: none;
+        transform: none;
+      }
+      &:active {
+        background: ${({ theme }) => theme.darkText};
+        transform: scale(0.95);
+      }
     }
   }
 `;

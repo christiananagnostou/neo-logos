@@ -37,9 +37,8 @@ function WordVotes({ word }) {
 
   const handleVoteClick = (direction) => {
     if (!loggedIn) {
-      alert("no voting unless logged in");
+      alert("No voting unless logged in");
     } else {
-      console.log("switch one");
       switch (direction) {
         case "up":
           if (userDownvotedWord) {

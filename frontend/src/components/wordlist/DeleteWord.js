@@ -15,6 +15,7 @@ function DeleteWord({ word }) {
   const handleDeleteWord = (wordId) => {
     dispatch(deleteWord(wordId));
   };
+
   return (
     <DeleteWordContainer>
       <Delete onClick={() => setShowVerify(true)} />

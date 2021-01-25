@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 // Components
 import UserLogin from "./components/userLogin/UserLogin";
 import CreateAccount from "./components/createAccount/CreateAccount";
-import Home from "./components/home-page/Home";
+import Home from "./components/Pages/Home";
 // Styling and animation
 import GlobalStyles from "./styles/GlobalStyles";
 import { ThemeProvider } from "styled-components";
@@ -22,10 +22,10 @@ function App() {
         <div className="App">
           <Router>
             <Switch>
-              <Route path={["/word/:wordId", "/"]} exact>
+              <Route path={["/word/:word", "/"]} exact>
                 <Home />
               </Route>
-              <Route path="/user-login">
+              <Route path="/login">
                 <UserLogin />
               </Route>
               <Route path="/create-account">

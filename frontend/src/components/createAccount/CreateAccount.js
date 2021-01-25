@@ -64,7 +64,7 @@ function UserLogin() {
         {emailAlreadyExists && (
           <h4>
             An account with that Email already exists. Click here to{" "}
-            <Link to="user-login" style={{ textDecoration: "underline" }}>
+            <Link to="/login" style={{ textDecoration: "underline" }}>
               log in.
             </Link>
           </h4>
@@ -101,7 +101,7 @@ function UserLogin() {
         </button>
       </form>
       <h3>Have an account?</h3>
-      <Link to="/user-login">
+      <Link to="/login">
         <button className="form-btn">Log In</button>
       </Link>
     </CreateAccountFormContainer>
@@ -134,9 +134,10 @@ const CreateAccountFormContainer = styled(motion.div)`
       color: ${({ theme }) => theme.gold};
     }
     h4 {
-      color: white;
+      color: ${({ theme }) => theme.gold};
+
       a {
-        color: ${({ theme }) => theme.gold};
+        color: ${({ theme }) => theme.darkText};
       }
     }
     label {

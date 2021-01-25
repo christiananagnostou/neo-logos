@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 function LoginTabs() {
   return (
     <Tabs>
-      <Link to="/user-login">
+      <Link to="/login">
         <div className="account-btn">Login</div>
       </Link>
       <Link to="/create-account">

@@ -4,11 +4,13 @@ module.exports = wordsRoute;
 
 // Post a new word
 wordsRoute.post("/", async (req, res, next) => {
-  const { word, def, creator } = req.body.newWord;
+  const { word, partOfSpeech, def, example, creator } = req.body.newWord;
 
   const newWord = new Word({
     word: word,
+    partOfSpeech: partOfSpeech,
     def: def,
+    example: example,
     creator: creator,
   });
 
@@ -87,7 +89,7 @@ wordsRoute.post("/:wordId/vote", async (req, res, next) => {
 wordsRoute.get("/search/:term", async (req, res, next) => {
   const searchQuery = Word.find({ word: { $regex: `.*${req.params.term}.*` } })
     .sort("-voteCount")
-    .limit(50);
+    .limit(25);
 
   try {
     const searchResults = await searchQuery;
@@ -98,9 +100,12 @@ wordsRoute.get("/search/:term", async (req, res, next) => {
 });
 
 // Order words by top / new / hot
-wordsRoute.get("/order-by/:order", async (req, res, next) => {
-  let order;
+wordsRoute.get("/order-by/:order/:pageNum", async (req, res, next) => {
+  const pageNum = req.params.pageNum;
+  const endingIndex = pageNum * 25;
+  const startingIndex = pageNum * 25 - 25;
 
+  let order;
   switch (req.params.order) {
     case "top":
       order = "-voteCount";
@@ -115,11 +120,12 @@ wordsRoute.get("/order-by/:order", async (req, res, next) => {
       res.sendStatus(500);
   }
 
-  const orderWordsQuery = Word.find({}).sort(order).limit(25);
+  const orderWordsQuery = Word.find({}).sort(order).limit(endingIndex);
 
   try {
     const result = await orderWordsQuery;
-    res.status(200).json(result);
+    const wordsToSend = result.splice(startingIndex);
+    res.status(200).json({ words: wordsToSend, order: req.params.order });
   } catch (e) {
     next(e);
   }
@@ -131,17 +137,27 @@ wordsRoute.post("/id-to-word", async (req, res, next) => {
 
   const wordHistoryRequest = Word.find().where("_id").in(viewHistory).exec();
 
-  // const wordHistoryRequest = Word.find({ records: viewHistory });
-
   try {
     const wordHistory = await wordHistoryRequest;
     res.status(200).send(wordHistory);
   } catch (e) {
     next(e);
-    p;
   }
 });
 
+// Get word details from word name
+wordsRoute.get("/:wordName", async (req, res, next) => {
+  const wordRequest = Word.findOne({ word: req.params.wordName });
+
+  try {
+    const foundWord = await wordRequest;
+    res.status(200).json(foundWord);
+  } catch (e) {
+    next(e);
+  }
+});
+
+// Delete a specified word
 wordsRoute.delete("/:wordId", async (req, res, next) => {
   const deleteWordRequest = Word.findOneAndDelete({ _id: req.params.wordId });
 

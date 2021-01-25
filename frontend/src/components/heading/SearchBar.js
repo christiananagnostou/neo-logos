@@ -22,13 +22,15 @@ function SearchBar() {
     }
   };
 
-  const handleSearch = (e) => {
-    if (term) {
-      console.log(`searching term ${term}`);
-      dispatch(searchWord(term));
+  const handleSearch = () => {
+    if (term.trim()) {
+      console.log(`searching term ${term.trim().toLowerCase()}`);
+      dispatch(searchWord(term.trim().toLowerCase()));
       setTerm("");
     } else if (!searchBarActive) {
       toggleSearchBar();
+    } else {
+      setTerm("");
     }
   };
 
@@ -53,7 +55,7 @@ function SearchBar() {
         setSearchBarActive(false);
       }
     };
-    
+
     // Attach event listner
     searchBarActive && document.addEventListener("click", clickListener, true);
 
@@ -87,17 +89,15 @@ function SearchBar() {
 
 const SearchContainer = styled(motion.div)`
   color: ${({ theme }) => theme.lightText};
-  display: inline-flex;
-  justify-content: flex-end;
-  align-items: center;
   margin-right: 1rem;
   height: 100%;
-
+  display: flex;
+  align-items: center;
   .hover-container {
     position: relative;
     height: 2.8rem;
     .search-input {
-      box-shadow: 0 0 5px ${({ theme }) => theme.shadow};
+      box-shadow: 0 0 3px ${({ theme }) => theme.shadow};
       position: absolute;
       height: 100%;
       width: 12rem;
@@ -119,7 +119,7 @@ const SearchContainer = styled(motion.div)`
 
     .search-icon {
       position: relative;
-      box-shadow: 0 0 5px ${({ theme }) => theme.shadow};
+      box-shadow: 0 0 3px ${({ theme }) => theme.shadow};
       background: ${({ theme }) => theme.darkBg};
       font-size: 1rem;
       padding: 10px;
@@ -134,15 +134,26 @@ const SearchContainer = styled(motion.div)`
   }
 
   @media (max-width: 700px) {
-    margin-right: 0.5rem;
+    margin-right: auto;
     .hover-container {
       height: 2rem;
       .search-input {
         width: 10rem;
-        font-size: 0.75em;
+        font-size: 0.9em;
+        padding-left: 2rem;
+        @keyframes animateSearch {
+          from {
+            left: -0.2rem;
+            opacity: 0;
+          }
+          to {
+            left: 0.5rem;
+            opacity: 1;
+          }
+        }
       }
       .search-icon {
-        padding: 5px;
+        padding: 4px;
       }
     }
   }
