@@ -22,10 +22,10 @@ function WordDetails({ selectedWord }) {
   };
 
   useEffect(() => {
-    if (selectedWord && pathId !== selectedWord.word) {
-      setIsLoading(true);
+    if (selectedWord) {
+      pathId === selectedWord.word ? setIsLoading(false) : setIsLoading(true);
     } else {
-      setIsLoading(false);
+      setIsLoading(true);
     }
   }, [pathId, selectedWord]);
 
