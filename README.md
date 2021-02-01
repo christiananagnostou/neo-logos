@@ -1,9 +1,10 @@
 # NeoLogos
 
-Create your very own new word and share it with the world. There are hundreds of new words being added every week. 
+Reddit-styled dictionary where users can create new words as well as search and vote on words others have created.
 
-Made using:
+Relies on Redux for application state management, Express for the REST API, and MongoDB to store all site data.
 
-React
-Express
-MongoDB
+
+Made using: MERN stack
+
+Link: https://neologos.herokuapp.com/
