@@ -13,15 +13,15 @@ const wordsReducer = (wordsState = initialWordsState, action) => {
     case ADD_WORD:
       return { ...wordsState, wordsDisplay: [action.payload.newWord, ...wordsState.wordsDisplay] };
     case UPDATE_WORD_VOTES:
-      const wordIndex = wordsState.wordsDisplay.findIndex((word) => {
-        return word._id === action.payload._id;
-      });
+      const wordIndex = wordsState.wordsDisplay.findIndex(
+        (word) => word._id === action.payload._id
+      );
       wordsState.wordsDisplay[wordIndex].voteCount = action.payload.voteCount;
       return { ...wordsState };
     case DELETE_WORD:
-      const filterOutDeleted = wordsState.wordsDisplay.filter((word) => {
-        return word._id !== action.payload.deletedWord._id;
-      });
+      const filterOutDeleted = wordsState.wordsDisplay.filter(
+        (word) => word._id !== action.payload.deletedWord._id
+      );
       return { ...wordsState, wordsDisplay: [...filterOutDeleted] };
     default:
       return { ...wordsState };

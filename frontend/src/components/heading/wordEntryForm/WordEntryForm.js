@@ -145,7 +145,7 @@ const WordForm = styled(motion.form)`
   left: 0;
   right: 0;
   margin: auto;
-  padding: 1rem 0.5rem 4rem;
+  padding: 1rem 0.5rem 20vh;
   width: 80vw;
   display: grid;
   grid-template-areas:
